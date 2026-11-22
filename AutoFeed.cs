@@ -43,7 +43,7 @@ internal static class AutoFeed
     internal static ConfigEntry<int> KeepAtLeast, MaxBites, StatFoodMaxTier;
     internal static ConfigEntry<bool> PrioritizeStats;
     internal static ConfigEntry<string> ExcludeIds;
-    internal static ConfigEntry<bool> ButtonConfirm;
+    internal static ConfigEntry<bool> ButtonConfirm, JobClearWindow;
     internal static ConfigEntry<FeedMethod> Method;
 
     private const int Samples = 40;
@@ -64,6 +64,9 @@ internal static class AutoFeed
         StatFoodMaxTier = cfg.Bind("AutoFeed", "StatFoodMaxTier", 3,
             new ConfigDescription("Highest food tier that may be chosen for stats (0-3). Lower it to save rare high-tier food.",
                 new AcceptableValueRange<int>(0, 3)));
+        JobClearWindow = cfg.Bind("AutoFeed", "JobClearWindow", true,
+            "On reaching max level, open the game's own Job Master window (its job-clear animation), which grants the bonus " +
+            "when you close it, exactly as the game does. If false, the bonus is applied silently.");
         ButtonConfirm = cfg.Bind("AutoFeed", "ButtonConfirm", false,
             "If true, the in-menu button needs two clicks (preview, then feed). If false, one click feeds.");
         Method = cfg.Bind("AutoFeed", "Method", FeedMethod.Direct,
@@ -95,15 +98,18 @@ internal static class AutoFeed
     }
 
     /// <summary>The in-menu button. One click feeds, unless ButtonConfirm is on (then: preview, click again to feed).</summary>
-    internal static void ButtonPressed(Human h, SubForm menu)
+    internal static void ButtonPressed(Human h, Character c, SubForm menu)
     {
         Safe(() =>
         {
-            var c = h?.crew_?.TryCast<Character>();
             if (c == null) { Show("AutoFeed: couldn't tell which character this menu is for."); return; }
-            if (Method.Value == FeedMethod.Game) { GameFeed.Start(h, c, menu); return; }
-            if (!ButtonConfirm.Value) { Feed(c, requirePreview: false); return; }
-            if (IsConfirmable(c)) Feed(c);
+            if (Method.Value == FeedMethod.Game)
+            {
+                if (h != null) { GameFeed.Start(h, c, menu); return; }
+                Log("Method = Game needs the character's Human, which wasn't found; feeding directly instead.");
+            }
+            if (!ButtonConfirm.Value) { Feed(c, menu, requirePreview: false); return; }
+            if (IsConfirmable(c)) Feed(c, menu);
             else Preview(c, $"Click the button again within {ConfirmWindow:0}s to feed.");
         });
     }
@@ -295,6 +301,30 @@ internal static class AutoFeed
     }
 
     /// <summary>Job clear, exactly as ProTeamGetExp/ProFriendParamDetail + ProJobMaster + CreateAllJobMaster do it.</summary>
+    /// <summary>
+    /// Job clear through the game's own windows, as ProTeamGetExp/ProFriendParamDetail do after a feed:
+    /// IsJobLvMax and not mastered → CreateJobMaster (its ProJobMaster grants the bonus on close);
+    /// already mastered and all jobs mastered → CreateAllJobMaster (resets the mastered list).
+    /// </summary>
+    private static string OpenJobClearWindow(Character c, SubForm menu)
+    {
+        if (!c.IsJobLvMax()) return "";
+        if (!c.IsMastedJob())
+        {
+            bool ok = menu.Push(SubForm.CreateJobMaster(c));
+            Log($"opened the game's Job Master window (Push returned {ok}); it grants the job-clear bonus when closed");
+            return " + job clear window";
+        }
+        var jobs = main.AppData.GetInstance().jobList_;
+        if (jobs != null && c.masterJob_ != null && jobs.Length <= c.masterJob_.Size())
+        {
+            bool ok = menu.Push(SubForm.CreateAllJobMaster(c));
+            Log($"opened the game's All Job Master window (Push returned {ok})");
+            return " + all jobs mastered window";
+        }
+        return "";
+    }
+
     private static string JobClear(Character c)
     {
         if (!c.IsJobLvMax()) return "";
@@ -318,7 +348,7 @@ internal static class AutoFeed
         return note;
     }
 
-    private static void Feed(Character c, bool requirePreview = true)
+    private static void Feed(Character c, SubForm menu, bool requirePreview = true)
     {
         if (c == null || (requirePreview && !IsConfirmable(c)))
         {
@@ -359,7 +389,7 @@ internal static class AutoFeed
                 $"stat gain=[{string.Join(",", gain)}] have {haveBefore}->{f.Have} need={Need(c)}");
         }
 
-        string clear = JobClear(c);
+        string clear = menu != null && JobClearWindow.Value ? OpenJobClearWindow(c, menu) : JobClear(c);
         bool atMax = c.IsJobLvMax();
         var endStats = FoodStats(c, statCount);
         string delta = string.Join(",", endStats.Select((v, i) => $"{v - startStats[i]:+0;-0;0}"));

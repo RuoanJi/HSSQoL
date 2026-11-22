@@ -28,7 +28,7 @@ namespace HSSQoL;
 internal static class FeedButton
 {
     internal static ConfigEntry<bool> Enabled;
-    internal static ConfigEntry<int> Gap, OffsetY, Line2Indent, PixelSize, RingWidth, DiameterInset, CenterDarkenPercent;
+    internal static ConfigEntry<int> Gap, OffsetY, Line2Indent, PixelSize, RingWidth, DiameterInset, CenterDarkenPercent, JobChangeOffsetX;
     internal static ConfigEntry<string> Line1, Line2, TextColor, OutlineColor;
     internal static ConfigEntry<int> OutlineWidth, FontScalePercent;
     internal static ConfigEntry<bool> NativeOutline;
@@ -36,6 +36,10 @@ internal static class FeedButton
     private const int ShortcutTeamPowerUp = 13;
     private const int CrewCommandMenu = 15;   // SubForm.TYPE_FRIEND_LIST: crew list → character
     private const int RosterMenu = 17;        // SubForm.TYPE_EDIT_FORCE: combat roster → character
+    private const int JobChangePage = 63;     // SubForm.TYPE_JOB_CHANGE: character in jobChangeChar_
+    // DrawJobChange (ISIL): AddTouchShortcut(g, 32, SHORTCUT_DECIDE 7, 57, 222, 20) = 确定,
+    //                       AddTouchShortcut(g, 32, SHORTCUT_ITEM 4, 171, 222, 0)   = 道具.
+    private const int ShortcutItem = 4, JobChangeDecideX = 57;
 
     private static bool IsCharacterMenu(SubForm sf) => sf != null && (sf.type_ == CrewCommandMenu || sf.type_ == RosterMenu);
 
@@ -81,6 +85,8 @@ internal static class FeedButton
         Line2 = cfg.Bind("FeedButton", "Line2", "满级", "Second line of the button text.");
         Line2Indent = cfg.Bind("FeedButton", "Line2Indent", 3, "Shifts the second line right (game units).");
         OffsetY = cfg.Bind("FeedButton", "OffsetY", 0, "Moves the text up (negative) or down (positive).");
+        JobChangeOffsetX = cfg.Bind("FeedButton", "JobChangeOffsetX", 0,
+            "Job-change page: moves the button left (negative) or right (positive) from the midpoint between 确定 and 道具.");
         Gap = cfg.Bind("FeedButton", "Gap", 4, "Space between the button and the moved team power-up icon.");
         PixelSize = cfg.Bind("FeedButton", "PixelSize", 1, "Size of one circle 'pixel' in game units (1 ≈ the game's own pixel art).");
         RingWidth = cfg.Bind("FeedButton", "RingWidth", 3, "Width of the brighter outer ring, in circle pixels.");
@@ -140,6 +146,25 @@ internal static class FeedButton
 
         int ourX = x;
         x += _iconWidth + Gap.Value;
+        _drawingOurs = true;
+        try { __instance.AddTouchShortcut(g, ShortcutTeamPowerUp, ourX, y, OurValue); }
+        finally { _drawingOurs = false; }
+    }
+
+    /// <summary>Job-change page: after the 道具 icon, add our button midway between 确定 and 道具.</summary>
+    [HarmonyPatch(typeof(MyFormBase), nameof(MyFormBase.AddTouchShortcut),
+        new[] { typeof(Graphics), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) })]
+    [HarmonyPostfix]
+    private static void InsertJobChangeButton(MyFormBase __instance, Graphics g, int touchID, int type, int x, int y)
+    {
+        if (!Enabled.Value || _drawingOurs || type != ShortcutItem) return;
+        var sf = __instance.TryCast<SubForm>();
+        if (sf == null || sf.type_ != JobChangePage) return;
+
+        // Use the 5-arg overload (touch ID 4), NOT the page's touch ID 32: ID-32 shortcuts turn a tap into a
+        // simulated key press derived from the value, and ours mapped to key bit 1 = the page's 道具 key
+        // (ProJobChange: CheckKeyPulse(1) → CreateDirectUseJobChangeItem). ID 4 only raises touch events.
+        int ourX = (JobChangeDecideX + x) / 2 + JobChangeOffsetX.Value;
         _drawingOurs = true;
         try { __instance.AddTouchShortcut(g, ShortcutTeamPowerUp, ourX, y, OurValue); }
         finally { _drawingOurs = false; }
@@ -225,13 +250,36 @@ internal static class FeedButton
 
         if (e.type == TouchEvent.TYPE_CLICK)
         {
-            var h = HumanFor(__instance);
-            var c = h?.crew_?.TryCast<Character>();
+            Human h;
+            Character c;
+            if (__instance.type_ == JobChangePage)
+            {
+                c = __instance.jobChangeChar_;
+                h = FindHuman(c);
+            }
+            else
+            {
+                h = HumanFor(__instance);
+                c = h?.crew_?.TryCast<Character>();
+            }
             string via = __instance.type_ == RosterMenu ? $" [{RosterCandidates()}]" : "";
             Log($"auto-feed button clicked in menu type {__instance.type_} for {c?.GetName() ?? "null"}{via}");
-            AutoFeed.ButtonPressed(h, __instance);
+            AutoFeed.ButtonPressed(h, c, __instance);
         }
         __result = true;
         return false; // the game never sees our button's events
+    }
+
+    /// <summary>The Human whose crew_ is this character (needed only by Method = Game).</summary>
+    private static Human FindHuman(Character c)
+    {
+        var all = main.AppData.GetInstance()?.allHumans_;
+        if (c == null || all == null) return null;
+        for (int i = 0; i < all.Size(); i++)
+        {
+            var h = all.Get(i)?.TryCast<Human>();
+            if (h?.crew_ != null && h.crew_.Pointer == c.Pointer) return h;
+        }
+        return null;
     }
 }

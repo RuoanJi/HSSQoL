@@ -18,10 +18,13 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 在角色菜单里，「强化」右边会多出一个圆形的 **强化满级** 按钮（原来的「团队强化」往右移了一格）。点一下，Mod 就会给这个角色喂食物，直到当前职业升到满级，然后像游戏自己的强化流程一样，发放职业通关奖励（「转职」旁的星星 +1）。
 
-这个按钮出现在两个地方：
+这个按钮出现在三个地方：
 
 - 船员列表 → 点选角色
 - 主菜单 → 战斗编队 → 点选编队里的角色
+- 转职页面：底部「确定」和「道具」之间。升满后可以直接转职
+
+升到满级时，会弹出游戏自己的职业通关窗口（职业通关动画）。关闭窗口时，由游戏发放职业通关奖励，和游戏自己的流程完全一样。可用 `JobClearWindow` 关闭窗口、改为直接发放。
 
 ### 怎么挑食物
 
@@ -56,6 +59,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `MaxBites` | 3000 | 每次最多喂几口（安全上限） |
 | `PrioritizeStats` | true | 先选还能提升能力的食物（见第 3 步） |
 | `StatFoodMaxTier` | 3 | 为了能力加成最多动用到哪个等级的食物（0–3），调低可保留稀有料理 |
+| `JobClearWindow` | true | 升满时弹出游戏自己的职业通关窗口；设为 false 则直接发放奖励 |
 | `ButtonConfirm` | false | 设为 true 时需要点两次：第一次预览，第二次喂食 |
 | `Method` | Direct | `Direct`：瞬间完成，没有动画。`Game`：改用游戏自己的团队强化窗口，每种食物弹出一次升级动画 |
 
@@ -146,10 +150,13 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 
 In the character menu, a round **强化满级** ("power up to max") button appears to the right of 强化 (Power up). The team power-up icon moves over one slot. One click feeds the character until their current job reaches max level. It then grants the job-clear bonus (the star next to 转职 goes up by one), just like the game's own power-up flow.
 
-The button appears in both character menus:
+The button appears in three places:
 
 - the crew list → click a character
 - Main menu → combat roster → click a character in a party
+- the job-change page, between 确定 (Confirm) and 道具 (Items) at the bottom, so you can max the job and switch straight away
+
+On reaching max level, the game's own Job Master window opens, with the job-clear animation. When you close it, the game grants the job-clear bonus exactly as its own flow does. Set `JobClearWindow` to false to grant it silently instead.
 
 ### How it picks food
 
@@ -184,6 +191,7 @@ Settings, under `[AutoFeed]` in `BepInEx\config\hssqol.cfg`:
 | `MaxBites` | 3000 | Safety cap on bites per feed |
 | `PrioritizeStats` | true | Prefer foods that can still raise a stat (step 3) |
 | `StatFoodMaxTier` | 3 | Highest food tier that may be spent on stats (0–3). Lower it to keep rare dishes |
+| `JobClearWindow` | true | On reaching max, open the game's own Job Master window. If false, grant the bonus silently |
 | `ButtonConfirm` | false | If true, the button needs two clicks: preview, then feed |
 | `Method` | Direct | `Direct`: instant, no animation. `Game`: uses the game's own team power-up window instead, with one level-up animation per food |
 
