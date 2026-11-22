@@ -1,0 +1,13 @@
+# Ignore everything by default; only the files listed below are part of the repo.
+*
+
+# Source and project
+!.gitignore
+!README.md
+!LICENSE
+!HSSQoL.csproj
+!*.cs
+
+# README images
+!docs/
+!docs/*.png
