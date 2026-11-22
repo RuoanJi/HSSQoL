@@ -29,7 +29,7 @@ internal static class FeedButton
 {
     internal static ConfigEntry<bool> Enabled;
     internal static ConfigEntry<int> Gap, OffsetY, Line2Indent, PixelSize, RingWidth, DiameterInset, CenterDarkenPercent, JobChangeOffsetX;
-    internal static ConfigEntry<string> Line1, Line2, TextColor, OutlineColor;
+    internal static ConfigEntry<string> Line1, Line2, SwitchLine1, SwitchLine2, TextColor, OutlineColor;
     internal static ConfigEntry<int> OutlineWidth, FontScalePercent;
     internal static ConfigEntry<bool> NativeOutline;
 
@@ -71,10 +71,13 @@ internal static class FeedButton
         return $"select_={sf.select_} value1_={sf.value1_} -> {h?.crew_?.GetName() ?? "null"} via {src}";
     }
     internal const int OurValue = 0x48535100; // arbitrary, far from the game's VALUE_* ranges
+    internal const int SwitchValue = OurValue + 1; // 转职满级 (job-change page only)
+    internal const int SellValue = OurValue + 2;   // 批量出售 (port shop sell screen)
 
     private static Human _menuHuman;
     private static int _menuHumanFrame = -100;
     private static bool _drawingOurs;
+    private static string _label1 = "", _label2 = "";   // text for the button being drawn
     private static int _iconWidth = 32;   // learned from DrawShortcutIcon's returned area
     private static bool _warnedArea;
 
@@ -86,7 +89,9 @@ internal static class FeedButton
         Line2Indent = cfg.Bind("FeedButton", "Line2Indent", 3, "Shifts the second line right (game units).");
         OffsetY = cfg.Bind("FeedButton", "OffsetY", 0, "Moves the text up (negative) or down (positive).");
         JobChangeOffsetX = cfg.Bind("FeedButton", "JobChangeOffsetX", 0,
-            "Job-change page: moves the button left (negative) or right (positive) from the midpoint between 确定 and 道具.");
+            "Job-change page: moves the button pair left (negative) or right (positive) from the midpoint between 确定 and 道具.");
+        SwitchLine1 = cfg.Bind("FeedButton", "SwitchLine1", "转职", "Job-change page, 转职满级 button: first line.");
+        SwitchLine2 = cfg.Bind("FeedButton", "SwitchLine2", "满级", "Job-change page, 转职满级 button: second line.");
         Gap = cfg.Bind("FeedButton", "Gap", 4, "Space between the button and the moved team power-up icon.");
         PixelSize = cfg.Bind("FeedButton", "PixelSize", 1, "Size of one circle 'pixel' in game units (1 ≈ the game's own pixel art).");
         RingWidth = cfg.Bind("FeedButton", "RingWidth", 3, "Width of the brighter outer ring, in circle pixels.");
@@ -146,8 +151,16 @@ internal static class FeedButton
 
         int ourX = x;
         x += _iconWidth + Gap.Value;
+        DrawOurs(__instance, g, ourX, y, OurValue, Line1.Value, Line2.Value);
+    }
+
+    /// <summary>Registers and draws one of our round buttons through the game's own AddTouchShortcut.</summary>
+    internal static void DrawOurs(MyFormBase form, Graphics g, int x, int y, int value, string line1, string line2)
+    {
+        _label1 = line1;
+        _label2 = line2;
         _drawingOurs = true;
-        try { __instance.AddTouchShortcut(g, ShortcutTeamPowerUp, ourX, y, OurValue); }
+        try { form.AddTouchShortcut(g, ShortcutTeamPowerUp, x, y, value); }
         finally { _drawingOurs = false; }
     }
 
@@ -164,10 +177,16 @@ internal static class FeedButton
         // Use the 5-arg overload (touch ID 4), NOT the page's touch ID 32: ID-32 shortcuts turn a tap into a
         // simulated key press derived from the value, and ours mapped to key bit 1 = the page's 道具 key
         // (ProJobChange: CheckKeyPulse(1) → CreateDirectUseJobChangeItem). ID 4 only raises touch events.
-        int ourX = (JobChangeDecideX + x) / 2 + JobChangeOffsetX.Value;
-        _drawingOurs = true;
-        try { __instance.AddTouchShortcut(g, ShortcutTeamPowerUp, ourX, y, OurValue); }
-        finally { _drawingOurs = false; }
+        // Two buttons side by side, centred between 确定 and 道具: 强化满级 left, 转职满级 right.
+        int centre = (JobChangeDecideX + x) / 2 + JobChangeOffsetX.Value;
+        if (!JobSwitch.Enabled.Value)
+        {
+            DrawOurs(__instance, g, centre, y, OurValue, Line1.Value, Line2.Value);
+            return;
+        }
+        int half = (_iconWidth + Gap.Value) / 2;
+        DrawOurs(__instance, g, centre - half, y, OurValue, Line1.Value, Line2.Value);
+        DrawOurs(__instance, g, centre + half, y, SwitchValue, SwitchLine1.Value, SwitchLine2.Value);
     }
 
     [HarmonyPatch(typeof(main.AppData), nameof(main.AppData.DrawShortcutIcon))]
@@ -202,8 +221,8 @@ internal static class FeedButton
         {
             float lh = g.GetFont().GetHeight();
             float y1 = cy - lh / 2f + OffsetY.Value, y2 = cy + lh / 2f + OffsetY.Value;
-            DrawOutlined(g, Line1.Value, cx, y1);
-            DrawOutlined(g, Line2.Value, cx + Line2Indent.Value, y2);
+            DrawOutlined(g, _label1, cx, y1);
+            DrawOutlined(g, _label2, cx + Line2Indent.Value, y2);
         }
         finally
         {
@@ -246,9 +265,23 @@ internal static class FeedButton
     {
         // Each tap arrives as ENTER(2), ON(13), DOWN(0), CLICK(5), UP(1), LEAVE(3), LOST(6); act on CLICK only.
         int value = e?.component?.value ?? int.MinValue;
-        if (value != OurValue) return true;
+        if (value != OurValue && value != SwitchValue && value != SellValue) return true;
 
-        if (e.type == TouchEvent.TYPE_CLICK)
+        if (e.type == TouchEvent.TYPE_CLICK && value == SellValue)
+        {
+            Log("批量出售 button clicked");
+            AutoSell.ButtonPressed(__instance);
+        }
+        else if (e.type == TouchEvent.TYPE_CLICK && value == SwitchValue)
+        {
+            if (__instance.type_ == JobChangePage)
+            {
+                var jc = __instance.jobChangeChar_;
+                Log($"转职满级 button clicked for {jc?.GetName() ?? "null"}");
+                JobSwitch.ButtonPressed(__instance, jc, FindHuman(jc));
+            }
+        }
+        else if (e.type == TouchEvent.TYPE_CLICK)
         {
             Human h;
             Character c;

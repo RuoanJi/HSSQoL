@@ -7,6 +7,8 @@
 HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / Windows 版）的便利性（QoL）Mod，基于 BepInEx 6 运行，不修改任何游戏文件。目前包含：
 
 - **强化满级**：一键把角色的当前职业升到满级，并自动挑选消耗哪些食物。
+- **转职满级**：在转职页面一键转到下一个未通关的职业，并升到满级。
+- **批量出售**：在港口商店一键卖出多余的装备、食物和药。
 - **游戏加速**：按 F2 开关，倍率可自由设置。
 - **鼠标滚轮**：在列表中用滚轮上下移动。
 
@@ -22,7 +24,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 - 船员列表 → 点选角色
 - 主菜单 → 战斗编队 → 点选编队里的角色
-- 转职页面：底部「确定」和「道具」之间。升满后可以直接转职
+- 转职页面：底部「确定」和「道具」之间（右边是「转职满级」，见下文）
 
 升到满级时，会弹出游戏自己的职业通关窗口（职业通关动画）。关闭窗口时，由游戏发放职业通关奖励，和游戏自己的流程完全一样。可用 `JobClearWindow` 关闭窗口、改为直接发放。
 
@@ -63,6 +65,45 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `ButtonConfirm` | false | 设为 true 时需要点两次：第一次预览，第二次喂食 |
 | `Method` | Direct | `Direct`：瞬间完成，没有动画。`Game`：改用游戏自己的团队强化窗口，每种食物弹出一次升级动画 |
 
+## 转职满级
+
+转职页面底部，「强化满级」右边还有一个 **转职满级** 按钮。当前职业已满级时点一下，Mod 会：
+
+1. 从职业列表的第一个开始往后找，选出第一个**还没通关**、并且**现在就能转**的职业（是否能转用的是游戏自己的判断：知识等级、已通关职业数量、勋章）；
+2. 转到这个职业，步骤和游戏自己按「确定」转职完全一样；
+3. 接着自动「强化满级」。
+
+注意：
+
+- 和游戏自己的转职一样，**转职会扣掉所需的知识等级**。
+- 需要消耗勋章的职业默认会跳过，不会偷偷花掉勋章。想包含它们，把 `[JobSwitch]` 的 `AllowMedalJobs` 设为 true。
+- 当前职业没到满级时不做任何事。如果已经满级但还没领取职业通关奖励，会先弹出职业通关窗口，关闭后再按一次即可。
+- 不显示游戏的转职确认框和「转职完成」画面。
+
+| 设置（`[JobSwitch]`） | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | true | 是否显示转职满级按钮 |
+| `AllowMedalJobs` | false | 是否也选择需要勋章的职业（会消耗勋章） |
+
+## 批量出售
+
+在港口商店（武器店、防具店、道具店）的「出售」页面，右下角「返回」上方会多出一个 **批量出售** 按钮。点一下就会直接卖出多余的库存（没有确认框）：
+
+1. 持有上限低于 100 时不做任何事（道具和装备共用同一个上限）。
+2. 某样东西的持有数超过上限的 50% 时，卖到只剩 30 个。
+3. 只卖这几类：**所有装备**（武器、盾、头、身体、饰品）、**强化食物**、**回复 HP / SP 的药**。其他东西一律不卖：素材、改变蛋颜色的道具、知识书、星级提升道具、其他药、转职道具等。
+4. 角色身上穿着的装备不算在库存里，不会被卖掉。
+
+卖出的价格和数量变化和游戏自己的出售完全一样。
+
+| 设置（`[AutoSell]`） | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | true | 是否显示批量出售按钮 |
+| `ThresholdPercent` | 50 | 持有数超过上限的百分之多少才卖 |
+| `Keep` | 30 | 每样保留多少个 |
+| `MinCap` | 100 | 持有上限低于这个值时不卖 |
+| `ExcludeIds` | （空） | 永远不卖的东西，逗号分隔：游戏里显示的名字，或 `e:<id>`（装备）/ `i:<id>`（道具） |
+| `ButtonX` / `ButtonY` | 260 / 199 | 按钮位置 |
 ## 游戏加速
 
 按 **F2** 开启或关闭加速。开启时右上角会显示 `▶▶ x5`。
@@ -139,6 +180,8 @@ dotnet build -c Release -p:GameDir="D:\SteamLibrary\steamapps\common\High Sea Sa
 HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探险物语DX; Steam / Windows). It runs on BepInEx 6 and doesn't modify any game files. It currently adds:
 
 - **Power up to max (强化满级)**: one click levels a character's current job to max, choosing which food to use automatically.
+- **Switch job and max (转职满级)**: on the job-change page, one click switches to the next unmastered job and levels it to max.
+- **Bulk sell (批量出售)**: in port shops, one click sells surplus equipment, food and potions.
 - **Speed-up**: toggled with F2, at a multiplier you choose.
 - **Mouse wheel**: scrolls up and down in lists.
 
@@ -154,7 +197,7 @@ The button appears in three places:
 
 - the crew list → click a character
 - Main menu → combat roster → click a character in a party
-- the job-change page, between 确定 (Confirm) and 道具 (Items) at the bottom, so you can max the job and switch straight away
+- the job-change page, between 确定 (Confirm) and 道具 (Items) at the bottom (next to 转职满级, see below)
 
 On reaching max level, the game's own Job Master window opens, with the job-clear animation. When you close it, the game grants the job-clear bonus exactly as its own flow does. Set `JobClearWindow` to false to grant it silently instead.
 
@@ -195,6 +238,45 @@ Settings, under `[AutoFeed]` in `BepInEx\config\hssqol.cfg`:
 | `ButtonConfirm` | false | If true, the button needs two clicks: preview, then feed |
 | `Method` | Direct | `Direct`: instant, no animation. `Game`: uses the game's own team power-up window instead, with one level-up animation per food |
 
+## Switch job and max (转职满级)
+
+On the job-change page, a **转职满级** ("switch job and max") button sits to the right of 强化满级. When the current job is at max level, one click:
+
+1. goes through the job list from the top and picks the first job that **isn't mastered yet** and that you **can switch to now** (the game's own check: knowledge levels, number of mastered jobs, medals);
+2. switches to it, step for step the same as confirming a job change in the game;
+3. then runs 强化满级 on the new job.
+
+Notes:
+
+- Like the game's own job change, **switching spends the required knowledge levels**.
+- Jobs that cost medals are skipped by default, so medals are never spent behind your back. Set `AllowMedalJobs` under `[JobSwitch]` to true to include them.
+- Nothing happens if the current job isn't at max level. If it's at max but the job-clear bonus hasn't been granted yet, the Job Master window opens first; press again after closing it.
+- The game's confirm dialog and "job changed" screen aren't shown.
+
+| Setting (`[JobSwitch]`) | Default | What it does |
+|---|---|---|
+| `Enabled` | true | Show the 转职满级 button |
+| `AllowMedalJobs` | false | Also pick jobs that cost medals (the medals are spent) |
+
+## Bulk sell (批量出售)
+
+On a port shop's sell screen (weapon, armour or item shop), a **批量出售** button appears on the right, above 返回 (Back). One click sells surplus stock straight away, with no confirmation:
+
+1. Nothing happens while the holding cap is below 100 (items and equipment share one cap).
+2. Anything you hold more than 50% of the cap of is sold down to 30.
+3. Only these qualify: **all equipment** (weapons, shields, head, body, accessories), **power-up food**, and **HP / SP potions**. Nothing else is ever sold: materials, egg-colour items, knowledge books, star-up items, other potions, job items and so on.
+4. Gear your crew are wearing isn't counted as stock, so it's never sold.
+
+Prices and stock changes are exactly what the game's own selling does.
+
+| Setting (`[AutoSell]`) | Default | What it does |
+|---|---|---|
+| `Enabled` | true | Show the bulk-sell button |
+| `ThresholdPercent` | 50 | Sell once you hold more than this percentage of the cap |
+| `Keep` | 30 | How many of each to keep |
+| `MinCap` | 100 | Don't sell while the holding cap is below this |
+| `ExcludeIds` | (empty) | Never sell these. Comma-separated: names as shown in game, or `e:<id>` (equipment) / `i:<id>` (items) |
+| `ButtonX` / `ButtonY` | 260 / 199 | Button position |
 ## Speed-up
 
 Press **F2** to turn the speed-up on or off. While it's on, `▶▶ x5` shows in the top-right corner.
