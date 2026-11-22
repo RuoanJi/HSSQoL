@@ -29,10 +29,19 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 1. **还差多少经验**：当前职业满级所需经验 − 现有经验。
 2. **每种食物大约给多少经验**：同一种食物每次给的经验是随机的（例如「新鲜蔬菜」约 78–88），所以 Mod 会先取样算出平均值。
-3. **优先吃库存最多的**：在「平均经验不超过剩余需求」的食物里，选**库存最多**的那种（数量相同就选经验小的）。这样不会动用稀有的高级料理，各种食物的库存也会被慢慢拉平。这不是贪心地挑经验最高的。
-4. **最后一口尽量少浪费**：如果所有食物都会超出剩余需求，就吃经验**最小**的那种。所以溢出的经验最多只有一小口。
+3. **先拿能力加成**：只考虑不会让经验溢出的食物。如果其中有食物还能提升某项能力（没到这种食物的上限），就选「每点经验带来的预期能力加成」最高的那种。每种食物只提升一项能力，每口只加 0–1 或 0–2 点，而升满一个职业的经验有限，所以经验小的食物能吃更多口、拿到更多加成，稀有的大份料理也自然不会被用掉。某项能力到达上限后，就换成提升另一项能力的食物。可用 `PrioritizeStats` 关闭这一步。
+4. **再追求经验效率：优先吃库存最多的**：在「平均经验不超过剩余需求」的食物里，选**库存最多**的那种（数量相同就选经验小的）。这样不会动用稀有的高级料理，各种食物的库存也会被慢慢拉平。这不是贪心地挑经验最高的。
+5. **最后一口尽量少浪费**：如果所有食物都会超出剩余需求，就吃经验**最小**的那种。所以溢出的经验最多只有一小口。
 
-实测两个角色从 Lv 12–13 升到 Lv 35，各吃了约 100 口，溢出的经验只有 21 和 65。
+实测两个角色从 Lv 12–13 升到 Lv 35，各吃了约 100 口，溢出的经验只有几十点。
+
+### 和游戏自己的强化完全一致
+
+每一口都严格按照游戏自身强化的规则处理（直接读取游戏代码得出，并与游戏自己的强化窗口逐项对比验证）：
+
+- **能力加成**：每种食物对每项能力有一个随机范围。加成有上限，上限按食物等级而定：(等级 + 1) × 10，即 10 / 20 / 30 / 40。比较的是角色这项能力的累计加成（包括职业通关奖励），达到上限后这种食物就不再提升这项能力。
+- **经验值**：与游戏一样分段加入，所以达到满级时的处理也与游戏相同。
+- **职业通关**：发放职业通关奖励；所有职业都通关后，按游戏规则重置已通关职业列表。
 
 如果食物不够升到满级，Mod 会吃完所有允许使用的食物，然后停在差一点满级的位置，不会发放职业通关奖励。
 
@@ -45,8 +54,10 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `KeepAtLeast` | 0 | 每种食物至少保留这么多个 |
 | `ExcludeIds` | 空 | 永不使用的食物 ID，用逗号分隔，例如 `22,23`。每次喂食开始时，日志会列出所有食物的 ID |
 | `MaxBites` | 3000 | 每次最多喂几口（安全上限） |
-| `CallJobMasterBonus` | true | 升到满级后发放职业通关奖励 |
+| `PrioritizeStats` | true | 先选还能提升能力的食物（见第 3 步） |
+| `StatFoodMaxTier` | 3 | 为了能力加成最多动用到哪个等级的食物（0–3），调低可保留稀有料理 |
 | `ButtonConfirm` | false | 设为 true 时需要点两次：第一次预览，第二次喂食 |
+| `Method` | Direct | `Direct`：瞬间完成，没有动画。`Game`：改用游戏自己的团队强化窗口，每种食物弹出一次升级动画 |
 
 ## 游戏加速
 
@@ -146,10 +157,19 @@ The game's own bulk feed eats the whole amount you select, even long after the c
 
 1. **EXP still needed:** EXP to max the current job, minus current EXP.
 2. **EXP per food:** each food gives a random amount per bite (新鲜蔬菜, for example, gives about 78–88). The mod samples each food to get its average.
-3. **Most plentiful food first:** among foods whose average EXP fits within the remaining need, it eats the one you **hold the most of** (ties go to the smaller EXP). That spares rare high-tier dishes and evens out your stocks over time. It deliberately does not pick the biggest food first.
-4. **Minimal overshoot:** when every food would overshoot, it eats the **smallest** one, so at most one small bite of EXP is wasted.
+3. **Stat bonuses first:** only foods that fit within the remaining EXP need are considered. If any of them can still raise a stat (below that food's cap), it picks the one with the **best expected stat gain per EXP**. Each food raises one stat by 0–1 or 0–2 per bite, and a job only takes so much EXP, so small foods mean more bites and more stat gains. That also leaves big, rare dishes alone. Once a stat reaches a food's cap, it moves on to a food for another stat. Turn this step off with `PrioritizeStats`.
+4. **Then EXP efficiency, most plentiful food first:** among foods whose average EXP fits within the remaining need, it eats the one you **hold the most of** (ties go to the smaller EXP). That spares rare high-tier dishes and evens out your stocks over time. It deliberately does not pick the biggest food first.
+5. **Minimal overshoot:** when every food would overshoot, it eats the **smallest** one, so at most one small bite of EXP is wasted.
 
-In testing, two characters went from Lv 12–13 to Lv 35 in about 100 bites each, overshooting by just 21 and 65 EXP.
+In testing, two characters went from Lv 12–13 to Lv 35 in about 100 bites each, overshooting by only a few dozen EXP.
+
+### Exactly what the game's own power-up does
+
+Every bite follows the game's own power-up rules. These were read from the game's code and checked against the game's own power-up window, result for result:
+
+- **Stat bonuses:** each food raises each stat by a random amount within a range, up to a cap set by the food's tier: (tier + 1) × 10, i.e. 10 / 20 / 30 / 40. The cap is checked against the character's total bonus for that stat (including job-clear bonuses). Once a stat reaches a food's cap, that food no longer raises it.
+- **EXP:** added in slices, like the game, so reaching max level is handled exactly as the game does.
+- **Job clear:** grants the job-clear bonus. Once every job has been mastered, the mastered-job list resets, per the game's rules.
 
 If there isn't enough food to reach max, it uses all allowed food, stops short of max, and does not grant the job-clear bonus.
 
@@ -162,8 +182,10 @@ Settings, under `[AutoFeed]` in `BepInEx\config\hssqol.cfg`:
 | `KeepAtLeast` | 0 | Never take any food below this count |
 | `ExcludeIds` | empty | Comma-separated food ids never to use, e.g. `22,23`. Each feed logs every food's id at the start |
 | `MaxBites` | 3000 | Safety cap on bites per feed |
-| `CallJobMasterBonus` | true | Grant the job-clear bonus on reaching max |
+| `PrioritizeStats` | true | Prefer foods that can still raise a stat (step 3) |
+| `StatFoodMaxTier` | 3 | Highest food tier that may be spent on stats (0–3). Lower it to keep rare dishes |
 | `ButtonConfirm` | false | If true, the button needs two clicks: preview, then feed |
+| `Method` | Direct | `Direct`: instant, no animation. `Game`: uses the game's own team power-up window instead, with one level-up animation per food |
 
 ## Speed-up
 

@@ -81,6 +81,7 @@ public class QoLBehaviour : MonoBehaviour
         Plugin.PatchLate();
         if (Plugin.LateReady && Plugin.MenuProbeEnabled.Value) MenuProbe.Tick();
         SpeedHack.Tick();
+        if (Plugin.LateReady) GameFeed.Tick();
         try { InputRemap.Tick(); }
         catch (Exception e) { Plugin.L.LogError($"InputRemap: {e}"); InputRemap.WheelScroll.Value = false; }
     }

@@ -39,14 +39,14 @@ internal static class FeedButton
 
     private static bool IsCharacterMenu(SubForm sf) => sf != null && (sf.type_ == CrewCommandMenu || sf.type_ == RosterMenu);
 
-    /// <summary>The character a menu is for. The crew menu passes it to DrawSubCommand; the roster menu holds it in crew_.</summary>
-    private static Character CharacterFor(SubForm sf) =>
-        sf.type_ == RosterMenu ? RosterCharacter(sf, out _) : MenuCharacter;
+    /// <summary>The Human a menu is for. The crew menu passes it to DrawSubCommand; the roster menu indexes player_.force_.</summary>
+    private static Human HumanFor(SubForm sf) =>
+        sf.type_ == RosterMenu ? RosterHuman(sf, out _) : MenuHuman;
 
     // Roster menu: player_.force_ is a Vector of parties, each a Vector of Human.
     // The menu holds the party in select_ and the slot in value1_ (user-verified for both parties).
     // No fallback: if the lookup fails, return null so nothing is fed.
-    private static Character RosterCharacter(SubForm sf, out string source)
+    private static Human RosterHuman(SubForm sf, out string source)
     {
         source = "none";
         if (sf == null) return null;
@@ -56,28 +56,20 @@ internal static class FeedButton
         var members = parties.Get(party)?.TryCast<java.util.Vector>();
         if (members == null || slot < 0 || slot >= members.Size()) return null;
         source = $"player_.force_[{party}][{slot}]";
-        return ToCharacter(members.Get(slot));
-    }
-
-    private static Character ToCharacter(Il2CppSystem.Object o)
-    {
-        if (o == null) return null;
-        return o.TryCast<Character>()
-            ?? o.TryCast<Human>()?.crew_?.TryCast<Character>()
-            ?? o.TryCast<FighterBase>()?.crew_?.TryCast<Character>();
+        return members.Get(slot)?.TryCast<Human>();
     }
 
     internal static string RosterCandidates()
     {
         var sf = kairo.unity.form.FormManagerBase.GetInstance()?.Top?.TryCast<SubForm>();
         if (sf == null || sf.type_ != RosterMenu) return "not in roster menu";
-        var c = RosterCharacter(sf, out var src);
-        return $"select_={sf.select_} value1_={sf.value1_} -> {c?.GetName() ?? "null"} via {src}";
+        var h = RosterHuman(sf, out var src);
+        return $"select_={sf.select_} value1_={sf.value1_} -> {h?.crew_?.GetName() ?? "null"} via {src}";
     }
     internal const int OurValue = 0x48535100; // arbitrary, far from the game's VALUE_* ranges
 
-    private static Character _menuChar;
-    private static int _menuCharFrame = -100;
+    private static Human _menuHuman;
+    private static int _menuHumanFrame = -100;
     private static bool _drawingOurs;
     private static int _iconWidth = 32;   // learned from DrawShortcutIcon's returned area
     private static bool _warnedArea;
@@ -125,7 +117,7 @@ internal static class FeedButton
     }
 
     /// <summary>The character whose command menu is on screen, if drawn in the last few frames.</summary>
-    internal static Character MenuCharacter => Time.frameCount - _menuCharFrame <= 3 ? _menuChar : null;
+    internal static Human MenuHuman => Time.frameCount - _menuHumanFrame <= 3 ? _menuHuman : null;
 
     private static void Log(string s) => Plugin.L.LogInfo($"[feedbtn f{Time.frameCount}] {s}");
 
@@ -134,8 +126,8 @@ internal static class FeedButton
     private static void RememberCharacter(java.util.Vector human, int humanIndex)
     {
         if (human == null || humanIndex < 0 || humanIndex >= human.Size()) return;
-        _menuChar = human.Get(humanIndex)?.TryCast<Human>()?.crew_?.TryCast<Character>();
-        _menuCharFrame = Time.frameCount;
+        _menuHuman = human.Get(humanIndex)?.TryCast<Human>();
+        _menuHumanFrame = Time.frameCount;
     }
 
     [HarmonyPatch(typeof(MyFormBase), nameof(MyFormBase.AddTouchShortcut),
@@ -233,10 +225,11 @@ internal static class FeedButton
 
         if (e.type == TouchEvent.TYPE_CLICK)
         {
-            var c = CharacterFor(__instance);
+            var h = HumanFor(__instance);
+            var c = h?.crew_?.TryCast<Character>();
             string via = __instance.type_ == RosterMenu ? $" [{RosterCandidates()}]" : "";
             Log($"auto-feed button clicked in menu type {__instance.type_} for {c?.GetName() ?? "null"}{via}");
-            AutoFeed.ButtonPressed(c);
+            AutoFeed.ButtonPressed(h, __instance);
         }
         __result = true;
         return false; // the game never sees our button's events
