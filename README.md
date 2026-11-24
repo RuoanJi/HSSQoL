@@ -6,16 +6,37 @@
 
 HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / Windows 版）的便利性（QoL）Mod，基于 BepInEx 6 运行，不修改任何游戏文件。目前包含：
 
-- **强化满级**：一键把角色的当前职业升到满级，并自动挑选消耗哪些食物。
+- **强化满级**：自动挑选食物，一键将角色的当前职业升到满级。
 - **转职满级**：在转职页面一键转到下一个未通关的职业，并升到满级。
 - **批量出售**：在港口商店一键卖出多余的装备、食物和药。
-- **船舱布局设计器**：按 F9 导出船舱，在独立网页里规划设施摆放并计算知识加成。
+- **[船舱布局设计器](https://ruoanji.github.io/HSSQoL/designer/designer.html)**：按 F9 导出船舱数据和布局供网页版的规划工具加载。
 - **游戏加速**：按 F2 开关，倍率可自由设置。
 - **跳过迷宫结算**：按 F3 开关，迷宫通关后的横幅、宝箱展示、经验结算、俘虏选择和迷宫内对话一闪而过。
 - **连续探索**：在迷宫出发页面一键反复打同一个迷宫，直到体力用完。
 - **鼠标滚轮**：在列表中用滚轮上下移动。
 
-> ⚠️ 本 Mod 会直接修改存档里的道具和经验值，且存档由 Steam 云同步。首次使用前请先备份 `saves` 文件夹。本项目与 Kairosoft 无关。
+## 安装
+
+### 第一步：安装 BepInEx 6（IL2CPP 版）
+
+本游戏使用 Unity 的 **IL2CPP** 方式编译，不是 Mono。稳定版 BepInEx 5 只支持 Mono，所以必须使用 **BepInEx 6 的 IL2CPP 版本**。BepInEx 6 目前仍是预发布版本，要从 bleeding edge 构建页面下载。
+
+1. 打开 <https://builds.bepinex.dev/projects/bepinex_be>，下载文件名形如 `BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.<编号>+<哈希>.zip` 的压缩包。
+   - 必须选 **`Unity.IL2CPP`**（不是 `Unity.Mono`）。
+   - 必须选 **`win-x86`**（游戏是 32 位的，x64 版无法加载）。
+   - 已测试版本：**6.0.0-be.793**。更新的 be 版本通常也能用。
+2. 打开游戏根目录：在 Steam 里右键游戏 → 管理 → 浏览本地文件（即 `KairoGames.exe` 所在的文件夹）。
+3. 把压缩包里的全部内容解压到这个文件夹。完成后，`KairoGames.exe` 旁边应该有 `BepInEx\`、`dotnet\`、`winhttp.dll` 和 `doorstop_config.ini`。
+4. 启动一次游戏。第一次启动会**比较慢**（可能要一两分钟），因为 BepInEx 需要联网下载 Unity 基础库，并生成 `BepInEx\interop`。出现标题画面后就可以关闭游戏。
+5. 打开 `BepInEx\LogOutput.log`，如果能找到 `Chainloader startup complete`，就说明 BepInEx 已经正常工作。
+
+### 第二步：安装本 Mod
+
+1. 获取 `HSSQoL.dll`：从 [Releases](https://github.com/RuoanJi/HSSQoL/releases) 下载，或按下方「编译」自行编译。
+2. 把它放到 `BepInEx\plugins\`（没有这个文件夹就新建一个）。
+3. 启动游戏，读取存档后即可使用。第一次运行会生成配置文件 `BepInEx\config\hssqol.cfg`，修改配置后需要重启游戏才会生效。
+
+**卸载**：删除 `BepInEx\plugins\HSSQoL.dll`。要完全移除 BepInEx，再删除游戏根目录下的 `winhttp.dll`（删掉它 BepInEx 就不会再加载）。
 
 ## 强化满级
 
@@ -109,10 +130,12 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `ButtonX` / `ButtonY` | 260 / 199 | 按钮位置 |
 ## 船舱布局设计器
 
-`designer/designer.html` 是一个独立的网页工具（直接用浏览器打开，不需要联网），用来规划两层船舱的设施摆放：
+**[在线打开设计器](https://ruoanji.github.io/HSSQoL/designer/designer.html)**
+
+设计器是一个独立的网页工具，用来规划两层船舱的设施摆放。可以直接打开上面的在线版，也可以下载仓库里的 `designer/designer.html` 用浏览器离线打开。导出文件只在你的浏览器里读取，不会上传。
 
 1. 在游戏里按 **F9**，Mod 会把当前船只等级、两层船舱的布局、每种设施的等级、职业寝室和船员信息导出到 `BepInEx\hssqol-ship.json`。
-2. 打开 `designer.html`，把这个文件拖进去（或点「载入导出文件」）。之后浏览器会记住它。
+2. 打开设计器，把这个文件拖进去（或点「载入导出文件」）。之后浏览器会记住它。
 
 设计器里可以：
 
@@ -176,9 +199,14 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 在港口点迷宫入口、选好队伍后，"出发"页面左下角的空位会出现 **连续探索（约 N 次）** 按钮（N = 体力 ÷ 该迷宫消耗）。点一下后会出发，并在每次通关回港后自动再次出发同一个迷宫，直到体力不够为止。
 
+![出发页面左下角的「连续探索 约 2 次」按钮](docs/continuous-explore-button.webp)
+
 - 连续探索期间总是跳过结算（无论 F3 是否开启），俘虏和迷宫内对话按 `[DungeonSkip]` 的 `AutoImprison`、`SkipTalk` 处理；出发时队员走向迷宫的动画也会跳过。不使用连续探索时，是否跳过仍由 F3 决定。
 - 每次出发都走游戏自己的出发流程：体力扣除、队伍选择和检查与手动出发完全相同。
 - 停止方法：探索中点港口的迷宫入口，在"正在探险"窗口左下角点 **停止连续探索**；或点右上角的"⟳ 连续探索 第N次"标签。当前这一次会照常打完（仍然跳过结算），之后不再出发。
+
+  ![「正在探险」窗口左下角的「停止连续探索」按钮](docs/continuous-explore-stop.png)
+
 - 以下情况也会自动停止：体力不足、没有通关（比如全灭）、只能通关一次的迷宫已通关、达到 `MaxRuns`。
 - 需要消耗勋章的迷宫不显示按钮。
 
@@ -211,29 +239,6 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 重新生成：在游戏里按 **F10**（`DataDump`）导出 `BepInEx\hssqol-data.json`，然后在 `docs` 文件夹运行 `python make_loot.py`、`python make_ports.py`、`python make_jobs_html.py` 或 `python make_facilities_html.py`。脚本按 `HSS_GAME_DIR` 环境变量找游戏目录，也可以把 JSON 路径作为第一个参数传入。
 
-## 安装
-
-### 第一步：安装 BepInEx 6（IL2CPP 版）
-
-本游戏使用 Unity 的 **IL2CPP** 方式编译，不是 Mono。稳定版 BepInEx 5 只支持 Mono，所以必须使用 **BepInEx 6 的 IL2CPP 版本**。BepInEx 6 目前仍是预发布版本，要从 bleeding edge 构建页面下载。
-
-1. 打开 <https://builds.bepinex.dev/projects/bepinex_be>，下载文件名形如 `BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.<编号>+<哈希>.zip` 的压缩包。
-   - 必须选 **`Unity.IL2CPP`**（不是 `Unity.Mono`）。
-   - 必须选 **`win-x86`**（游戏是 32 位的，x64 版无法加载）。
-   - 已测试版本：**6.0.0-be.793**。更新的 be 版本通常也能用。
-2. 打开游戏根目录：在 Steam 里右键游戏 → 管理 → 浏览本地文件（即 `KairoGames.exe` 所在的文件夹）。
-3. 把压缩包里的全部内容解压到这个文件夹。完成后，`KairoGames.exe` 旁边应该有 `BepInEx\`、`dotnet\`、`winhttp.dll` 和 `doorstop_config.ini`。
-4. 启动一次游戏。第一次启动会**比较慢**（可能要一两分钟），因为 BepInEx 需要联网下载 Unity 基础库，并生成 `BepInEx\interop`。出现标题画面后就可以关闭游戏。
-5. 打开 `BepInEx\LogOutput.log`，如果能找到 `Chainloader startup complete`，就说明 BepInEx 已经正常工作。
-
-### 第二步：安装本 Mod
-
-1. 获取 `HSSQoL.dll`：从 [Releases](https://github.com/RuoanJi/HSSQoL/releases) 下载，或按下方「编译」自行编译。
-2. 把它放到 `BepInEx\plugins\`（没有这个文件夹就新建一个）。
-3. 启动游戏，读取存档后即可使用。第一次运行会生成配置文件 `BepInEx\config\hssqol.cfg`，修改配置后需要重启游戏才会生效。
-
-**卸载**：删除 `BepInEx\plugins\HSSQoL.dll`。要完全移除 BepInEx，再删除游戏根目录下的 `winhttp.dll`（删掉它 BepInEx 就不会再加载）。
-
 ## 编译
 
 需要 .NET SDK 6 或更新版本，以及一个已安装 BepInEx 并至少运行过一次的游戏目录（编译时要引用 `BepInEx\core` 和 `BepInEx\interop` 里的 DLL）。
@@ -264,16 +269,37 @@ dotnet build -c Release -p:GameDir="D:\SteamLibrary\steamapps\common\High Sea Sa
 
 HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探险物语DX; Steam / Windows). It runs on BepInEx 6 and doesn't modify any game files. It currently adds:
 
-- **Power up to max (强化满级)**: one click levels a character's current job to max, choosing which food to use automatically.
+- **Power up to max (强化满级)**: picks the food automatically and levels a character's current job to max in one click.
 - **Switch job and max (转职满级)**: on the job-change page, one click switches to the next unmastered job and levels it to max.
 - **Bulk sell (批量出售)**: in port shops, one click sells surplus equipment, food and potions.
-- **Ship layout designer**: press F9 to export your ship, then plan facility layouts and their knowledge bonuses in a standalone web page.
+- **[Ship layout designer](https://ruoanji.github.io/HSSQoL/designer/designer.html)**: press F9 to export your ship's data and layout for the web-based planner to load.
 - **Speed-up**: toggled with F2, at a multiplier you choose.
 - **Skip dungeon clear (跳过迷宫结算)**: toggled with F3. The clear banner, chest showcase, party EXP screen, prisoner list and in-dungeon dialogue go by in a moment.
 - **Continuous explore (连续探索)**: one click on the dungeon depart page re-runs the same dungeon until stamina runs out.
 - **Mouse wheel**: scrolls up and down in lists.
 
-> ⚠️ This mod changes items and EXP in your save, and saves sync through Steam Cloud. Back up your `saves` folder before first use. This project is not affiliated with Kairosoft.
+## Install
+
+### Step 1: Install BepInEx 6 (IL2CPP build)
+
+The game is built with Unity's **IL2CPP** backend, not Mono. The stable BepInEx 5 only supports Mono, so you need the **IL2CPP build of BepInEx 6**. BepInEx 6 is still in pre-release, so it comes from the bleeding-edge build page.
+
+1. Go to <https://builds.bepinex.dev/projects/bepinex_be> and download the file named like `BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.<number>+<hash>.zip`.
+   - It must be **`Unity.IL2CPP`** (not `Unity.Mono`).
+   - It must be **`win-x86`**: the game is 32-bit, and the x64 build won't load.
+   - Tested with **6.0.0-be.793**. Newer be builds usually work too.
+2. Open the game folder: in Steam, right-click the game → Manage → Browse local files (the folder containing `KairoGames.exe`).
+3. Extract everything from the zip into that folder. Afterwards you should see `BepInEx\`, `dotnet\`, `winhttp.dll` and `doorstop_config.ini` next to `KairoGames.exe`.
+4. Start the game once. The first start is **slow** (a minute or two): BepInEx downloads Unity's base libraries, so it needs internet, and generates `BepInEx\interop`. Once the title screen appears, close the game.
+5. Open `BepInEx\LogOutput.log`. If it contains `Chainloader startup complete`, BepInEx is working.
+
+### Step 2: Install the mod
+
+1. Get `HSSQoL.dll`: download it from [Releases](https://github.com/RuoanJi/HSSQoL/releases), or build it yourself (see Building below).
+2. Put it in `BepInEx\plugins\` (create the folder if it doesn't exist).
+3. Start the game and load your save. The config file `BepInEx\config\hssqol.cfg` is created on the first run. Restart the game after changing it.
+
+**Uninstall:** delete `BepInEx\plugins\HSSQoL.dll`. To remove BepInEx entirely, also delete `winhttp.dll` from the game folder (without it, BepInEx no longer loads).
 
 ## Power up to max
 
@@ -367,10 +393,12 @@ Prices and stock changes are exactly what the game's own selling does.
 | `ButtonX` / `ButtonY` | 260 / 199 | Button position |
 ## Ship layout designer
 
-`designer/designer.html` is a standalone web page (open it in any browser, works offline) for planning the facilities on both ship floors:
+**[Open the designer online](https://ruoanji.github.io/HSSQoL/designer/designer.html)**
+
+The designer is a standalone web page for planning the facilities on both ship floors. Use the online version above, or download `designer/designer.html` from the repo and open it offline in any browser. Your export file is only read in your browser and never uploaded.
 
 1. In game, press **F9**. The mod writes your ship level, both floors, each facility type's level, job bedrooms and crew to `BepInEx\hssqol-ship.json`.
-2. Open `designer.html` and drop that file on it (or use “Load export…”). The browser remembers it afterwards.
+2. Open the designer and drop that file on it (or use “Load export…”). The browser remembers it afterwards.
 
 In the designer you can:
 
@@ -434,9 +462,14 @@ Settings, under `[DungeonSkip]`:
 
 Tap a dungeon entrance at a port and pick your parties: the empty slot at the bottom left of the 出发 (depart) page shows a **连续探索 (约 N 次)** button, where N = stamina ÷ the dungeon's cost. One click departs, and after each clear the same dungeon is entered again from the port, until stamina runs out.
 
+![The 连续探索 (约 2 次) button at the bottom left of the depart page](docs/continuous-explore-button.webp)
+
 - During continuous explore the clear screens are always skipped, whether or not F3 is on; prisoners and in-dungeon dialogue follow `AutoImprison` and `SkipTalk` under `[DungeonSkip]`. The party's walk-off animation when departing is skipped too. Outside continuous explore, F3 decides as before.
 - Every departure goes through the game's own start code, so stamina, party choice and checks are the same as departing by hand.
 - To stop: during a run, tap the dungeon entrance at the port and click **停止连续探索** at the bottom left of the 正在探险 (exploring) box, or click the "⟳ 连续探索 第N次" label at the top right. The current run finishes as normal (still skipped), and no new one starts.
+
+  ![The 停止连续探索 button at the bottom left of the 正在探险 box](docs/continuous-explore-stop.png)
+
 - It also stops by itself when stamina is too low, a run ends without a clear (for example a wipe), a one-time dungeon has been cleared, or `MaxRuns` is reached.
 - Dungeons that cost medals don't get the button.
 
@@ -468,29 +501,6 @@ Settings, under `[ContinuousExplore]`:
 | [Layout designer data](docs/layout-data.md) | The data and rules the ship layout designer uses; raw data in [`docs/data/`](docs/data/) |
 
 To regenerate: press **F10** in game (`DataDump`) to write `BepInEx\hssqol-data.json`, then run `python make_loot.py`, `python make_ports.py`, `python make_jobs_html.py` or `python make_facilities_html.py` from the `docs` folder. The scripts find the game folder through the `HSS_GAME_DIR` environment variable, or take the JSON path as their first argument.
-
-## Install
-
-### Step 1: Install BepInEx 6 (IL2CPP build)
-
-The game is built with Unity's **IL2CPP** backend, not Mono. The stable BepInEx 5 only supports Mono, so you need the **IL2CPP build of BepInEx 6**. BepInEx 6 is still in pre-release, so it comes from the bleeding-edge build page.
-
-1. Go to <https://builds.bepinex.dev/projects/bepinex_be> and download the file named like `BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.<number>+<hash>.zip`.
-   - It must be **`Unity.IL2CPP`** (not `Unity.Mono`).
-   - It must be **`win-x86`**: the game is 32-bit, and the x64 build won't load.
-   - Tested with **6.0.0-be.793**. Newer be builds usually work too.
-2. Open the game folder: in Steam, right-click the game → Manage → Browse local files (the folder containing `KairoGames.exe`).
-3. Extract everything from the zip into that folder. Afterwards you should see `BepInEx\`, `dotnet\`, `winhttp.dll` and `doorstop_config.ini` next to `KairoGames.exe`.
-4. Start the game once. The first start is **slow** (a minute or two): BepInEx downloads Unity's base libraries, so it needs internet, and generates `BepInEx\interop`. Once the title screen appears, close the game.
-5. Open `BepInEx\LogOutput.log`. If it contains `Chainloader startup complete`, BepInEx is working.
-
-### Step 2: Install the mod
-
-1. Get `HSSQoL.dll`: download it from [Releases](https://github.com/RuoanJi/HSSQoL/releases), or build it yourself (see Building below).
-2. Put it in `BepInEx\plugins\` (create the folder if it doesn't exist).
-3. Start the game and load your save. The config file `BepInEx\config\hssqol.cfg` is created on the first run. Restart the game after changing it.
-
-**Uninstall:** delete `BepInEx\plugins\HSSQoL.dll`. To remove BepInEx entirely, also delete `winhttp.dll` from the game folder (without it, BepInEx no longer loads).
 
 ## Building
 

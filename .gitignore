@@ -11,6 +11,7 @@
 # Docs: README images, game reference docs (Markdown + standalone HTML), their generators and data
 !docs/
 !docs/*.png
+!docs/*.webp
 !docs/*.md
 !docs/*.html
 !docs/*.py
