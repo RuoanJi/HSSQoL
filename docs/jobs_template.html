@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSS DX Jobs</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1f2328; --muted: #6a6f76; --line: #e3e1da;
+  --accent: #1f6f8b; --accent-soft: #e3f0f4; --hit: #fff2c2; --hit-ink: #6b4b00; --bar: #8fc1d1;
+  --ok: #2e7d4f; --ok-soft: #e1f2e7; --no: #a8432f; --no-soft: #f8e4df; --gold: #9a6b00;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+    --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+    --ok: #7fd1a0; --ok-soft: #1c3627; --no: #f09a86; --no-soft: #3d2420; --gold: #e3b54a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+  --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+  --ok: #7fd1a0; --ok-soft: #1c3627; --no: #f09a86; --no-soft: #3d2420; --gold: #e3b54a;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.5 system-ui, "Microsoft YaHei", "PingFang SC", sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.top nav { display: flex; gap: 14px; font-size: 13px; }
+.top a { color: var(--accent); }
+h1 { font-size: 18px; margin: 14px 0 10px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 8px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; }
+.tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+input, select { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); min-width: 0; }
+input[type=search] { flex: 1 1 200px; }
+label.ctl { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; white-space: nowrap; cursor: pointer; }
+.count { color: var(--muted); font-size: 12px; }
+.mine { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding-bottom: 10px; font-size: 12px; color: var(--muted); }
+.mine label { display: inline-flex; align-items: center; gap: 4px; }
+.mine input[type=number] { width: 52px; padding: 3px 6px; }
+.mine button { font: inherit; font-size: 12px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); cursor: pointer; }
+main { padding: 14px 0 40px; }
+.note { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; position: sticky; top: 0; background: var(--panel); }
+th[data-k] { cursor: pointer; user-select: none; }
+th[data-k]:hover { color: var(--ink); }
+th .arr { font-size: 10px; margin-left: 3px; }
+td.n, th.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.name { white-space: nowrap; font-weight: 600; }
+.chip { display: inline-block; padding: 0 6px; margin: 1px 4px 1px 0; border-radius: 4px; background: var(--accent-soft); font-size: 12px; white-space: nowrap; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.no { background: var(--no-soft); color: var(--no); }
+.chip.bad { background: var(--no-soft); }
+.medal { color: var(--gold); font-size: 12px; margin-left: 4px; font-weight: 500; }
+.sub { color: var(--muted); font-size: 11px; display: block; }
+.desc { color: var(--muted); font-size: 12px; min-width: 200px; }
+tr.locked td { opacity: .55; }
+mark { background: var(--hit); color: var(--hit-ink); padding: 0 2px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><h1>High Sea Saga DX · 职业</h1><nav><a href="facilities.html">设施</a><a href="ports.html">港口</a><a href="loot.html">掉落表</a><a href="analyze.html">解析结果</a></nav></div>
+  <div class="controls">
+    <div class="tabs" id="tabs">
+      <button data-t="stats" class="on">能力值</button><button data-t="other">武器·设施</button>
+      <button data-t="bed">寝室</button><button data-t="know">转职知识总量</button>
+    </div>
+    <input id="q" type="search" placeholder="搜索：职业、技能、武器、设施…">
+    <select id="mode" aria-label="能力值显示">
+      <option value="r">Lv1 → Max</option><option value="max">Max</option><option value="min">Lv1</option><option value="per">每级成长</option>
+    </select>
+    <label class="ctl"><input type="checkbox" id="nomedal"> 隐藏勋章职业</label>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="mine" id="mine"></div>
+</div></header>
+<main class="wrap"><div id="out"></div></main>
+<script>
+const D = /*JOB_DATA*/null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => n.toLocaleString('en-US');
+const STAT = ['HP', 'SP', '攻撃', '守り', '早さ', '賢さ'];
+const STAT_ZH = ['HP', 'SP', '攻击', '防御', '速度', '智慧'];
+const W = { Sword: '剑', Wand: '杖', Axe: '斧', Spear: '枪', Fist: '拳', Gun: '火枪', Bow: '弓' };
+const st = { tab: 'stats', key: 'id', dir: 1, mode: 'r', nomedal: false, onlyOk: false, my: {} };
+try { Object.assign(st, JSON.parse(localStorage.getItem('hssJobs') || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem('hssJobs', JSON.stringify(st)); } catch (e) {} };
+
+$('#mode').value = st.mode; $('#nomedal').checked = st.nomedal;
+$('#mine').innerHTML = '我的知识等级：' + D.kn.map(k =>
+  `<label>${k}<input type="number" min="0" max="20" data-kn="${k}" value="${st.my[k] || ''}" placeholder="0"></label>`).join('') +
+  `<label class="ctl"><input type="checkbox" id="onlyok"${st.onlyOk ? ' checked' : ''}> 只看可转职</label><button id="clr">清空</button>`;
+
+const hasMy = () => D.kn.some(k => st.my[k] > 0);
+const canDo = j => Object.entries(j.req).every(([k, lv]) => (st.my[k] || 0) >= lv);
+const hay = j => [j.name, j.skill, j.desc, ...Object.keys(j.req), ...j.good.map(w => W[w] || w), ...j.bad.map(w => W[w] || w),
+  ...j.good, ...j.bad, ...j.fav, j.bed.room, j.bed.area, j.bed.extra].join(' ').toLowerCase();
+function hl(text, q) {
+  const t = esc(text); if (!q) return t;
+  const i = text.toLowerCase().indexOf(q); if (i < 0) return t;
+  return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+}
+function statVal(j, i, mode = st.mode) {
+  const [a, b] = j.stats[i];
+  return mode === 'min' ? a : mode === 'per' ? (j.maxLv > 1 ? (b - a) / (j.maxLv - 1) : 0) : b;
+}
+const reqSum = j => Object.values(j.req).reduce((s, v) => s + v, 0);
+const val = (j, k) => k[0] === 's' && k.length === 2 ? statVal(j, +k[1]) : k[0] === 'm' && k.length === 2 ? j.mastery[+k[1]] :
+  ({ id: j.id, name: j.name, maxLv: j.maxLv, exp: j.exp, req: reqSum(j), skill: j.skill, act: j.act, work: j.work,
+     getExp: j.getExp, cls: j.cls, rank: j.rank, masterNum: j.masterNum, medal: j.medal, room: j.bed.room })[k];
+function th(k, label, cls = '', title = '') {
+  const a = st.key === k ? `<span class="arr">${st.dir > 0 ? '▲' : '▼'}</span>` : '';
+  return `<th data-k="${k}" class="${cls}"${title ? ` title="${esc(title)}"` : ''}>${label}${a}</th>`;
+}
+function rows(q) {
+  let r = D.jobs.filter(j => (!st.nomedal || !j.medal) && (!st.onlyOk || !hasMy() || canDo(j)) && (!q || hay(j).includes(q)));
+  r.sort((a, b) => { const x = val(a, st.key), y = val(b, st.key);
+    return (typeof x === 'string' ? x.localeCompare(y, 'zh') : x - y) * st.dir || a.id - b.id; });
+  return r;
+}
+const nameCell = (j, q) => `<td class="name">${hl(j.name, q)}${j.medal ? `<span class="medal" title="需要勋章 ×${j.medal}">★${j.medal}</span>` : ''}</td>`;
+const reqChips = (j, q) => Object.entries(j.req).map(([k, lv]) => {
+  const c = hasMy() ? ((st.my[k] || 0) >= lv ? ' ok' : ' no') : '';
+  return `<span class="chip${c}">${hl(k, q)} ${lv}</span>`;
+}).join('');
+const lockCls = j => hasMy() && !canDo(j) ? ' class="locked"' : '';
+
+function renderStats(q) {
+  const r = rows(q);
+  const max = STAT.map((_, i) => Math.max(...D.jobs.map(j => statVal(j, i))));
+  const cell = (j, i) => {
+    const [a, b] = j.stats[i], v = statVal(j, i), pct = Math.round(v / max[i] * 55);
+    const txt = st.mode === 'r' ? `<span class="sub" style="display:inline">${a}→</span>${b}` : st.mode === 'per' ? v.toFixed(1) : v;
+    return `<td class="n" style="background:color-mix(in srgb, var(--bar) ${pct}%, transparent)">${txt}<span class="sub">精通 +${j.mastery[i]}</span></td>`;
+  };
+  $('#count').textContent = `${r.length} / ${D.jobs.length} 个职业`;
+  return `<p class="note">需求 = 转职所需知识等级（全部满足）。能力值是职业自身的加成，转职时替换；下方小字为练满该职业后永久获得的精通加成。色块深浅 = 该列相对最大值。${hasMy() ? '绿色/红色 = 你的知识等级是否满足。' : '在上方填入知识等级可检查能否转职。'}点击表头排序。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '职业')}${th('req', '转职需求')}${th('maxLv', '最高Lv', 'n')}${th('exp', '总EXP', 'n')}` +
+  STAT.map((s, i) => th('s' + i, STAT_ZH[i], 'n', s)).join('') + `${th('skill', '精通技能')}</tr>` +
+  r.map(j => `<tr${lockCls(j)}><td class="n">${j.id}</td>${nameCell(j, q)}<td>${reqChips(j, q)}</td><td class="n">${j.maxLv}</td>
+    <td class="n">${fmt(j.exp)}</td>${STAT.map((_, i) => cell(j, i)).join('')}<td>${hl(j.skill, q)}</td></tr>`).join('') + '</table></div>';
+}
+function renderOther(q) {
+  const r = rows(q);
+  const wp = (ws, cls) => ws.map(w => `<span class="chip${cls}">${hl(W[w] || w, q)}</span>`).join('') || '<span class="sub">—</span>';
+  $('#count').textContent = `${r.length} / ${D.jobs.length} 个职业`;
+  return `<p class="note">武器适性只列出非“普通”的。喜欢的设施：船员使用时知识 ×1.5。其余为数据原始值（含义未全部验证）。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '职业')}<th>擅长武器</th><th>不擅长武器</th><th>喜欢的设施</th>
+  ${th('act', '行动速度', 'n', 'actSpeed_')}${th('work', '工作上限', 'n', 'workCountMax_')}${th('getExp', '获得EXP', 'n', 'getExp_')}
+  ${th('cls', 'Class', 'n', 'class_')}${th('rank', 'Rank组', 'n', 'rankGroup_')}${th('masterNum', 'Master', 'n', 'masterNum_')}${th('medal', '勋章', 'n', 'medalNum_')}<th>职业特性</th></tr>` +
+  r.map(j => `<tr${lockCls(j)}><td class="n">${j.id}</td>${nameCell(j, q)}<td>${wp(j.good, '')}</td><td>${wp(j.bad, ' bad')}</td>
+    <td>${j.fav.map(f => `<span class="chip">${hl(f, q)}</span>`).join('')}</td><td class="n">${j.act}</td><td class="n">${j.work}</td>
+    <td class="n">${j.getExp}</td><td class="n">${j.cls}</td><td class="n">${j.rank}</td><td class="n">${j.masterNum}</td><td class="n">${j.medal || ''}</td>
+    <td class="desc">${hl(j.desc, q)}</td></tr>`).join('') + '</table></div>';
+}
+function renderBed(q) {
+  const r = rows(q);
+  $('#count').textContent = `${r.length} / ${D.jobs.length} 个职业`;
+  return `<p class="note">船员的寝室跟随其<b>当前</b>职业：睡觉时寝室格会重建为该职业的寝室。没有专属寝室的职业使用基础房间 (#4)。寝室为 1×1、不能升级、不给访客知识；效果像其他设施一样作用于距离 3 以内的邻格。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '职业')}${th('room', '寝室')}<th>参数</th><th>对邻格的区域效果</th><th>对邻格的额外效果</th></tr>` +
+  r.map(j => `<tr${lockCls(j)}><td class="n">${j.id}</td>${nameCell(j, q)}<td>${hl(j.bed.room, q)}</td><td>${esc(j.bed.param)}</td>
+    <td>${j.bed.area.split(', ').map(a => `<span class="chip">${hl(a, q)}</span>`).join('')}</td>
+    <td>${j.bed.extra ? `<span class="chip">${hl(j.bed.extra, q)}</span>` : '<span class="sub">—</span>'}</td></tr>`).join('') + '</table></div>';
+}
+function renderKnow() {
+  $('#count').textContent = '';
+  const cols = s => s.split(' / ');
+  const head = '<th class="n">职业数</th><th class="n">等级合计</th><th class="n">最少EXP</th><th class="n">EXP占比</th>';
+  return `<p class="note">转职会消耗所需的知识等级（并清空这些类型当前的零头 EXP）。知识 Lv L → L+1 需要 (L+1) × 1000 EXP（上限 Lv 20），所以从 0 获得 r 级需要 1000 × r(r+1)/2 EXP（“最少EXP”；若从更高等级扣除则更多）。下表为每名船员转职到每个职业各一次的总量。</p>
+  <div class="card"><table><tr><th rowspan="2">知识</th><th colspan="4">全部 ${D.jobs.length} 个职业</th><th colspan="4">不含 ${D.jobs.filter(j => j.medal).length} 个勋章职业</th></tr><tr>${head}${head}</tr>` +
+  D.know.map(r => { const t = r.k.startsWith('**'), a = cols(r.all), b = cols(r.noMedal), pad = x => [...x, '', '', '', ''].slice(0, 4);
+    return `<tr${t ? ' style="font-weight:600"' : ''}><td>${esc(r.k.replace(/\*/g, ''))}</td>${[...pad(a), ...pad(b)].map(c => `<td class="n">${esc(c)}</td>`).join('')}</tr>`;
+  }).join('') + '</table></div>';
+}
+function render() {
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === st.tab));
+  const know = st.tab === 'know';
+  $('#mode').style.display = st.tab === 'stats' ? '' : 'none';
+  ['#q', '#nomedal', '#mine'].forEach(s => { const e = s === '#nomedal' ? $(s).parentElement : $(s); e.style.display = know ? 'none' : ''; });
+  const q = $('#q').value.trim().toLowerCase();
+  $('#out').innerHTML = { stats: renderStats, other: renderOther, bed: renderBed, know: renderKnow }[st.tab](q);
+  save();
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { st.tab = b.dataset.t; render(); } });
+$('#out').addEventListener('click', e => {
+  const h = e.target.closest('th[data-k]'); if (!h) return;
+  const k = h.dataset.k;
+  if (st.key === k) st.dir = -st.dir; else { st.key = k; st.dir = ['id', 'name', 'skill', 'room'].includes(k) ? 1 : -1; }
+  render();
+});
+let timer; $('#q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+$('#mode').addEventListener('change', e => { st.mode = e.target.value; render(); });
+$('#nomedal').addEventListener('change', e => { st.nomedal = e.target.checked; render(); });
+$('#mine').addEventListener('input', e => {
+  if (e.target.dataset.kn) { st.my[e.target.dataset.kn] = Math.max(0, +e.target.value || 0); render(); }
+  else if (e.target.id === 'onlyok') { st.onlyOk = e.target.checked; render(); }
+});
+$('#clr').addEventListener('click', () => { st.my = {}; document.querySelectorAll('[data-kn]').forEach(i => i.value = ''); render(); });
+render();
+</script>
+</body>
+</html>

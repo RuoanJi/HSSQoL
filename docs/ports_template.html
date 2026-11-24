@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSS DX Ports</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1f2328; --muted: #6a6f76; --line: #e3e1da;
+  --accent: #1f6f8b; --accent-soft: #e3f0f4; --hit: #fff2c2; --hit-ink: #6b4b00; --bar: #8fc1d1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+    --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+  --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.5 system-ui, "Microsoft YaHei", "PingFang SC", sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.top nav { display: flex; gap: 14px; font-size: 13px; }
+.top a { color: var(--accent); }
+h1 { font-size: 18px; margin: 14px 0 10px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 10px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; }
+.tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+input, select { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); min-width: 0; }
+input[type=search] { flex: 1 1 220px; }
+label.ctl { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; white-space: nowrap; cursor: pointer; }
+.count { color: var(--muted); font-size: 12px; }
+main { padding: 14px 0 40px; }
+.note { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; position: sticky; top: 0; background: var(--panel); }
+th[data-k] { cursor: pointer; user-select: none; }
+th[data-k]:hover { color: var(--ink); }
+th .arr { font-size: 10px; margin-left: 3px; }
+td.n, th.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chip { display: inline-block; padding: 0 6px; margin: 1px 4px 1px 0; border-radius: 4px; background: var(--accent-soft); font-size: 12px; white-space: nowrap; }
+.lots { font-weight: 600; }
+.bar { display: inline-block; height: 8px; background: var(--bar); border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.sub { color: var(--muted); font-size: 12px; }
+details summary { cursor: pointer; color: var(--accent); font-size: 12px; }
+details ul { margin: 4px 0 0; padding-left: 16px; font-size: 12px; }
+mark { background: var(--hit); color: var(--hit-ink); padding: 0 2px; border-radius: 3px; }
+.snow { font-size: 12px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><h1>High Sea Saga DX · 港口</h1><nav><a href="loot.html">掉落表</a><a href="analyze.html">解析结果</a></nav></div>
+  <div class="controls">
+    <div class="tabs" id="tabs"><button data-t="ports" class="on">港口</button><button data-t="build">可建造建筑</button></div>
+    <select id="land" aria-label="地区"></select>
+    <input id="q" type="search" placeholder="搜索：港口、建筑、迷宫…">
+    <label class="ctl"><input type="checkbox" id="haslots"> 只看有空地的港口</label>
+    <span class="count" id="count"></span>
+  </div>
+</div></header>
+<main class="wrap"><div id="out"></div></main>
+<script>
+const P = /*PORT_DATA*/null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => n.toLocaleString('en-US');
+const st = { tab: 'ports', key: 'id', dir: 1 };
+try { Object.assign(st, JSON.parse(localStorage.getItem('hssPorts') || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem('hssPorts', JSON.stringify(st)); } catch (e) {} };
+
+const lands = [...new Set(P.ports.map(p => p.land || '本国'))];
+$('#land').innerHTML = '<option value="">全部地区</option>' + lands.map(l => `<option>${esc(l)}</option>`).join('');
+
+function hl(text, q) {
+  const t = esc(text); if (!q) return t;
+  const i = text.toLowerCase().indexOf(q); if (i < 0) return t;
+  return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+}
+const val = (p, k) => ({ id: p.id, name: p.name, land: p.land, slots: p.slots, lots: p.lots, fixed: p.fixed.length, dn: p.dungeons.length,
+  lv: p.dungeons.length ? Math.min(...p.dungeons.map(d => d.lv)) : 1e9,
+  cost: p.dungeons.length ? Math.min(...p.dungeons.map(d => d.cost)) : 1e9 })[k];
+function th(k, label, cls = '') {
+  const a = st.key === k ? `<span class="arr">${st.dir > 0 ? '▲' : '▼'}</span>` : '';
+  return `<th data-k="${k}" class="${cls}">${label}${a}</th>`;
+}
+function renderPorts(q) {
+  const land = $('#land').value, only = $('#haslots').checked;
+  let rows = P.ports.filter(p => (!land || (p.land || '本国') === land) && (!only || p.lots > 0) &&
+    (!q || [p.name, p.land, ...p.fixed, ...p.dungeons.map(d => d.name)].join(' ').toLowerCase().includes(q)));
+  rows.sort((a, b) => { const x = val(a, st.key), y = val(b, st.key);
+    return (typeof x === 'string' ? x.localeCompare(y, 'zh') : x - y) * st.dir || a.id - b.id; });
+  const total = rows.reduce((s, p) => s + p.slots, 0), empty = rows.reduce((s, p) => s + p.lots, 0), maxSlots = Math.max(...P.ports.map(p => p.slots));
+  $('#count').textContent = `${rows.length} 个港口 · 共 ${total} 个建筑位（其中 ${empty} 块空地）`;
+  return `<p class="note">每个港口的地图有三种地块：<b>空地</b>（可自由建造）、港口自带的<b>固定建筑</b>、以及<b>冒险入口</b>（迷宫）。王国的据点会分 5 个阶段扩建。“建筑位”= 空地 + 已有固定商店/民家的地块（王宫不计）。点击表头排序。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '港口')}${th('land', '地区')}${th('slots', '建筑位', 'n')}${th('lots', '空地', 'n')}${th('fixed', '固定建筑')}${th('dn', '迷宫', 'n')}${th('lv', '迷宫等级')}${th('cost', '体力', 'n')}</tr>` +
+  rows.map(p => {
+    const ds = p.dungeons;
+    const lvs = ds.length ? `Lv ${Math.min(...ds.map(d => d.lv))}–${Math.max(...ds.map(d => d.lv))}` : '—';
+    const cost = ds.length ? `${Math.min(...ds.map(d => d.cost))}–${Math.max(...ds.map(d => d.cost))}` : '—';
+    return `<tr><td class="n">${p.id}</td>
+      <td>${hl(p.name, q)}${p.snow ? ' <span class="snow" title="雪地">❄</span>' : ''}</td>
+      <td>${hl(p.land || '—', q)}</td>
+      <td class="n"><span class="bar" style="width:${Math.round(p.slots / maxSlots * 40)}px"></span><span class="lots">${p.slots}</span>
+        ${p.stages ? `<div class="sub">阶段 ${p.stages.map(s => s[0]).join(' → ')}</div>` : ''}</td>
+      <td class="n">${p.lots}${p.stages ? `<div class="sub">阶段 ${p.stages.map(s => s[1]).join(' → ')}</div>` : ''}</td>
+      <td>${p.fixed.map(f => `<span class="chip">${hl(f, q)}</span>`).join('') || '—'}</td>
+      <td class="n">${ds.length}</td>
+      <td>${lvs}${ds.length ? `<details><summary>迷宫列表</summary><ul>${ds.map(d =>
+        `<li>#${d.id} ${hl(d.name, q)} · Lv ${d.lv} · 体力 ${d.cost}${d.needRank ? ' · 船团等级≥' + d.needRank : ''}</li>`).join('')}</ul></details>` : ''}</td>
+      <td class="n">${cost}</td></tr>`;
+  }).join('') + '</table></div>';
+}
+function renderBuild(q) {
+  const rows = P.catalog.filter(b => !q || (b.name + ' ' + b.explain).toLowerCase().includes(q));
+  $('#count').textContent = `${rows.length} 种建筑`;
+  return `<p class="note">可以建在空地上的建筑。解锁等级 / 解锁价格为数据中的原始值。每种建筑有 5 级：升级需要列出的经验，每级提供列出的势力。</p>
+  <div class="card"><table><tr><th>建筑</th><th>说明</th><th class="n">解锁等级</th><th class="n">解锁价格</th><th class="n">建造时间</th><th>Lv1 → Lv5：经验 / 势力</th></tr>` +
+  rows.map(b => `<tr><td>${hl(b.name, q)}</td><td class="sub">${hl(b.explain, q)}</td><td class="n">${b.unlockLv}</td>
+    <td class="n">${fmt(b.unlockPrice)}</td><td class="n">${b.buildTime}</td>
+    <td>${b.levels.map(([e, p], i) => `<span class="chip">Lv${i + 1} ${fmt(e)} / ${p}</span>`).join('')}</td></tr>`).join('') + '</table></div>';
+}
+function render() {
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === st.tab));
+  const ports = st.tab === 'ports';
+  $('#land').style.display = ports ? '' : 'none';
+  $('#haslots').parentElement.style.display = ports ? '' : 'none';
+  const q = $('#q').value.trim().toLowerCase();
+  $('#out').innerHTML = ports ? renderPorts(q) : renderBuild(q);
+  save();
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { st.tab = b.dataset.t; render(); } });
+$('#out').addEventListener('click', e => {
+  const h = e.target.closest('th[data-k]'); if (!h) return;
+  if (st.key === h.dataset.k) st.dir = -st.dir; else { st.key = h.dataset.k; st.dir = ['slots', 'lots', 'dn'].includes(h.dataset.k) ? -1 : 1; }
+  render();
+});
+let timer; $('#q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+$('#land').addEventListener('change', render);
+$('#haslots').addEventListener('change', render);
+render();
+</script>
+</body>
+</html>

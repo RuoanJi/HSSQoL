@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSS DX Loot</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1f2328; --muted: #6a6f76; --line: #e3e1da;
+  --accent: #1f6f8b; --accent-soft: #e3f0f4; --hit: #fff2c2; --hit-ink: #6b4b00; --bar: #8fc1d1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+    --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+  --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.5 system-ui, "Microsoft YaHei", "PingFang SC", sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+h1 { font-size: 18px; margin: 14px 0 10px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 10px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; }
+.tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+input, select { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); min-width: 0; }
+input { flex: 1 1 220px; }
+.count { color: var(--muted); font-size: 12px; }
+main { padding: 14px 0 40px; }
+.note { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+details { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 8px; }
+summary { cursor: pointer; padding: 9px 12px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+summary .t { font-weight: 600; }
+summary .m { color: var(--muted); font-size: 12px; }
+.body { padding: 0 12px 12px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; }
+td.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+h3 { font-size: 13px; margin: 12px 0 4px; color: var(--muted); font-weight: 600; }
+.chip { display: inline-block; padding: 0 6px; margin: 1px 4px 1px 0; border-radius: 4px;
+  background: var(--accent-soft); font-size: 12px; white-space: nowrap; }
+.chip.hit, mark { background: var(--hit); color: var(--hit-ink); }
+mark { padding: 0 2px; border-radius: 3px; }
+.bar { display: inline-block; height: 8px; background: var(--bar); border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.fish { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; white-space: nowrap; cursor: pointer; }
+.fish input { flex: none; margin: 0; }
+.cost { font-weight: 600; color: var(--ink); }
+.badge { display: inline-block; padding: 0 6px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap; vertical-align: 1px; }
+.badge.rep { background: #dff3e4; color: #1d6b35; }
+.badge.once { background: #f1e6e6; color: #8a3030; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .badge.rep { background: #1f3a28; color: #8fdca6; }
+  :root:not([data-theme="light"]) .badge.once { background: #3e2626; color: #f0a0a0; } }
+:root[data-theme="dark"] .badge.rep { background: #1f3a28; color: #8fdca6; }
+:root[data-theme="dark"] .badge.once { background: #3e2626; color: #f0a0a0; }
+.empty { color: var(--muted); padding: 20px 0; }
+.rules { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; }
+.rules ul { margin: 4px 0; padding-left: 18px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap"><h1>High Sea Saga DX · 掉落表</h1><span style="font-size:13px;display:flex;gap:14px"><a href="analyze.html" style="color:var(--accent)">解析结果</a><a href="ports.html" style="color:var(--accent)">港口</a></span></div>
+  <div class="controls">
+    <div class="tabs" id="tabs">
+      <button data-t="farm" class="on">刷宝查询</button>
+      <button data-t="seas">海域</button>
+      <button data-t="dungeons">迷宫</button>
+      <button data-t="pickups">甲板拾取</button>
+    </div>
+    <select id="elem" aria-label="解析道具"></select>
+    <input id="q" type="search" placeholder="搜索：地区、迷宫、敌人、奖励…">
+    <label class="fish" title="击败敌人的是当前职业为渔师的船员时，掉落表每行概率 +30"><input type="checkbox" id="fish"> 渔师最后一击</label>
+    <span class="count" id="count"></span>
+  </div>
+</div></header>
+<main class="wrap" id="out"></main>
+<script>
+const D = /*LOOT_DATA*/null;
+const E = D.elements;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct = p => p >= 0.001 ? (p * 100).toFixed(p >= 0.1 ? 0 : 1) + '%' : '<0.1%';
+let tab = 'farm', dsort = 'id', drep = 'all';
+try { tab = localStorage.getItem('hssLootTab') || 'farm'; } catch (e) {}
+
+const sel = $('#elem');
+sel.innerHTML = '<option value="-1">全部解析道具</option>' + E.map((n, i) => `<option value="${i}">${esc(n)}</option>`).join('');
+
+function hl(text, q) {
+  const t = esc(text);
+  if (!q) return t;
+  const i = text.toLowerCase().indexOf(q);
+  if (i < 0) return t;
+  return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+}
+function dropChips(drops, el) {
+  if (!drops.length) return '<span class="m">—</span>';
+  return drops.map(([e, p]) => `<span class="chip${e === el ? ' hit' : ''}">${esc(E[e])} ${pct(p)}</span>`).join('');
+}
+const FISH = () => $('#fish').checked;
+const dr = en => FISH() ? en.f : en.d;
+function perFight(place, el) { // expected analyze drops of element el per fight (approx: one of each enemy present)
+  return place.enemies.reduce((s, en) => s + en.s * dr(en).filter(d => d[0] === el).reduce((a, d) => a + d[1], 0), 0);
+}
+function bossHas(place, el) {
+  return place.boss.reduce((m, b) => Math.max(m, ...dr(b).filter(d => d[0] === el).map(d => d[1]), 0), 0);
+}
+function enemyTable(list, el) {
+  if (!list.length) return '';
+  return `<table><tr><th>敌人</th><th class="n">出现率</th><th>掉落（每次击败）</th></tr>` +
+    list.map(en => `<tr><td>${esc(en.n)}</td><td class="n">${pct(en.s)}</td><td>${dropChips(dr(en), el)}</td></tr>`).join('') + '</table>';
+}
+function bossTable(list, el) {
+  if (!list.length) return '';
+  return `<h3>BOSS</h3><table>` + list.map(b => `<tr><td>${esc(b.n)}</td><td>${dropChips(dr(b), el)}</td></tr>`).join('') + '</table>';
+}
+function placeText(p) {
+  return [p.land, p.name, p.port, ...p.enemies.map(e => e.n), ...p.boss.map(b => b.n),
+    ...p.enemies.flatMap(e => e.d.map(d => E[d[0]])), ...(p.chests || []).map(c => c[0])].filter(Boolean).join(' ').toLowerCase();
+}
+
+function renderSeas(q, el) {
+  const rows = D.seas.filter(s => (el < 0 || perFight(s, el) > 0 || bossHas(s, el) > 0) && (!q || placeText(s).includes(q)));
+  $('#count').textContent = `${rows.length} / ${D.seas.length} 个海域`;
+  return `<p class="note">战斗时随机抽取该海域的一组敌人；“出现率”为包含该敌人的战斗比例。解析道具等级由敌人等级决定（±1 随机）。</p>` +
+    (rows.map(s => `<details${q || el >= 0 ? ' open' : ''}><summary><span class="t">${hl(s.land, q)} · Lv.${s.lv} 海域</span>
+      <span class="m">等级 ${s.rank} · 解析道具 Lv.${s.dl[0]}–${s.dl[1]} · #${s.id}</span></summary>
+      <div class="body">${enemyTable(s.enemies, el)}${bossTable(s.boss, el)}</div></details>`).join('') || '<p class="empty">没有匹配的海域。</p>');
+}
+function layoutText(L) {
+  const g = {};
+  L.fixed.forEach(([, k]) => g[k] = (g[k] || 0) + 1);
+  if (L.filler) g['战斗'] = (g['战斗'] || 0) + L.filler;
+  const order = ['战斗', '宝箱', 'BOSS战'];
+  const keys = Object.keys(g).sort((a, b) => ((order.indexOf(a) + 10) % 10) - ((order.indexOf(b) + 10) % 10));
+  const fixed = keys.map(k => `${k}×${g[k]}`).join(' · ');
+  const rnd = L.odds.map(([k, p]) => `${k} ${pct(p)}`).join(' / ');
+  return `${L.n} 个事件：保底 ${fixed}${L.rand ? `；随机 ×${L.rand}（每个：${rnd}）` : ''} · 平均宝箱 ${(L.exp['宝箱'] || 0).toFixed(1)} 个`;
+}
+const repBadge = c => c.repeat === undefined ? '' : (c.repeat ? '<span class="badge rep">可重复</span>' : '<span class="badge once">一次性</span>');
+function renderDungeons(q, el) {
+  const rows = D.dungeons.filter(c => (el < 0 || perFight(c, el) > 0 || bossHas(c, el) > 0) && (!q || placeText(c).includes(q))
+    && (drep === 'all' || (drep === 'yes') === c.repeat));
+  if (dsort === 'cost') rows.sort((a, b) => a.cost[0] - b.cost[0] || a.lv - b.lv);
+  else if (dsort === 'lv') rows.sort((a, b) => a.lv - b.lv);
+  $('#count').textContent = `${rows.length} / ${D.dungeons.length} 个迷宫`;
+  return `<p class="note">“体力”为进入迷宫消耗的体力：队伍中每名冒险家 −1（最多 −2），每周奖励“探险体力减半”期间减半，最低 1。可按体力排序：<select id="dsort"><option value="id">默认顺序</option><option value="cost">体力 低→高</option><option value="lv">等级 低→高</option></select>
+    显示：<select id="drep"><option value="all">全部迷宫</option><option value="yes">只看可重复</option><option value="no">只看一次性</option></select><br>
+    <span class="badge rep">可重复</span> 通关后可以再次挑战；<span class="badge once">一次性</span> 通关后无法再进入（所有 BOSS迷宫 都是一次性）。<br>每个迷宫的事件数是固定的：固定事件（通常是 99% 处的宝箱和终点 BOSS 战）一定出现，其余位置按“随机事件 → 保底战斗 → 随机事件 → …”交替排列，只有随机位会变化（“无事件”在画面上什么都不显示）。每个宝箱从宝箱表中抽一行。</p>` +
+    (rows.map(c => `<details${q || el >= 0 ? ' open' : ''}><summary><span class="t">${hl(c.name, q)}</span>${repBadge(c)}
+      <span class="m">港口 ${hl(c.port + (c.land ? '（' + c.land + '）' : ''), q)} · <b class="cost" title="带 1 名冒险家 ${c.cost[1]}，2 名以上 ${c.cost[2]}；每周奖励“探险体力减半”期间减半（最低 1）">体力 ${c.cost[0]}</b>${c.needRank ? ' · 需船团等级 ≥ ' + c.needRank : ''} · Lv ${c.lv} · 等级 ${c.rank} · 解析道具 Lv.${c.dl[0]}–${c.dl[1]} · #${c.id}</span>
+      <span class="m">${layoutText(c.layout)}</span></summary>
+      <div class="body">
+      ${c.chests.length ? `<h3>宝箱内容</h3><table><tr><th>奖励</th><th class="n">概率</th></tr>` +
+        c.chests.map(([n, p]) => `<tr><td>${hl(n, q)}</td><td class="n"><span class="bar" style="width:${Math.round(p * 80)}px"></span>${pct(p)}</td></tr>`).join('') + '</table>' : ''}
+      ${c.enemies.length ? '<h3>随机战斗</h3>' + enemyTable(c.enemies, el) : ''}${bossTable(c.boss, el)}</div></details>`).join('') || '<p class="empty">没有匹配的迷宫。</p>');
+}
+function renderFarm(q, el) {
+  if (el < 0) {
+    $('#count').textContent = '';
+    return `<div class="rules"><b>选择一种解析道具</b>，即可看到所有掉落它的海域和迷宫，按每场战斗的平均掉落数排序。
+      <ul><li>敌人按掉落表从上往下判定，第一个命中的掉落。</li>
+      <li>勾选“渔师最后一击”：击败敌人的是当前职业为渔师的船员时，每行概率 +30（例如 7% → 37%）。只看当前职业，已精通不算。</li>
+      <li>没有掉落解析道具时，有 50% 几率掉落甲板小物品。</li>
+      <li>“每场战斗”为估算值：每种出现的敌人按一只计算。</li></ul></div>`;
+  }
+  const all = [
+    ...D.seas.map(s => ({k: '海域', name: `${s.land} · Lv.${s.lv} 海域`, p: s})),
+    ...D.dungeons.map(c => ({k: '迷宫', name: `${c.name} (#${c.id}, Lv ${c.lv}) · ${c.port}`, p: c})),
+  ].map(r => ({...r, f: perFight(r.p, el), b: bossHas(r.p, el)}))
+   .filter(r => (r.f > 0 || r.b > 0) && (!q || (r.name + ' ' + placeText(r.p)).toLowerCase().includes(q)))
+   .sort((a, b) => b.f - a.f || b.b - a.b);
+  $('#count').textContent = `${all.length} 个地点掉落 ${E[el]}`;
+  const max = Math.max(...all.map(r => r.f), 0.0001);
+  return `<table><tr><th>地点</th><th>类型</th><th class="n">解析道具等级</th><th class="n">每场战斗</th><th class="n">BOSS</th><th class="n">体力</th><th>掉落的敌人</th></tr>` +
+    all.map(r => `<tr><td>${hl(r.name, q)} ${repBadge(r.p)}</td><td>${r.k}</td><td class="n">Lv.${r.p.dl[0]}–${r.p.dl[1]}</td>
+      <td class="n"><span class="bar" style="width:${Math.round(r.f / max * 60)}px"></span>${r.f ? pct(r.f) : '—'}</td>
+      <td class="n">${r.b ? pct(r.b) : '—'}</td>
+      <td class="n">${r.p.cost ? r.p.cost[0] : '—'}</td>
+      <td>${r.p.enemies.filter(e => dr(e).some(d => d[0] === el)).map(e => `<span class="chip">${esc(e.n)}</span>`).join('')}</td></tr>`).join('') + '</table>';
+}
+function renderPickups() {
+  $('#count').textContent = '';
+  return `<p class="note">敌人没有掉落解析道具时，有 50% 几率掉落一个甲板小物品。使用哪张表由敌人的阶级决定（0 = 普通 … 4 = 队长）。数值为原始权重（此表的具体判定方式尚未解析，请视为相对概率）。</p>` +
+    D.pickups.map(t => `<details open><summary><span class="t">阶级 ${t.tier}</span></summary><div class="body"><table>
+      <tr><th>物品</th><th class="n">权重</th></tr>${t.rows.map(([n, w]) => `<tr><td>${esc(n)}</td><td class="n">${w}</td></tr>`).join('')}</table></div></details>`).join('');
+}
+function render() {
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === tab));
+  const q = $('#q').value.trim().toLowerCase();
+  const el = +sel.value;
+  $('#elem').style.display = tab === 'pickups' ? 'none' : '';
+  $('#q').style.display = tab === 'pickups' ? 'none' : '';
+  $('#out').innerHTML = {farm: renderFarm, seas: renderSeas, dungeons: renderDungeons, pickups: renderPickups}[tab](q, el);
+  const ds = $('#dsort'); if (ds) ds.value = dsort;
+  const dr2 = $('#drep'); if (dr2) dr2.value = drep;
+}
+$('#tabs').addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  tab = t.dataset.t; try { localStorage.setItem('hssLootTab', tab); } catch (e) {}
+  render();
+});
+let timer; $('#q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+sel.addEventListener('change', render);
+$('#out').addEventListener('change', e => { if (e.target.id === 'dsort') { dsort = e.target.value; render(); }
+  if (e.target.id === 'drep') { drep = e.target.value; render(); } });
+$('#fish').addEventListener('change', render);
+render();
+</script>
+</body>
+</html>

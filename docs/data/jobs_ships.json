@@ -1,0 +1,2883 @@
+{
+  "shipExtensionNum": 2,
+  "ships": [
+    {
+      "index": 0,
+      "id": 0,
+      "name": "迷你军舰",
+      "type": 0,
+      "deckMapID": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "maxCrew": [
+        12,
+        24,
+        32,
+        48,
+        60
+      ],
+      "maxForceNum": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "shipInMap": [
+        0,
+        1
+      ]
+    },
+    {
+      "index": 1,
+      "id": 1,
+      "name": "青涩海贼团",
+      "type": 1,
+      "deckMapID": [
+        5
+      ],
+      "maxCrew": [
+        10
+      ],
+      "maxForceNum": [
+        9
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 2,
+      "id": 2,
+      "name": "海猫海贼团",
+      "type": 1,
+      "deckMapID": [
+        5
+      ],
+      "maxCrew": [
+        10
+      ],
+      "maxForceNum": [
+        9
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 3,
+      "id": 3,
+      "name": "海鸥海贼团",
+      "type": 1,
+      "deckMapID": [
+        6
+      ],
+      "maxCrew": [
+        18
+      ],
+      "maxForceNum": [
+        11
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 4,
+      "id": 4,
+      "name": "企鹅海贼团",
+      "type": 1,
+      "deckMapID": [
+        6
+      ],
+      "maxCrew": [
+        18
+      ],
+      "maxForceNum": [
+        11
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 5,
+      "id": 5,
+      "name": "潜水无敌海贼团",
+      "type": 1,
+      "deckMapID": [
+        5
+      ],
+      "maxCrew": [
+        10
+      ],
+      "maxForceNum": [
+        9
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 6,
+      "id": 6,
+      "name": "温柔海贼团",
+      "type": 1,
+      "deckMapID": [
+        6
+      ],
+      "maxCrew": [
+        18
+      ],
+      "maxForceNum": [
+        11
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 7,
+      "id": 7,
+      "name": "机遇海贼团",
+      "type": 1,
+      "deckMapID": [
+        7
+      ],
+      "maxCrew": [
+        25
+      ],
+      "maxForceNum": [
+        15
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 8,
+      "id": 8,
+      "name": "告白海贼团",
+      "type": 1,
+      "deckMapID": [
+        7
+      ],
+      "maxCrew": [
+        25
+      ],
+      "maxForceNum": [
+        15
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 9,
+      "id": 9,
+      "name": "我爱海贼团",
+      "type": 1,
+      "deckMapID": [
+        8
+      ],
+      "maxCrew": [
+        35
+      ],
+      "maxForceNum": [
+        18
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 10,
+      "id": 10,
+      "name": "摇篮海贼团",
+      "type": 1,
+      "deckMapID": [
+        8
+      ],
+      "maxCrew": [
+        35
+      ],
+      "maxForceNum": [
+        18
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 11,
+      "id": 11,
+      "name": "竟然晕船海贼团",
+      "type": 1,
+      "deckMapID": [
+        9
+      ],
+      "maxCrew": [
+        50
+      ],
+      "maxForceNum": [
+        21
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 12,
+      "id": 12,
+      "name": "创意点心团",
+      "type": 1,
+      "deckMapID": [
+        8
+      ],
+      "maxCrew": [
+        35
+      ],
+      "maxForceNum": [
+        18
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 13,
+      "id": 13,
+      "name": "心跳海贼团",
+      "type": 1,
+      "deckMapID": [
+        9
+      ],
+      "maxCrew": [
+        50
+      ],
+      "maxForceNum": [
+        21
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 14,
+      "id": 14,
+      "name": "东洋海贼团",
+      "type": 1,
+      "deckMapID": [
+        8
+      ],
+      "maxCrew": [
+        35
+      ],
+      "maxForceNum": [
+        18
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 15,
+      "id": 15,
+      "name": "暴走海贼团",
+      "type": 1,
+      "deckMapID": [
+        9
+      ],
+      "maxCrew": [
+        50
+      ],
+      "maxForceNum": [
+        21
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 16,
+      "id": 16,
+      "name": "中流砥柱海贼团",
+      "type": 1,
+      "deckMapID": [
+        9
+      ],
+      "maxCrew": [
+        50
+      ],
+      "maxForceNum": [
+        21
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 17,
+      "id": 17,
+      "name": "迷糊呆海贼团",
+      "type": 1,
+      "deckMapID": [
+        8
+      ],
+      "maxCrew": [
+        35
+      ],
+      "maxForceNum": [
+        18
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 18,
+      "id": 18,
+      "name": "狮子座海贼团",
+      "type": 1,
+      "deckMapID": [
+        8
+      ],
+      "maxCrew": [
+        35
+      ],
+      "maxForceNum": [
+        18
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 19,
+      "id": 19,
+      "name": "友好海贼团",
+      "type": 1,
+      "deckMapID": [
+        9
+      ],
+      "maxCrew": [
+        50
+      ],
+      "maxForceNum": [
+        21
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 20,
+      "id": 20,
+      "name": "百万海组合",
+      "type": 1,
+      "deckMapID": [
+        8
+      ],
+      "maxCrew": [
+        35
+      ],
+      "maxForceNum": [
+        18
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 21,
+      "id": 21,
+      "name": "贝裂渔船团",
+      "type": 1,
+      "deckMapID": [
+        9
+      ],
+      "maxCrew": [
+        50
+      ],
+      "maxForceNum": [
+        21
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 22,
+      "id": 22,
+      "name": "玄虚海贼团",
+      "type": 1,
+      "deckMapID": [
+        8
+      ],
+      "maxCrew": [
+        35
+      ],
+      "maxForceNum": [
+        18
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 23,
+      "id": 23,
+      "name": "布丁海贼团",
+      "type": 1,
+      "deckMapID": [
+        9
+      ],
+      "maxCrew": [
+        50
+      ],
+      "maxForceNum": [
+        21
+      ],
+      "shipInMap": []
+    },
+    {
+      "index": 24,
+      "id": 24,
+      "name": "漩涡海贼团",
+      "type": 1,
+      "deckMapID": [
+        9
+      ],
+      "maxCrew": [
+        50
+      ],
+      "maxForceNum": [
+        21
+      ],
+      "shipInMap": []
+    }
+  ],
+  "floorTemplates": [
+    {
+      "floor": 0,
+      "mapId": 0,
+      "rows": 10,
+      "cols": 7,
+      "cells": [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          -1
+        ],
+        [
+          2,
+          0,
+          0,
+          -1
+        ],
+        [
+          3,
+          0,
+          45,
+          45
+        ],
+        [
+          4,
+          0,
+          0,
+          -1
+        ],
+        [
+          5,
+          0,
+          0,
+          -1
+        ],
+        [
+          6,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          -1
+        ],
+        [
+          1,
+          1,
+          0,
+          -1
+        ],
+        [
+          2,
+          1,
+          0,
+          -1
+        ],
+        [
+          3,
+          1,
+          0,
+          -1
+        ],
+        [
+          4,
+          1,
+          0,
+          -1
+        ],
+        [
+          5,
+          1,
+          0,
+          -1
+        ],
+        [
+          6,
+          1,
+          0,
+          -1
+        ],
+        [
+          0,
+          2,
+          0,
+          -1
+        ],
+        [
+          1,
+          2,
+          0,
+          -1
+        ],
+        [
+          2,
+          2,
+          0,
+          -1
+        ],
+        [
+          3,
+          2,
+          2,
+          2
+        ],
+        [
+          4,
+          2,
+          0,
+          -1
+        ],
+        [
+          5,
+          2,
+          0,
+          -1
+        ],
+        [
+          6,
+          2,
+          0,
+          -1
+        ],
+        [
+          0,
+          3,
+          4,
+          4
+        ],
+        [
+          1,
+          3,
+          0,
+          -1
+        ],
+        [
+          2,
+          3,
+          0,
+          -1
+        ],
+        [
+          3,
+          3,
+          0,
+          -1
+        ],
+        [
+          4,
+          3,
+          0,
+          -1
+        ],
+        [
+          5,
+          3,
+          0,
+          -1
+        ],
+        [
+          6,
+          3,
+          0,
+          -1
+        ],
+        [
+          0,
+          4,
+          46,
+          46
+        ],
+        [
+          1,
+          4,
+          0,
+          -1
+        ],
+        [
+          2,
+          4,
+          0,
+          -1
+        ],
+        [
+          3,
+          4,
+          0,
+          -1
+        ],
+        [
+          4,
+          4,
+          0,
+          -1
+        ],
+        [
+          5,
+          4,
+          0,
+          -1
+        ],
+        [
+          6,
+          4,
+          0,
+          -1
+        ],
+        [
+          0,
+          5,
+          4,
+          4
+        ],
+        [
+          1,
+          5,
+          0,
+          -1
+        ],
+        [
+          2,
+          5,
+          0,
+          -1
+        ],
+        [
+          3,
+          5,
+          0,
+          -1
+        ],
+        [
+          4,
+          5,
+          0,
+          -1
+        ],
+        [
+          5,
+          5,
+          0,
+          -1
+        ],
+        [
+          6,
+          5,
+          0,
+          -1
+        ],
+        [
+          0,
+          6,
+          0,
+          -1
+        ],
+        [
+          1,
+          6,
+          0,
+          -1
+        ],
+        [
+          2,
+          6,
+          0,
+          -1
+        ],
+        [
+          3,
+          6,
+          0,
+          -1
+        ],
+        [
+          4,
+          6,
+          0,
+          -1
+        ],
+        [
+          5,
+          6,
+          0,
+          -1
+        ],
+        [
+          6,
+          6,
+          0,
+          -1
+        ],
+        [
+          0,
+          7,
+          0,
+          -1
+        ],
+        [
+          1,
+          7,
+          0,
+          -1
+        ],
+        [
+          2,
+          7,
+          0,
+          -1
+        ],
+        [
+          3,
+          7,
+          2,
+          2
+        ],
+        [
+          4,
+          7,
+          0,
+          -1
+        ],
+        [
+          5,
+          7,
+          0,
+          -1
+        ],
+        [
+          6,
+          7,
+          0,
+          -1
+        ],
+        [
+          0,
+          8,
+          0,
+          -1
+        ],
+        [
+          1,
+          8,
+          0,
+          -1
+        ],
+        [
+          2,
+          8,
+          0,
+          -1
+        ],
+        [
+          3,
+          8,
+          0,
+          -1
+        ],
+        [
+          4,
+          8,
+          0,
+          -1
+        ],
+        [
+          5,
+          8,
+          0,
+          -1
+        ],
+        [
+          6,
+          8,
+          0,
+          -1
+        ],
+        [
+          0,
+          9,
+          1,
+          1
+        ],
+        [
+          1,
+          9,
+          0,
+          -1
+        ],
+        [
+          2,
+          9,
+          0,
+          -1
+        ],
+        [
+          3,
+          9,
+          0,
+          -1
+        ],
+        [
+          4,
+          9,
+          0,
+          -1
+        ],
+        [
+          5,
+          9,
+          0,
+          -1
+        ],
+        [
+          6,
+          9,
+          1,
+          1
+        ]
+      ]
+    },
+    {
+      "floor": 1,
+      "mapId": 1,
+      "rows": 10,
+      "cols": 5,
+      "cells": [
+        [
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          1,
+          0,
+          0,
+          -1
+        ],
+        [
+          2,
+          0,
+          0,
+          -1
+        ],
+        [
+          3,
+          0,
+          0,
+          -1
+        ],
+        [
+          4,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          -1
+        ],
+        [
+          1,
+          1,
+          0,
+          -1
+        ],
+        [
+          2,
+          1,
+          0,
+          -1
+        ],
+        [
+          3,
+          1,
+          0,
+          -1
+        ],
+        [
+          4,
+          1,
+          0,
+          -1
+        ],
+        [
+          0,
+          2,
+          12,
+          12
+        ],
+        [
+          1,
+          2,
+          0,
+          -1
+        ],
+        [
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          3,
+          2,
+          0,
+          -1
+        ],
+        [
+          4,
+          2,
+          57,
+          57
+        ],
+        [
+          0,
+          3,
+          0,
+          -1
+        ],
+        [
+          1,
+          3,
+          0,
+          -1
+        ],
+        [
+          2,
+          3,
+          0,
+          -1
+        ],
+        [
+          3,
+          3,
+          0,
+          -1
+        ],
+        [
+          4,
+          3,
+          0,
+          -1
+        ],
+        [
+          0,
+          4,
+          12,
+          12
+        ],
+        [
+          1,
+          4,
+          0,
+          -1
+        ],
+        [
+          2,
+          4,
+          0,
+          -1
+        ],
+        [
+          3,
+          4,
+          0,
+          -1
+        ],
+        [
+          4,
+          4,
+          57,
+          57
+        ],
+        [
+          0,
+          5,
+          0,
+          -1
+        ],
+        [
+          1,
+          5,
+          0,
+          -1
+        ],
+        [
+          2,
+          5,
+          0,
+          -1
+        ],
+        [
+          3,
+          5,
+          0,
+          -1
+        ],
+        [
+          4,
+          5,
+          0,
+          -1
+        ],
+        [
+          0,
+          6,
+          12,
+          12
+        ],
+        [
+          1,
+          6,
+          0,
+          -1
+        ],
+        [
+          2,
+          6,
+          0,
+          -1
+        ],
+        [
+          3,
+          6,
+          0,
+          -1
+        ],
+        [
+          4,
+          6,
+          0,
+          -1
+        ],
+        [
+          0,
+          7,
+          0,
+          15
+        ],
+        [
+          1,
+          7,
+          0,
+          15
+        ],
+        [
+          2,
+          7,
+          2,
+          2
+        ],
+        [
+          3,
+          7,
+          0,
+          -1
+        ],
+        [
+          4,
+          7,
+          0,
+          -1
+        ],
+        [
+          0,
+          8,
+          0,
+          15
+        ],
+        [
+          1,
+          8,
+          15,
+          15
+        ],
+        [
+          2,
+          8,
+          0,
+          -1
+        ],
+        [
+          3,
+          8,
+          0,
+          -1
+        ],
+        [
+          4,
+          8,
+          0,
+          -1
+        ],
+        [
+          0,
+          9,
+          1,
+          1
+        ],
+        [
+          1,
+          9,
+          0,
+          -1
+        ],
+        [
+          2,
+          9,
+          0,
+          -1
+        ],
+        [
+          3,
+          9,
+          0,
+          -1
+        ],
+        [
+          4,
+          9,
+          1,
+          1
+        ]
+      ]
+    }
+  ],
+  "baseRoomId": 4,
+  "crewMax": 32,
+  "forceMax": 4,
+  "itemMax": 100,
+  "jobs": [
+    {
+      "id": 0,
+      "name": "水手",
+      "bedRoom": -1,
+      "bedRoomModelId": -1,
+      "bedRoomModelName": null,
+      "goodChips": [
+        26
+      ]
+    },
+    {
+      "id": 1,
+      "name": "船夫",
+      "bedRoom": -1,
+      "bedRoomModelId": -1,
+      "bedRoomModelName": null,
+      "goodChips": [
+        25
+      ]
+    },
+    {
+      "id": 2,
+      "name": "海贼",
+      "bedRoom": -1,
+      "bedRoomModelId": -1,
+      "bedRoomModelName": null,
+      "goodChips": [
+        79
+      ]
+    },
+    {
+      "id": 3,
+      "name": "厨子",
+      "bedRoom": 62,
+      "bedRoomModelId": 62,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        14,
+        20
+      ]
+    },
+    {
+      "id": 4,
+      "name": "农民",
+      "bedRoom": 61,
+      "bedRoomModelId": 61,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        39,
+        40
+      ]
+    },
+    {
+      "id": 5,
+      "name": "商人",
+      "bedRoom": 7,
+      "bedRoomModelId": 7,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        31
+      ]
+    },
+    {
+      "id": 6,
+      "name": "铁匠",
+      "bedRoom": 8,
+      "bedRoomModelId": 8,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        48
+      ]
+    },
+    {
+      "id": 7,
+      "name": "渔师",
+      "bedRoom": 63,
+      "bedRoomModelId": 63,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        34
+      ]
+    },
+    {
+      "id": 8,
+      "name": "木工",
+      "bedRoom": 60,
+      "bedRoomModelId": 60,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        55
+      ]
+    },
+    {
+      "id": 9,
+      "name": "鲁莽汉",
+      "bedRoom": -1,
+      "bedRoomModelId": -1,
+      "bedRoomModelName": null,
+      "goodChips": [
+        53
+      ]
+    },
+    {
+      "id": 10,
+      "name": "战士",
+      "bedRoom": 69,
+      "bedRoomModelId": 69,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        22
+      ]
+    },
+    {
+      "id": 11,
+      "name": "武道家",
+      "bedRoom": 69,
+      "bedRoomModelId": 69,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        44
+      ]
+    },
+    {
+      "id": 12,
+      "name": "弓箭手",
+      "bedRoom": 65,
+      "bedRoomModelId": 65,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        78
+      ]
+    },
+    {
+      "id": 13,
+      "name": "僧侣",
+      "bedRoom": 64,
+      "bedRoomModelId": 64,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        23
+      ]
+    },
+    {
+      "id": 14,
+      "name": "小丑",
+      "bedRoom": 73,
+      "bedRoomModelId": 73,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        35
+      ]
+    },
+    {
+      "id": 15,
+      "name": "冒险家",
+      "bedRoom": 72,
+      "bedRoomModelId": 72,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        33
+      ]
+    },
+    {
+      "id": 16,
+      "name": "发明家",
+      "bedRoom": 9,
+      "bedRoomModelId": 9,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        15
+      ]
+    },
+    {
+      "id": 17,
+      "name": "火枪手",
+      "bedRoom": 65,
+      "bedRoomModelId": 65,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        32
+      ]
+    },
+    {
+      "id": 18,
+      "name": "枪兵",
+      "bedRoom": 69,
+      "bedRoomModelId": 69,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        37
+      ]
+    },
+    {
+      "id": 19,
+      "name": "魔法师",
+      "bedRoom": 66,
+      "bedRoomModelId": 66,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        27
+      ]
+    },
+    {
+      "id": 20,
+      "name": "王国兵",
+      "bedRoom": 69,
+      "bedRoomModelId": 69,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        49
+      ]
+    },
+    {
+      "id": 21,
+      "name": "医者",
+      "bedRoom": 59,
+      "bedRoomModelId": 59,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        6
+      ]
+    },
+    {
+      "id": 22,
+      "name": "赌徒",
+      "bedRoom": 67,
+      "bedRoomModelId": 67,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        77
+      ]
+    },
+    {
+      "id": 23,
+      "name": "狙击手",
+      "bedRoom": 65,
+      "bedRoomModelId": 65,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        21
+      ]
+    },
+    {
+      "id": 24,
+      "name": "怪盗",
+      "bedRoom": 72,
+      "bedRoomModelId": 72,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        52
+      ]
+    },
+    {
+      "id": 25,
+      "name": "航海士",
+      "bedRoom": 72,
+      "bedRoomModelId": 72,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        28
+      ]
+    },
+    {
+      "id": 26,
+      "name": "药剂师",
+      "bedRoom": 67,
+      "bedRoomModelId": 67,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        29
+      ]
+    },
+    {
+      "id": 27,
+      "name": "舞者",
+      "bedRoom": 74,
+      "bedRoomModelId": 74,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        19
+      ]
+    },
+    {
+      "id": 28,
+      "name": "维京海盗",
+      "bedRoom": 69,
+      "bedRoomModelId": 69,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        14,
+        33,
+        53
+      ]
+    },
+    {
+      "id": 29,
+      "name": "召唤师",
+      "bedRoom": 68,
+      "bedRoomModelId": 68,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        41,
+        42,
+        43
+      ]
+    },
+    {
+      "id": 30,
+      "name": "提督",
+      "bedRoom": 10,
+      "bedRoomModelId": 10,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        56,
+        28,
+        54
+      ]
+    },
+    {
+      "id": 31,
+      "name": "大剑士",
+      "bedRoom": 10,
+      "bedRoomModelId": 10,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        50,
+        44,
+        49
+      ]
+    },
+    {
+      "id": 32,
+      "name": "大海贼",
+      "bedRoom": 76,
+      "bedRoomModelId": 76,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        54,
+        32,
+        17,
+        14
+      ]
+    },
+    {
+      "id": 33,
+      "name": "贵族",
+      "bedRoom": 10,
+      "bedRoomModelId": 10,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        18
+      ]
+    },
+    {
+      "id": 34,
+      "name": "魔人",
+      "bedRoom": 75,
+      "bedRoomModelId": 75,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        14
+      ]
+    },
+    {
+      "id": 35,
+      "name": "忍者",
+      "bedRoom": 11,
+      "bedRoomModelId": 11,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        26,
+        19,
+        37
+      ]
+    },
+    {
+      "id": 36,
+      "name": "勇者",
+      "bedRoom": 10,
+      "bedRoomModelId": 10,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        48,
+        24,
+        49,
+        17
+      ]
+    },
+    {
+      "id": 37,
+      "name": "大王",
+      "bedRoom": 10,
+      "bedRoomModelId": 10,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        45,
+        51,
+        24
+      ]
+    },
+    {
+      "id": 38,
+      "name": "经营者",
+      "bedRoom": 5,
+      "bedRoomModelId": 5,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        30,
+        27,
+        25,
+        31,
+        35
+      ]
+    },
+    {
+      "id": 39,
+      "name": "富豪",
+      "bedRoom": 10,
+      "bedRoomModelId": 10,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        24,
+        18,
+        33
+      ]
+    },
+    {
+      "id": 40,
+      "name": "武士",
+      "bedRoom": 11,
+      "bedRoomModelId": 11,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        46,
+        47,
+        79
+      ]
+    },
+    {
+      "id": 41,
+      "name": "格斗家",
+      "bedRoom": 69,
+      "bedRoomModelId": 69,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        17
+      ]
+    },
+    {
+      "id": 42,
+      "name": "人偶装",
+      "bedRoom": 10,
+      "bedRoomModelId": 10,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        47,
+        50
+      ]
+    },
+    {
+      "id": 43,
+      "name": "极猩猩",
+      "bedRoom": 70,
+      "bedRoomModelId": 70,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        77,
+        78,
+        30
+      ]
+    },
+    {
+      "id": 44,
+      "name": "机器人",
+      "bedRoom": 71,
+      "bedRoomModelId": 71,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        36,
+        33,
+        42,
+        50
+      ]
+    },
+    {
+      "id": 45,
+      "name": "剑斗士",
+      "bedRoom": 69,
+      "bedRoomModelId": 69,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        37,
+        22,
+        17
+      ]
+    },
+    {
+      "id": 46,
+      "name": "相扑选手",
+      "bedRoom": 11,
+      "bedRoomModelId": 11,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        18,
+        14,
+        17
+      ]
+    },
+    {
+      "id": 47,
+      "name": "生物学者",
+      "bedRoom": 10,
+      "bedRoomModelId": 10,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        47,
+        29,
+        55,
+        45
+      ]
+    },
+    {
+      "id": 48,
+      "name": "魔界斗士",
+      "bedRoom": 75,
+      "bedRoomModelId": 75,
+      "bedRoomModelName": "寝室",
+      "goodChips": [
+        51,
+        23,
+        6
+      ]
+    }
+  ],
+  "crew": [
+    {
+      "name": "船山信夫\b",
+      "jobID": 15,
+      "job": "冒险家",
+      "lv": 28,
+      "star": 3,
+      "bedRoomModelId": 72,
+      "house": {
+        "level": 0,
+        "ax": 0,
+        "ay": 6,
+        "modelID": 72,
+        "building": 72
+      },
+      "knowLv": [
+        10,
+        10,
+        18,
+        9,
+        20,
+        10,
+        2
+      ],
+      "knowExp": [
+        7890,
+        5003,
+        10661,
+        5846,
+        0,
+        5499,
+        2474
+      ],
+      "wisdom": 104,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "西蒙 潘",
+      "jobID": 0,
+      "job": "水手",
+      "lv": 1,
+      "star": 2,
+      "bedRoomModelId": -1,
+      "house": {
+        "level": 0,
+        "ax": 2,
+        "ay": 12,
+        "modelID": 4,
+        "building": 4
+      },
+      "knowLv": [
+        9,
+        13,
+        13,
+        15,
+        20,
+        7,
+        3
+      ],
+      "knowExp": [
+        6900,
+        9345,
+        7728,
+        6878,
+        0,
+        6443,
+        1552
+      ],
+      "wisdom": 31,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "渔夫四号\b",
+      "jobID": 40,
+      "job": "武士",
+      "lv": 45,
+      "star": 3,
+      "bedRoomModelId": 11,
+      "house": {
+        "level": 0,
+        "ax": 5,
+        "ay": 12,
+        "modelID": 11,
+        "building": 11
+      },
+      "knowLv": [
+        5,
+        17,
+        8,
+        15,
+        6,
+        2,
+        1
+      ],
+      "knowExp": [
+        781,
+        1329,
+        2136,
+        4426,
+        6638,
+        1794,
+        1548
+      ],
+      "wisdom": 255,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 30
+    },
+    {
+      "name": "摩卡 敦",
+      "jobID": 5,
+      "job": "商人",
+      "lv": 1,
+      "star": 2,
+      "bedRoomModelId": 7,
+      "house": {
+        "level": 0,
+        "ax": 1,
+        "ay": 0,
+        "modelID": 7,
+        "building": 7
+      },
+      "knowLv": [
+        2,
+        1,
+        20,
+        17,
+        20,
+        2,
+        2
+      ],
+      "knowExp": [
+        941,
+        117,
+        0,
+        1642,
+        0,
+        1619,
+        886
+      ],
+      "wisdom": 27,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "铁匠\b",
+      "jobID": 6,
+      "job": "铁匠",
+      "lv": 2,
+      "star": 3,
+      "bedRoomModelId": 8,
+      "house": {
+        "level": 0,
+        "ax": 3,
+        "ay": 0,
+        "modelID": 8,
+        "building": 8
+      },
+      "knowLv": [
+        3,
+        1,
+        20,
+        16,
+        20,
+        2,
+        4
+      ],
+      "knowExp": [
+        1289,
+        928,
+        0,
+        15591,
+        0,
+        2712,
+        573
+      ],
+      "wisdom": 38,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "渔夫二号\b",
+      "jobID": 25,
+      "job": "航海士",
+      "lv": 35,
+      "star": 3,
+      "bedRoomModelId": 72,
+      "house": {
+        "level": 0,
+        "ax": 10,
+        "ay": 12,
+        "modelID": 72,
+        "building": 72
+      },
+      "knowLv": [
+        10,
+        16,
+        1,
+        13,
+        3,
+        7,
+        1
+      ],
+      "knowExp": [
+        4183,
+        9420,
+        1642,
+        8246,
+        1391,
+        869,
+        1137
+      ],
+      "wisdom": 139,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 29
+    },
+    {
+      "name": "冒险家二号\b",
+      "jobID": 15,
+      "job": "冒险家",
+      "lv": 3,
+      "star": 3,
+      "bedRoomModelId": 72,
+      "house": {
+        "level": 0,
+        "ax": 9,
+        "ay": 12,
+        "modelID": 72,
+        "building": 72
+      },
+      "knowLv": [
+        13,
+        11,
+        9,
+        20,
+        13,
+        14,
+        4
+      ],
+      "knowExp": [
+        4345,
+        8306,
+        5638,
+        0,
+        6998,
+        961,
+        1928
+      ],
+      "wisdom": 43,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "渔夫三号\b",
+      "jobID": 25,
+      "job": "航海士",
+      "lv": 35,
+      "star": 3,
+      "bedRoomModelId": 72,
+      "house": {
+        "level": 0,
+        "ax": 8,
+        "ay": 12,
+        "modelID": 72,
+        "building": 72
+      },
+      "knowLv": [
+        5,
+        18,
+        2,
+        16,
+        1,
+        8,
+        2
+      ],
+      "knowExp": [
+        1710,
+        11140,
+        415,
+        11435,
+        1845,
+        6656,
+        401
+      ],
+      "wisdom": 149,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 29
+    },
+    {
+      "name": "阿尔 贝索隆",
+      "jobID": 8,
+      "job": "木工",
+      "lv": 5,
+      "star": 3,
+      "bedRoomModelId": 60,
+      "house": {
+        "level": 0,
+        "ax": 12,
+        "ay": 4,
+        "modelID": 60,
+        "building": 60
+      },
+      "knowLv": [
+        1,
+        7,
+        12,
+        9,
+        16,
+        10,
+        15
+      ],
+      "knowExp": [
+        505,
+        1827,
+        8362,
+        9159,
+        13563,
+        5038,
+        1539
+      ],
+      "wisdom": 40,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "渔夫四号\b",
+      "jobID": 15,
+      "job": "冒险家",
+      "lv": 30,
+      "star": 2,
+      "bedRoomModelId": 72,
+      "house": {
+        "level": 0,
+        "ax": 12,
+        "ay": 7,
+        "modelID": 72,
+        "building": 72
+      },
+      "knowLv": [
+        4,
+        17,
+        16,
+        11,
+        16,
+        12,
+        8
+      ],
+      "knowExp": [
+        4548,
+        13571,
+        2164,
+        3815,
+        11224,
+        3019,
+        6253
+      ],
+      "wisdom": 106,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 6
+    },
+    {
+      "name": "木工一号\b",
+      "jobID": 8,
+      "job": "木工",
+      "lv": 4,
+      "star": 2,
+      "bedRoomModelId": 60,
+      "house": {
+        "level": 0,
+        "ax": 0,
+        "ay": 2,
+        "modelID": 60,
+        "building": 60
+      },
+      "knowLv": [
+        4,
+        3,
+        16,
+        11,
+        20,
+        4,
+        3
+      ],
+      "knowExp": [
+        339,
+        1851,
+        606,
+        4103,
+        0,
+        427,
+        634
+      ],
+      "wisdom": 38,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "厨师一号\b",
+      "jobID": 3,
+      "job": "厨子",
+      "lv": 1,
+      "star": 3,
+      "bedRoomModelId": 62,
+      "house": {
+        "level": 0,
+        "ax": 0,
+        "ay": 3,
+        "modelID": 62,
+        "building": 62
+      },
+      "knowLv": [
+        3,
+        3,
+        14,
+        11,
+        20,
+        4,
+        2
+      ],
+      "knowExp": [
+        1633,
+        459,
+        10707,
+        2826,
+        0,
+        1744,
+        1498
+      ],
+      "wisdom": 49,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "厨师二号\b",
+      "jobID": 3,
+      "job": "厨子",
+      "lv": 1,
+      "star": 1,
+      "bedRoomModelId": 62,
+      "house": {
+        "level": 0,
+        "ax": 4,
+        "ay": 12,
+        "modelID": 62,
+        "building": 62
+      },
+      "knowLv": [
+        7,
+        8,
+        12,
+        19,
+        16,
+        6,
+        2
+      ],
+      "knowExp": [
+        6548,
+        5098,
+        1929,
+        10980,
+        12355,
+        1311,
+        2816
+      ],
+      "wisdom": 69,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "厨师三号\b",
+      "jobID": 3,
+      "job": "厨子",
+      "lv": 1,
+      "star": 3,
+      "bedRoomModelId": 62,
+      "house": {
+        "level": 0,
+        "ax": 3,
+        "ay": 12,
+        "modelID": 62,
+        "building": 62
+      },
+      "knowLv": [
+        6,
+        9,
+        11,
+        17,
+        18,
+        6,
+        2
+      ],
+      "knowExp": [
+        4744,
+        1440,
+        8687,
+        2091,
+        1387,
+        6091,
+        2333
+      ],
+      "wisdom": 49,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "厨师四号\b",
+      "jobID": 3,
+      "job": "厨子",
+      "lv": 1,
+      "star": 2,
+      "bedRoomModelId": 62,
+      "house": {
+        "level": 0,
+        "ax": 0,
+        "ay": 7,
+        "modelID": 62,
+        "building": 62
+      },
+      "knowLv": [
+        5,
+        8,
+        11,
+        12,
+        19,
+        10,
+        3
+      ],
+      "knowExp": [
+        3245,
+        1177,
+        8742,
+        689,
+        9843,
+        8824,
+        368
+      ],
+      "wisdom": 69,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "厨师五号\b",
+      "jobID": 3,
+      "job": "厨子",
+      "lv": 1,
+      "star": 1,
+      "bedRoomModelId": 62,
+      "house": {
+        "level": 0,
+        "ax": 10,
+        "ay": 0,
+        "modelID": 62,
+        "building": 62
+      },
+      "knowLv": [
+        4,
+        3,
+        9,
+        12,
+        17,
+        5,
+        13
+      ],
+      "knowExp": [
+        392,
+        691,
+        3003,
+        1913,
+        1577,
+        2456,
+        10929
+      ],
+      "wisdom": 49,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "厨师六号\b",
+      "jobID": 3,
+      "job": "厨子",
+      "lv": 1,
+      "star": 2,
+      "bedRoomModelId": 62,
+      "house": {
+        "level": 0,
+        "ax": 7,
+        "ay": 12,
+        "modelID": 62,
+        "building": 62
+      },
+      "knowLv": [
+        9,
+        8,
+        10,
+        20,
+        10,
+        11,
+        4
+      ],
+      "knowExp": [
+        106,
+        7193,
+        4637,
+        0,
+        10006,
+        649,
+        480
+      ],
+      "wisdom": 69,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "渔夫六号\b",
+      "jobID": 7,
+      "job": "渔师",
+      "lv": 9,
+      "star": 2,
+      "bedRoomModelId": 63,
+      "house": {
+        "level": 0,
+        "ax": 0,
+        "ay": 9,
+        "modelID": 63,
+        "building": 63
+      },
+      "knowLv": [
+        7,
+        14,
+        12,
+        11,
+        20,
+        8,
+        3
+      ],
+      "knowExp": [
+        5243,
+        5544,
+        10396,
+        4566,
+        0,
+        6098,
+        541
+      ],
+      "wisdom": 84,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 0
+    },
+    {
+      "name": "渔夫一号\b",
+      "jobID": 39,
+      "job": "富豪",
+      "lv": 85,
+      "star": 5,
+      "bedRoomModelId": 10,
+      "house": {
+        "level": 0,
+        "ax": 12,
+        "ay": 5,
+        "modelID": 10,
+        "building": 10
+      },
+      "knowLv": [
+        0,
+        7,
+        4,
+        2,
+        9,
+        3,
+        7
+      ],
+      "knowExp": [
+        768,
+        4865,
+        4832,
+        233,
+        976,
+        2415,
+        5849
+      ],
+      "wisdom": 302,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 27
+    },
+    {
+      "name": "渔夫五号\b",
+      "jobID": 28,
+      "job": "维京海盗",
+      "lv": 50,
+      "star": 4,
+      "bedRoomModelId": 69,
+      "house": {
+        "level": 0,
+        "ax": 12,
+        "ay": 6,
+        "modelID": 69,
+        "building": 69
+      },
+      "knowLv": [
+        10,
+        7,
+        5,
+        1,
+        9,
+        4,
+        5
+      ],
+      "knowExp": [
+        6532,
+        158,
+        3546,
+        1738,
+        4508,
+        3703,
+        3675
+      ],
+      "wisdom": 153,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 28
+    },
+    {
+      "name": "发明家一号\b",
+      "jobID": 16,
+      "job": "发明家",
+      "lv": 1,
+      "star": 4,
+      "bedRoomModelId": 9,
+      "house": {
+        "level": 0,
+        "ax": 2,
+        "ay": 0,
+        "modelID": 9,
+        "building": 9
+      },
+      "knowLv": [
+        4,
+        4,
+        15,
+        12,
+        20,
+        4,
+        4
+      ],
+      "knowExp": [
+        341,
+        2578,
+        10690,
+        4512,
+        0,
+        3406,
+        998
+      ],
+      "wisdom": 105,
+      "skill26Value": 0,
+      "inParty": false,
+      "masterJobs": 1
+    },
+    {
+      "name": "渔夫六号\b",
+      "jobID": 26,
+      "job": "药剂师",
+      "lv": 45,
+      "star": 5,
+      "bedRoomModelId": 67,
+      "house": {
+        "level": 0,
+        "ax": 12,
+        "ay": 8,
+        "modelID": 67,
+        "building": 67
+      },
+      "knowLv": [
+        12,
+        11,
+        5,
+        4,
+        2,
+        9,
+        2
+      ],
+      "knowExp": [
+        5590,
+        5297,
+        743,
+        1925,
+        129,
+        5111,
+        2893
+      ],
+      "wisdom": 318,
+      "skill26Value": 30,
+      "inParty": true,
+      "masterJobs": 30
+    },
+    {
+      "name": "渔夫七号\b",
+      "jobID": 25,
+      "job": "航海士",
+      "lv": 35,
+      "star": 4,
+      "bedRoomModelId": 72,
+      "house": {
+        "level": 0,
+        "ax": 12,
+        "ay": 9,
+        "modelID": 72,
+        "building": 72
+      },
+      "knowLv": [
+        12,
+        6,
+        1,
+        9,
+        3,
+        9,
+        3
+      ],
+      "knowExp": [
+        3643,
+        2208,
+        1077,
+        757,
+        1144,
+        8111,
+        1361
+      ],
+      "wisdom": 179,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 29
+    },
+    {
+      "name": "渔夫八号\b",
+      "jobID": 29,
+      "job": "召唤师",
+      "lv": 45,
+      "star": 4,
+      "bedRoomModelId": 68,
+      "house": {
+        "level": 0,
+        "ax": 0,
+        "ay": 10,
+        "modelID": 68,
+        "building": 68
+      },
+      "knowLv": [
+        2,
+        16,
+        3,
+        4,
+        10,
+        4,
+        1
+      ],
+      "knowExp": [
+        0,
+        3112,
+        3026,
+        1929,
+        679,
+        4746,
+        1567
+      ],
+      "wisdom": 222,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 26
+    },
+    {
+      "name": "渔夫九号\b",
+      "jobID": 40,
+      "job": "武士",
+      "lv": 45,
+      "star": 4,
+      "bedRoomModelId": 11,
+      "house": {
+        "level": 0,
+        "ax": 0,
+        "ay": 8,
+        "modelID": 11,
+        "building": 11
+      },
+      "knowLv": [
+        3,
+        14,
+        4,
+        2,
+        8,
+        4,
+        1
+      ],
+      "knowExp": [
+        704,
+        3573,
+        4211,
+        495,
+        2446,
+        532,
+        1296
+      ],
+      "wisdom": 259,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 27
+    },
+    {
+      "name": "渔夫十号\b",
+      "jobID": 33,
+      "job": "贵族",
+      "lv": 60,
+      "star": 4,
+      "bedRoomModelId": 10,
+      "house": {
+        "level": 0,
+        "ax": 0,
+        "ay": 5,
+        "modelID": 10,
+        "building": 10
+      },
+      "knowLv": [
+        1,
+        11,
+        5,
+        2,
+        19,
+        5,
+        0
+      ],
+      "knowExp": [
+        495,
+        5719,
+        392,
+        466,
+        17686,
+        798,
+        482
+      ],
+      "wisdom": 222,
+      "skill26Value": 0,
+      "inParty": true,
+      "masterJobs": 20
+    },
+    {
+      "name": "药剂师一号\b",
+      "jobID": 26,
+      "job": "药剂师",
+      "lv": 45,
+      "star": 5,
+      "bedRoomModelId": 67,
+      "house": {
+        "level": 1,
+        "ax": 5,
+        "ay": 8,
+        "modelID": 67,
+        "building": 67
+      },
+      "knowLv": [
+        4,
+        8,
+        8,
+        15,
+        10,
+        5,
+        2
+      ],
+      "knowExp": [
+        2776,
+        257,
+        5865,
+        5154,
+        1975,
+        482,
+        1175
+      ],
+      "wisdom": 408,
+      "skill26Value": 30,
+      "inParty": false,
+      "masterJobs": 6
+    },
+    {
+      "name": "药剂师二号\b",
+      "jobID": 26,
+      "job": "药剂师",
+      "lv": 1,
+      "star": 5,
+      "bedRoomModelId": 67,
+      "house": {
+        "level": 1,
+        "ax": 2,
+        "ay": 7,
+        "modelID": 67,
+        "building": 67
+      },
+      "knowLv": [
+        4,
+        6,
+        8,
+        10,
+        13,
+        7,
+        1
+      ],
+      "knowExp": [
+        4747,
+        2344,
+        900,
+        4374,
+        5336,
+        601,
+        1563
+      ],
+      "wisdom": 196,
+      "skill26Value": 30,
+      "inParty": false,
+      "masterJobs": 3
+    },
+    {
+      "name": "药剂师三号\b",
+      "jobID": 26,
+      "job": "药剂师",
+      "lv": 1,
+      "star": 5,
+      "bedRoomModelId": 67,
+      "house": {
+        "level": 1,
+        "ax": 7,
+        "ay": 7,
+        "modelID": 67,
+        "building": 67
+      },
+      "knowLv": [
+        4,
+        6,
+        7,
+        11,
+        7,
+        4,
+        2
+      ],
+      "knowExp": [
+        1136,
+        6547,
+        7121,
+        11856,
+        5515,
+        2260,
+        2266
+      ],
+      "wisdom": 200,
+      "skill26Value": 30,
+      "inParty": false,
+      "masterJobs": 3
+    },
+    {
+      "name": "药剂师四号\b",
+      "jobID": 26,
+      "job": "药剂师",
+      "lv": 1,
+      "star": 5,
+      "bedRoomModelId": 67,
+      "house": {
+        "level": 1,
+        "ax": 5,
+        "ay": 9,
+        "modelID": 67,
+        "building": 67
+      },
+      "knowLv": [
+        4,
+        5,
+        7,
+        12,
+        10,
+        3,
+        2
+      ],
+      "knowExp": [
+        1307,
+        5942,
+        195,
+        10961,
+        5588,
+        1280,
+        563
+      ],
+      "wisdom": 178,
+      "skill26Value": 30,
+      "inParty": false,
+      "masterJobs": 3
+    },
+    {
+      "name": "药剂师五号\b",
+      "jobID": 26,
+      "job": "药剂师",
+      "lv": 1,
+      "star": 5,
+      "bedRoomModelId": 67,
+      "house": {
+        "level": 1,
+        "ax": 3,
+        "ay": 7,
+        "modelID": 67,
+        "building": 67
+      },
+      "knowLv": [
+        5,
+        7,
+        7,
+        11,
+        8,
+        6,
+        2
+      ],
+      "knowExp": [
+        540,
+        935,
+        108,
+        11113,
+        2785,
+        374,
+        170
+      ],
+      "wisdom": 178,
+      "skill26Value": 30,
+      "inParty": false,
+      "masterJobs": 3
+    },
+    {
+      "name": "药剂师六号\b",
+      "jobID": 26,
+      "job": "药剂师",
+      "lv": 1,
+      "star": 5,
+      "bedRoomModelId": 67,
+      "house": {
+        "level": 1,
+        "ax": 1,
+        "ay": 7,
+        "modelID": 67,
+        "building": 67
+      },
+      "knowLv": [
+        4,
+        5,
+        6,
+        11,
+        7,
+        7,
+        2
+      ],
+      "knowExp": [
+        3732,
+        1770,
+        4230,
+        8244,
+        415,
+        105,
+        2682
+      ],
+      "wisdom": 178,
+      "skill26Value": 30,
+      "inParty": false,
+      "masterJobs": 3
+    }
+  ]
+}

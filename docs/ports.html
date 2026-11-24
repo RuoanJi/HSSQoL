@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSS DX Ports</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1f2328; --muted: #6a6f76; --line: #e3e1da;
+  --accent: #1f6f8b; --accent-soft: #e3f0f4; --hit: #fff2c2; --hit-ink: #6b4b00; --bar: #8fc1d1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+    --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+  --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.5 system-ui, "Microsoft YaHei", "PingFang SC", sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.top nav { display: flex; gap: 14px; font-size: 13px; }
+.top a { color: var(--accent); }
+h1 { font-size: 18px; margin: 14px 0 10px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 10px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; }
+.tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+input, select { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); min-width: 0; }
+input[type=search] { flex: 1 1 220px; }
+label.ctl { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; white-space: nowrap; cursor: pointer; }
+.count { color: var(--muted); font-size: 12px; }
+main { padding: 14px 0 40px; }
+.note { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; position: sticky; top: 0; background: var(--panel); }
+th[data-k] { cursor: pointer; user-select: none; }
+th[data-k]:hover { color: var(--ink); }
+th .arr { font-size: 10px; margin-left: 3px; }
+td.n, th.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chip { display: inline-block; padding: 0 6px; margin: 1px 4px 1px 0; border-radius: 4px; background: var(--accent-soft); font-size: 12px; white-space: nowrap; }
+.lots { font-weight: 600; }
+.bar { display: inline-block; height: 8px; background: var(--bar); border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.sub { color: var(--muted); font-size: 12px; }
+details summary { cursor: pointer; color: var(--accent); font-size: 12px; }
+details ul { margin: 4px 0 0; padding-left: 16px; font-size: 12px; }
+mark { background: var(--hit); color: var(--hit-ink); padding: 0 2px; border-radius: 3px; }
+.snow { font-size: 12px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><h1>High Sea Saga DX · 港口</h1><nav><a href="loot.html">掉落表</a><a href="analyze.html">解析结果</a></nav></div>
+  <div class="controls">
+    <div class="tabs" id="tabs"><button data-t="ports" class="on">港口</button><button data-t="build">可建造建筑</button></div>
+    <select id="land" aria-label="地区"></select>
+    <input id="q" type="search" placeholder="搜索：港口、建筑、迷宫…">
+    <label class="ctl"><input type="checkbox" id="haslots"> 只看有空地的港口</label>
+    <span class="count" id="count"></span>
+  </div>
+</div></header>
+<main class="wrap"><div id="out"></div></main>
+<script>
+const P = {"ports":[{"id":0,"name":"王国的据点","land":"","snow":false,"lots":8,"slots":8,"fixed":["王宫"],"dungeons":[{"id":0,"name":"最初的迷宫","lv":1,"cost":1,"needRank":0},{"id":1,"name":"BOSS迷宫","lv":2,"cost":1,"needRank":0},{"id":2,"name":"初学者迷宫","lv":3,"cost":1,"needRank":0},{"id":3,"name":"初学者迷宫","lv":4,"cost":1,"needRank":0},{"id":4,"name":"BOSS迷宫","lv":5,"cost":1,"needRank":0},{"id":5,"name":"小试牛刀迷宫","lv":14,"cost":4,"needRank":0},{"id":6,"name":"隐藏初级迷宫","lv":20,"cost":13,"needRank":9},{"id":7,"name":"隐藏中级迷宫","lv":48,"cost":18,"needRank":18}],"stages":[[2,2],[4,4],[5,5],[6,6],[8,8]]},{"id":1,"name":"近邻岛","land":"由里皮安共和国","snow":false,"lots":0,"slots":2,"fixed":["民家","刀剑店"],"dungeons":[{"id":8,"name":"初学者迷宫","lv":2,"cost":1,"needRank":0},{"id":9,"name":"初学者迷宫","lv":3,"cost":2,"needRank":0},{"id":10,"name":"BOSS迷宫","lv":5,"cost":2,"needRank":0},{"id":11,"name":"隐藏初级迷宫","lv":32,"cost":15,"needRank":12}],"stages":null},{"id":2,"name":"怠倦岛","land":"由里皮安共和国","snow":false,"lots":0,"slots":2,"fixed":["民家","防具店"],"dungeons":[{"id":12,"name":"初学者迷宫","lv":2,"cost":1,"needRank":0},{"id":13,"name":"初学者迷宫","lv":3,"cost":2,"needRank":0},{"id":14,"name":"BOSS迷宫","lv":4,"cost":2,"needRank":0},{"id":15,"name":"隐藏小试牛刀迷宫","lv":9,"cost":11,"needRank":5},{"id":16,"name":"隐藏中级迷宫","lv":40,"cost":16,"needRank":14}],"stages":null},{"id":3,"name":"荣华岛","land":"由里皮安共和国","snow":false,"lots":2,"slots":4,"fixed":["一户家","武器店"],"dungeons":[{"id":17,"name":"菜鸟级迷宫","lv":7,"cost":1,"needRank":0},{"id":18,"name":"小试牛刀迷宫","lv":10,"cost":2,"needRank":0},{"id":19,"name":"BOSS迷宫","lv":13,"cost":4,"needRank":0},{"id":20,"name":"隐藏初级迷宫","lv":20,"cost":15,"needRank":12},{"id":21,"name":"隐藏高级迷宫","lv":50,"cost":19,"needRank":20}],"stages":null},{"id":4,"name":"商业岛","land":"由里皮安共和国","snow":false,"lots":2,"slots":4,"fixed":["宠物牧场","饰品店"],"dungeons":[{"id":22,"name":"菜鸟级迷宫","lv":5,"cost":1,"needRank":0},{"id":23,"name":"菜鸟级迷宫","lv":7,"cost":2,"needRank":0},{"id":24,"name":"BOSS迷宫","lv":9,"cost":2,"needRank":0},{"id":25,"name":"隐藏初级迷宫","lv":19,"cost":13,"needRank":9},{"id":26,"name":"隐藏中级迷宫","lv":42,"cost":17,"needRank":16}],"stages":null},{"id":5,"name":"砂之岛","land":"由里皮安共和国","snow":false,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":27,"name":"小试牛刀迷宫","lv":9,"cost":2,"needRank":0},{"id":28,"name":"小试牛刀迷宫","lv":12,"cost":4,"needRank":0},{"id":29,"name":"BOSS迷宫","lv":15,"cost":6,"needRank":0},{"id":30,"name":"隐藏高级迷宫","lv":50,"cost":20,"needRank":22}],"stages":null},{"id":6,"name":"温和岛","land":"由里皮安共和国","snow":false,"lots":0,"slots":2,"fixed":["双六屋","狙击店"],"dungeons":[{"id":31,"name":"小试牛刀迷宫","lv":11,"cost":1,"needRank":0},{"id":32,"name":"小试牛刀迷宫","lv":15,"cost":2,"needRank":0},{"id":33,"name":"BOSS迷宫","lv":20,"cost":6,"needRank":0},{"id":34,"name":"隐藏初级迷宫","lv":28,"cost":13,"needRank":9},{"id":35,"name":"隐藏高级迷宫","lv":65,"cost":20,"needRank":22}],"stages":null},{"id":7,"name":"湖畔岛","land":"由里皮安共和国","snow":false,"lots":0,"slots":2,"fixed":["风车小屋","宠物牧场"],"dungeons":[{"id":36,"name":"小试牛刀迷宫","lv":12,"cost":1,"needRank":0},{"id":37,"name":"小试牛刀迷宫","lv":18,"cost":2,"needRank":0},{"id":38,"name":"BOSS迷宫","lv":25,"cost":6,"needRank":0},{"id":39,"name":"隐藏中级迷宫","lv":41,"cost":15,"needRank":12},{"id":40,"name":"隐藏高级迷宫","lv":75,"cost":22,"needRank":25}],"stages":null},{"id":8,"name":"南国岛","land":"由里皮安共和国","snow":false,"lots":3,"slots":4,"fixed":["俘虏交接处"],"dungeons":[{"id":41,"name":"小试牛刀迷宫","lv":15,"cost":2,"needRank":0},{"id":42,"name":"初级迷宫","lv":22,"cost":4,"needRank":0},{"id":43,"name":"BOSS迷宫","lv":32,"cost":6,"needRank":0},{"id":44,"name":"隐藏中级迷宫","lv":40,"cost":15,"needRank":12},{"id":45,"name":"隐藏高级迷宫","lv":80,"cost":22,"needRank":25}],"stages":null},{"id":9,"name":"登城岛","land":"由里皮安共和国","snow":false,"lots":0,"slots":2,"fixed":["灯台小屋","民家"],"dungeons":[{"id":46,"name":"小试牛刀迷宫","lv":18,"cost":2,"needRank":0},{"id":47,"name":"初级迷宫","lv":20,"cost":4,"needRank":0},{"id":48,"name":"BOSS迷宫","lv":27,"cost":6,"needRank":0},{"id":49,"name":"隐藏中级迷宫","lv":48,"cost":16,"needRank":14},{"id":50,"name":"隐藏高级迷宫","lv":90,"cost":23,"needRank":27}],"stages":null},{"id":10,"name":"大国岛","land":"由里皮安共和国","snow":false,"lots":3,"slots":4,"fixed":["双六屋"],"dungeons":[{"id":51,"name":"中级迷宫","lv":38,"cost":4,"needRank":0},{"id":52,"name":"中级迷宫","lv":42,"cost":12,"needRank":0},{"id":53,"name":"BOSS迷宫","lv":50,"cost":12,"needRank":0},{"id":54,"name":"隐藏高级迷宫","lv":95,"cost":24,"needRank":29}],"stages":null},{"id":11,"name":"开朗岛","land":"由里皮安共和国","snow":false,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":55,"name":"中级迷宫","lv":40,"cost":4,"needRank":0},{"id":56,"name":"中级迷宫","lv":45,"cost":6,"needRank":0},{"id":57,"name":"高级迷宫","lv":50,"cost":12,"needRank":0},{"id":58,"name":"BOSS迷宫","lv":60,"cost":12,"needRank":0},{"id":59,"name":"隐藏高级迷宫","lv":100,"cost":23,"needRank":27}],"stages":null},{"id":12,"name":"文静岛","land":"由里皮安共和国","snow":false,"lots":3,"slots":4,"fixed":["豪华的家"],"dungeons":[{"id":60,"name":"高级迷宫","lv":70,"cost":4,"needRank":0},{"id":61,"name":"高级迷宫","lv":75,"cost":8,"needRank":0},{"id":62,"name":"高级迷宫","lv":80,"cost":10,"needRank":0},{"id":63,"name":"BOSS迷宫","lv":85,"cost":12,"needRank":0},{"id":64,"name":"隐藏高级迷宫","lv":110,"cost":22,"needRank":25}],"stages":null},{"id":13,"name":"寒冷大陆","land":"由里皮安共和国","snow":true,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":65,"name":"高级迷宫","lv":50,"cost":2,"needRank":0},{"id":66,"name":"高级迷宫","lv":55,"cost":4,"needRank":0},{"id":67,"name":"BOSS迷宫","lv":65,"cost":6,"needRank":0},{"id":68,"name":"隐藏高级迷宫","lv":75,"cost":16,"needRank":14},{"id":69,"name":"隐藏高级迷宫","lv":120,"cost":25,"needRank":31}],"stages":null},{"id":14,"name":"极寒岛","land":"由里皮安共和国","snow":true,"lots":0,"slots":2,"fixed":["一户家","俘虏交接处"],"dungeons":[{"id":70,"name":"高级迷宫","lv":65,"cost":2,"needRank":0},{"id":71,"name":"高级迷宫","lv":70,"cost":6,"needRank":0},{"id":72,"name":"BOSS迷宫","lv":75,"cost":10,"needRank":0},{"id":73,"name":"隐藏高级迷宫","lv":80,"cost":19,"needRank":20},{"id":74,"name":"隐藏高级迷宫","lv":100,"cost":21,"needRank":23},{"id":75,"name":"隐藏超级迷宫","lv":130,"cost":26,"needRank":33}],"stages":null},{"id":15,"name":"不思议之岛","land":"由里皮安共和国","snow":true,"lots":3,"slots":4,"fixed":["铁匠"],"dungeons":[{"id":76,"name":"高级迷宫","lv":90,"cost":2,"needRank":0},{"id":77,"name":"高级迷宫","lv":94,"cost":4,"needRank":0},{"id":78,"name":"高级迷宫","lv":98,"cost":8,"needRank":0},{"id":79,"name":"BOSS迷宫","lv":100,"cost":8,"needRank":0},{"id":80,"name":"隐藏高级迷宫","lv":125,"cost":18,"needRank":18},{"id":81,"name":"隐藏超级迷宫","lv":185,"cost":26,"needRank":33}],"stages":null},{"id":16,"name":"暖和岛","land":"阿里琴大陆","snow":false,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":82,"name":"小试牛刀迷宫","lv":18,"cost":4,"needRank":0},{"id":83,"name":"初级迷宫","lv":20,"cost":6,"needRank":0},{"id":84,"name":"BOSS迷宫","lv":28,"cost":10,"needRank":0},{"id":85,"name":"隐藏高级迷宫","lv":60,"cost":18,"needRank":18}],"stages":null},{"id":17,"name":"近迫岛","land":"阿里琴大陆","snow":false,"lots":0,"slots":2,"fixed":["宠物牧场","一户家"],"dungeons":[{"id":86,"name":"初级迷宫","lv":22,"cost":4,"needRank":0},{"id":87,"name":"初级迷宫","lv":26,"cost":8,"needRank":0},{"id":88,"name":"BOSS迷宫","lv":32,"cost":12,"needRank":0},{"id":89,"name":"隐藏高级迷宫","lv":65,"cost":20,"needRank":22}],"stages":null},{"id":18,"name":"小鸟岛","land":"阿里琴大陆","snow":false,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":90,"name":"初级迷宫","lv":24,"cost":4,"needRank":0},{"id":91,"name":"初级迷宫","lv":27,"cost":6,"needRank":0},{"id":92,"name":"BOSS迷宫","lv":35,"cost":8,"needRank":0},{"id":93,"name":"隐藏高级迷宫","lv":80,"cost":24,"needRank":29}],"stages":null},{"id":19,"name":"安宁岛","land":"阿里琴大陆","snow":false,"lots":3,"slots":3,"fixed":[],"dungeons":[{"id":94,"name":"初级迷宫","lv":32,"cost":6,"needRank":0},{"id":95,"name":"中级迷宫","lv":45,"cost":8,"needRank":0},{"id":96,"name":"BOSS迷宫","lv":50,"cost":10,"needRank":0},{"id":97,"name":"隐藏高级迷宫","lv":85,"cost":25,"needRank":31}],"stages":null},{"id":20,"name":"莞尔岛","land":"阿里琴大陆","snow":true,"lots":0,"slots":2,"fixed":["民家","一户家"],"dungeons":[{"id":98,"name":"中级迷宫","lv":48,"cost":6,"needRank":0},{"id":99,"name":"高级迷宫","lv":52,"cost":10,"needRank":0},{"id":100,"name":"BOSS迷宫","lv":62,"cost":14,"needRank":0},{"id":101,"name":"隐藏高级迷宫","lv":110,"cost":26,"needRank":33}],"stages":null},{"id":21,"name":"半袖岛","land":"阿里琴大陆","snow":true,"lots":3,"slots":3,"fixed":[],"dungeons":[{"id":102,"name":"中级迷宫","lv":42,"cost":6,"needRank":0},{"id":103,"name":"中级迷宫","lv":48,"cost":8,"needRank":0},{"id":104,"name":"BOSS迷宫","lv":52,"cost":10,"needRank":0},{"id":105,"name":"隐藏高级迷宫","lv":100,"cost":21,"needRank":23}],"stages":null},{"id":22,"name":"负极岛","land":"阿里琴大陆","snow":true,"lots":0,"slots":3,"fixed":["双六屋","俘虏交接处","豪华的家"],"dungeons":[{"id":106,"name":"高级迷宫","lv":60,"cost":1,"needRank":0},{"id":107,"name":"高级迷宫","lv":65,"cost":4,"needRank":0},{"id":108,"name":"BOSS迷宫","lv":70,"cost":8,"needRank":0},{"id":109,"name":"高级迷宫","lv":95,"cost":10,"needRank":0},{"id":110,"name":"隐藏高级迷宫","lv":110,"cost":25,"needRank":31}],"stages":null},{"id":23,"name":"明朗大国","land":"阿里琴大陆","snow":false,"lots":4,"slots":4,"fixed":[],"dungeons":[{"id":111,"name":"高级迷宫","lv":85,"cost":4,"needRank":0},{"id":112,"name":"高级迷宫","lv":90,"cost":10,"needRank":0},{"id":113,"name":"BOSS迷宫","lv":95,"cost":12,"needRank":0},{"id":114,"name":"隐藏超级迷宫","lv":195,"cost":29,"needRank":38}],"stages":null},{"id":24,"name":"冰冷岛","land":"阿里琴大陆","snow":true,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":115,"name":"高级迷宫","lv":70,"cost":6,"needRank":0},{"id":116,"name":"高级迷宫","lv":75,"cost":10,"needRank":0},{"id":117,"name":"BOSS迷宫","lv":80,"cost":14,"needRank":0},{"id":118,"name":"隐藏高级迷宫","lv":120,"cost":26,"needRank":33}],"stages":null},{"id":25,"name":"休闲岛","land":"阿里琴大陆","snow":false,"lots":0,"slots":2,"fixed":["豪华的家","开罗中心"],"dungeons":[{"id":119,"name":"高级迷宫","lv":85,"cost":6,"needRank":0},{"id":120,"name":"高级迷宫","lv":90,"cost":8,"needRank":0},{"id":121,"name":"BOSS迷宫","lv":95,"cost":10,"needRank":0},{"id":122,"name":"隐藏高级迷宫","lv":110,"cost":28,"needRank":36}],"stages":null},{"id":26,"name":"夜安岛","land":"梅里提波王国","snow":false,"lots":0,"slots":2,"fixed":["软子的房间","灯台小屋"],"dungeons":[{"id":123,"name":"高级迷宫","lv":56,"cost":8,"needRank":0},{"id":124,"name":"高级迷宫","lv":62,"cost":8,"needRank":0},{"id":125,"name":"高级迷宫","lv":85,"cost":10,"needRank":0},{"id":126,"name":"BOSS迷宫","lv":120,"cost":12,"needRank":0},{"id":127,"name":"隐藏超级迷宫","lv":250,"cost":30,"needRank":40}],"stages":null},{"id":27,"name":"糊涂岛","land":"梅里提波王国","snow":false,"lots":1,"slots":3,"fixed":["宠物牧场","开罗中心"],"dungeons":[{"id":128,"name":"高级迷宫","lv":64,"cost":8,"needRank":0},{"id":129,"name":"高级迷宫","lv":72,"cost":8,"needRank":0},{"id":130,"name":"高级迷宫","lv":95,"cost":10,"needRank":0},{"id":131,"name":"BOSS迷宫","lv":140,"cost":12,"needRank":0},{"id":132,"name":"隐藏猛敌迷宫","lv":260,"cost":33,"needRank":46}],"stages":null},{"id":28,"name":"微微岛","land":"梅里提波王国","snow":false,"lots":1,"slots":3,"fixed":["双六屋","俘虏交接处"],"dungeons":[{"id":133,"name":"高级迷宫","lv":80,"cost":8,"needRank":0},{"id":134,"name":"高级迷宫","lv":92,"cost":8,"needRank":0},{"id":135,"name":"高级迷宫","lv":112,"cost":12,"needRank":0},{"id":136,"name":"BOSS迷宫","lv":185,"cost":14,"needRank":0},{"id":137,"name":"隐藏极限迷宫","lv":320,"cost":32,"needRank":44}],"stages":null},{"id":29,"name":"慰问岛","land":"梅里提波王国","snow":false,"lots":0,"slots":1,"fixed":["灯台小屋"],"dungeons":[{"id":138,"name":"高级迷宫","lv":125,"cost":6,"needRank":0},{"id":139,"name":"超级迷宫","lv":155,"cost":8,"needRank":0},{"id":140,"name":"超级迷宫","lv":180,"cost":12,"needRank":0},{"id":141,"name":"BOSS迷宫","lv":220,"cost":12,"needRank":0},{"id":142,"name":"隐藏极限迷宫","lv":360,"cost":32,"needRank":44}],"stages":null},{"id":30,"name":"明晰岛","land":"南帝大陆","snow":false,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":143,"name":"超级迷宫","lv":160,"cost":6,"needRank":0},{"id":144,"name":"超级迷宫","lv":195,"cost":8,"needRank":0},{"id":145,"name":"超级迷宫","lv":220,"cost":14,"needRank":0},{"id":146,"name":"BOSS迷宫","lv":290,"cost":18,"needRank":0},{"id":147,"name":"隐藏极限迷宫","lv":370,"cost":34,"needRank":47}],"stages":null},{"id":31,"name":"吃货岛","land":"南帝大陆","snow":false,"lots":0,"slots":2,"fixed":["铁匠","豪华的家"],"dungeons":[{"id":148,"name":"超级迷宫","lv":200,"cost":6,"needRank":0},{"id":149,"name":"超级迷宫","lv":230,"cost":8,"needRank":0},{"id":150,"name":"超级迷宫","lv":250,"cost":12,"needRank":0},{"id":151,"name":"BOSS迷宫","lv":290,"cost":14,"needRank":0},{"id":152,"name":"隐藏极限迷宫","lv":410,"cost":32,"needRank":44}],"stages":null},{"id":32,"name":"深处岛","land":"南帝大陆","snow":false,"lots":0,"slots":3,"fixed":["风车小屋","狙击店","饰品店"],"dungeons":[{"id":153,"name":"超级迷宫","lv":185,"cost":6,"needRank":0},{"id":154,"name":"超级迷宫","lv":210,"cost":8,"needRank":0},{"id":155,"name":"猛敌迷宫","lv":275,"cost":14,"needRank":0},{"id":156,"name":"BOSS迷宫","lv":350,"cost":18,"needRank":0},{"id":157,"name":"隐藏幻之迷宫","lv":550,"cost":40,"needRank":59}],"stages":null},{"id":33,"name":"开罗岛","land":"开罗群岛","snow":false,"lots":2,"slots":4,"fixed":["双六屋","开罗中心"],"dungeons":[{"id":179,"name":"大海贼迷宫","lv":755,"cost":10,"needRank":0},{"id":180,"name":"大海贼迷宫","lv":770,"cost":14,"needRank":0},{"id":181,"name":"大海贼迷宫","lv":785,"cost":18,"needRank":0},{"id":182,"name":"BOSS迷宫","lv":800,"cost":24,"needRank":0},{"id":183,"name":"大海贼迷宫","lv":815,"cost":28,"needRank":0},{"id":184,"name":"大海贼迷宫","lv":830,"cost":30,"needRank":0},{"id":185,"name":"大海贼迷宫","lv":845,"cost":34,"needRank":0},{"id":186,"name":"大海贼迷宫","lv":860,"cost":35,"needRank":0},{"id":187,"name":"大海贼迷宫","lv":875,"cost":35,"needRank":0},{"id":188,"name":"大海贼迷宫","lv":890,"cost":35,"needRank":0},{"id":189,"name":"大海贼迷宫","lv":905,"cost":35,"needRank":0},{"id":190,"name":"开罗迷宫","lv":920,"cost":35,"needRank":0},{"id":191,"name":"开罗迷宫","lv":935,"cost":35,"needRank":0},{"id":192,"name":"BOSS迷宫","lv":950,"cost":50,"needRank":77},{"id":193,"name":"隐藏开罗迷宫","lv":999,"cost":50,"needRank":77}],"stages":null},{"id":34,"name":"森林公园","land":"东南尾端群岛","snow":false,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":158,"name":"高级迷宫","lv":110,"cost":10,"needRank":0},{"id":159,"name":"BOSS迷宫","lv":160,"cost":14,"needRank":0},{"id":160,"name":"隐藏极限迷宫","lv":360,"cost":36,"needRank":51}],"stages":null},{"id":35,"name":"秘境小岛","land":"东南尾端群岛","snow":false,"lots":3,"slots":3,"fixed":[],"dungeons":[{"id":161,"name":"高级迷宫","lv":125,"cost":6,"needRank":0},{"id":162,"name":"隐藏超级迷宫","lv":145,"cost":23,"needRank":27},{"id":163,"name":"BOSS迷宫","lv":200,"cost":24,"needRank":0},{"id":164,"name":"隐藏极限迷宫","lv":425,"cost":45,"needRank":68}],"stages":null},{"id":36,"name":"沉闷岛","land":"东南尾端群岛","snow":false,"lots":0,"slots":2,"fixed":["俘虏交接处","风车小屋"],"dungeons":[{"id":165,"name":"BOSS迷宫","lv":450,"cost":35,"needRank":0},{"id":166,"name":"隐藏幻之迷宫","lv":520,"cost":50,"needRank":77}],"stages":null},{"id":37,"name":"鸟取岛","land":"大海贼地带","snow":false,"lots":0,"slots":2,"fixed":["双六屋","软子的房间"],"dungeons":[{"id":167,"name":"极限迷宫","lv":320,"cost":26,"needRank":0},{"id":168,"name":"BOSS迷宫","lv":360,"cost":30,"needRank":0},{"id":169,"name":"隐藏幻之迷宫","lv":535,"cost":50,"needRank":77}],"stages":null},{"id":38,"name":"朦胧岛","land":"大海贼地带","snow":true,"lots":2,"slots":2,"fixed":[],"dungeons":[{"id":170,"name":"极限迷宫","lv":400,"cost":30,"needRank":0},{"id":171,"name":"BOSS迷宫","lv":500,"cost":35,"needRank":0},{"id":172,"name":"隐藏传说迷宫","lv":650,"cost":50,"needRank":77}],"stages":null},{"id":39,"name":"凹凸岛","land":"大海贼地带","snow":false,"lots":0,"slots":0,"fixed":[],"dungeons":[{"id":173,"name":"极限迷宫","lv":450,"cost":14,"needRank":0},{"id":174,"name":"小宝宝迷宫","lv":480,"cost":18,"needRank":0},{"id":175,"name":"BOSS迷宫","lv":520,"cost":24,"needRank":0},{"id":176,"name":"幻之迷宫","lv":550,"cost":26,"needRank":0},{"id":177,"name":"BOSS迷宫","lv":600,"cost":35,"needRank":0},{"id":178,"name":"隐藏究极迷宫","lv":750,"cost":50,"needRank":77}],"stages":null}],"catalog":[{"id":1,"name":"酒场","explain":"可以召集同伴","unlockLv":3,"unlockPrice":65000,"buildTime":70,"levels":[[80,100],[350,250],[500,500],[2500,800],[5000,1500]]},{"id":2,"name":"道具屋","explain":"贩卖道具的店铺","unlockLv":3,"unlockPrice":40000,"buildTime":25,"levels":[[250,100],[1600,250],[7500,500],[15000,800],[30000,1200]]},{"id":3,"name":"刀剑店","explain":"贩卖小刀・剑的店铺","unlockLv":3,"unlockPrice":35000,"buildTime":15,"levels":[[75,100],[1600,250],[7500,500],[15000,800],[30000,1200]]},{"id":4,"name":"狙击店","explain":"贩卖远程武器的店铺","unlockLv":3,"unlockPrice":50000,"buildTime":45,"levels":[[75,100],[1600,250],[7500,500],[15000,800],[30000,1200]]},{"id":5,"name":"武器店","explain":"贩卖斧头及法杖等武器的店铺","unlockLv":3,"unlockPrice":45000,"buildTime":30,"levels":[[75,100],[1600,250],[7500,500],[15000,800],[30000,1200]]},{"id":6,"name":"防具店","explain":"贩卖各种防具的店铺","unlockLv":3,"unlockPrice":45000,"buildTime":25,"levels":[[120,100],[1600,250],[7500,500],[15000,800],[30000,1200]]},{"id":7,"name":"饰品店","explain":"贩卖饰品的店铺","unlockLv":3,"unlockPrice":55000,"buildTime":55,"levels":[[150,100],[1600,250],[7500,500],[15000,800],[30000,1200]]},{"id":8,"name":"宠物牧场","explain":"负责保管怪物蛋并使其孵化的场所","unlockLv":3,"unlockPrice":75000,"buildTime":85,"levels":[[1200,100],[1600,250],[7500,500],[15000,800],[30000,1200]]},{"id":9,"name":"铁匠","explain":"可以改良武器","unlockLv":3,"unlockPrice":115000,"buildTime":170,"levels":[[500,100],[1600,250],[7500,500],[15000,800],[30000,1500]]},{"id":26,"name":"民家","explain":"民家可以增加势力","unlockLv":3,"unlockPrice":45000,"buildTime":25,"levels":[[150,100],[2000,250],[7500,400],[15000,600],[30000,800]]},{"id":27,"name":"风车小屋","explain":"恬静的风车　势力上升","unlockLv":3,"unlockPrice":75000,"buildTime":85,"levels":[[200,200],[2000,500],[7500,1000],[15000,2000],[30000,3000]]},{"id":28,"name":"灯台小屋","explain":"宏伟的灯台　势力上升","unlockLv":3,"unlockPrice":115000,"buildTime":170,"levels":[[300,300],[2000,750],[7500,1500],[15000,3000],[30000,5000]]},{"id":29,"name":"双六屋","explain":"可以获得稀有物品的双六屋","unlockLv":2,"unlockPrice":35000,"buildTime":10,"levels":[[1000,25],[3000,300],[7500,500],[15000,800],[30000,1500]]},{"id":30,"name":"俘虏交接处","explain":"除了据点以外，也可以在这里上交牢房中的俘虏","unlockLv":2,"unlockPrice":80000,"buildTime":105,"levels":[[1500,10],[3000,50],[7500,100],[15000,200],[30000,300]]},{"id":31,"name":"开罗中心","explain":"可以使用开罗点数交换船内设施","unlockLv":2,"unlockPrice":175000,"buildTime":305,"levels":[[2000,5],[3000,10],[7500,25],[15000,50],[30000,5555]]},{"id":32,"name":"软子的房间","explain":"可以以物易物，换取更高品质的道具哦","unlockLv":2,"unlockPrice":135000,"buildTime":220,"levels":[[2500,15],[3000,30],[7500,50],[15000,100],[30000,7777]]}]};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => n.toLocaleString('en-US');
+const st = { tab: 'ports', key: 'id', dir: 1 };
+try { Object.assign(st, JSON.parse(localStorage.getItem('hssPorts') || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem('hssPorts', JSON.stringify(st)); } catch (e) {} };
+
+const lands = [...new Set(P.ports.map(p => p.land || '本国'))];
+$('#land').innerHTML = '<option value="">全部地区</option>' + lands.map(l => `<option>${esc(l)}</option>`).join('');
+
+function hl(text, q) {
+  const t = esc(text); if (!q) return t;
+  const i = text.toLowerCase().indexOf(q); if (i < 0) return t;
+  return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+}
+const val = (p, k) => ({ id: p.id, name: p.name, land: p.land, slots: p.slots, lots: p.lots, fixed: p.fixed.length, dn: p.dungeons.length,
+  lv: p.dungeons.length ? Math.min(...p.dungeons.map(d => d.lv)) : 1e9,
+  cost: p.dungeons.length ? Math.min(...p.dungeons.map(d => d.cost)) : 1e9 })[k];
+function th(k, label, cls = '') {
+  const a = st.key === k ? `<span class="arr">${st.dir > 0 ? '▲' : '▼'}</span>` : '';
+  return `<th data-k="${k}" class="${cls}">${label}${a}</th>`;
+}
+function renderPorts(q) {
+  const land = $('#land').value, only = $('#haslots').checked;
+  let rows = P.ports.filter(p => (!land || (p.land || '本国') === land) && (!only || p.lots > 0) &&
+    (!q || [p.name, p.land, ...p.fixed, ...p.dungeons.map(d => d.name)].join(' ').toLowerCase().includes(q)));
+  rows.sort((a, b) => { const x = val(a, st.key), y = val(b, st.key);
+    return (typeof x === 'string' ? x.localeCompare(y, 'zh') : x - y) * st.dir || a.id - b.id; });
+  const total = rows.reduce((s, p) => s + p.slots, 0), empty = rows.reduce((s, p) => s + p.lots, 0), maxSlots = Math.max(...P.ports.map(p => p.slots));
+  $('#count').textContent = `${rows.length} 个港口 · 共 ${total} 个建筑位（其中 ${empty} 块空地）`;
+  return `<p class="note">每个港口的地图有三种地块：<b>空地</b>（可自由建造）、港口自带的<b>固定建筑</b>、以及<b>冒险入口</b>（迷宫）。王国的据点会分 5 个阶段扩建。“建筑位”= 空地 + 已有固定商店/民家的地块（王宫不计）。点击表头排序。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '港口')}${th('land', '地区')}${th('slots', '建筑位', 'n')}${th('lots', '空地', 'n')}${th('fixed', '固定建筑')}${th('dn', '迷宫', 'n')}${th('lv', '迷宫等级')}${th('cost', '体力', 'n')}</tr>` +
+  rows.map(p => {
+    const ds = p.dungeons;
+    const lvs = ds.length ? `Lv ${Math.min(...ds.map(d => d.lv))}–${Math.max(...ds.map(d => d.lv))}` : '—';
+    const cost = ds.length ? `${Math.min(...ds.map(d => d.cost))}–${Math.max(...ds.map(d => d.cost))}` : '—';
+    return `<tr><td class="n">${p.id}</td>
+      <td>${hl(p.name, q)}${p.snow ? ' <span class="snow" title="雪地">❄</span>' : ''}</td>
+      <td>${hl(p.land || '—', q)}</td>
+      <td class="n"><span class="bar" style="width:${Math.round(p.slots / maxSlots * 40)}px"></span><span class="lots">${p.slots}</span>
+        ${p.stages ? `<div class="sub">阶段 ${p.stages.map(s => s[0]).join(' → ')}</div>` : ''}</td>
+      <td class="n">${p.lots}${p.stages ? `<div class="sub">阶段 ${p.stages.map(s => s[1]).join(' → ')}</div>` : ''}</td>
+      <td>${p.fixed.map(f => `<span class="chip">${hl(f, q)}</span>`).join('') || '—'}</td>
+      <td class="n">${ds.length}</td>
+      <td>${lvs}${ds.length ? `<details><summary>迷宫列表</summary><ul>${ds.map(d =>
+        `<li>#${d.id} ${hl(d.name, q)} · Lv ${d.lv} · 体力 ${d.cost}${d.needRank ? ' · 船团等级≥' + d.needRank : ''}</li>`).join('')}</ul></details>` : ''}</td>
+      <td class="n">${cost}</td></tr>`;
+  }).join('') + '</table></div>';
+}
+function renderBuild(q) {
+  const rows = P.catalog.filter(b => !q || (b.name + ' ' + b.explain).toLowerCase().includes(q));
+  $('#count').textContent = `${rows.length} 种建筑`;
+  return `<p class="note">可以建在空地上的建筑。解锁等级 / 解锁价格为数据中的原始值。每种建筑有 5 级：升级需要列出的经验，每级提供列出的势力。</p>
+  <div class="card"><table><tr><th>建筑</th><th>说明</th><th class="n">解锁等级</th><th class="n">解锁价格</th><th class="n">建造时间</th><th>Lv1 → Lv5：经验 / 势力</th></tr>` +
+  rows.map(b => `<tr><td>${hl(b.name, q)}</td><td class="sub">${hl(b.explain, q)}</td><td class="n">${b.unlockLv}</td>
+    <td class="n">${fmt(b.unlockPrice)}</td><td class="n">${b.buildTime}</td>
+    <td>${b.levels.map(([e, p], i) => `<span class="chip">Lv${i + 1} ${fmt(e)} / ${p}</span>`).join('')}</td></tr>`).join('') + '</table></div>';
+}
+function render() {
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === st.tab));
+  const ports = st.tab === 'ports';
+  $('#land').style.display = ports ? '' : 'none';
+  $('#haslots').parentElement.style.display = ports ? '' : 'none';
+  const q = $('#q').value.trim().toLowerCase();
+  $('#out').innerHTML = ports ? renderPorts(q) : renderBuild(q);
+  save();
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { st.tab = b.dataset.t; render(); } });
+$('#out').addEventListener('click', e => {
+  const h = e.target.closest('th[data-k]'); if (!h) return;
+  if (st.key === h.dataset.k) st.dir = -st.dir; else { st.key = h.dataset.k; st.dir = ['slots', 'lots', 'dn'].includes(h.dataset.k) ? -1 : 1; }
+  render();
+});
+let timer; $('#q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+$('#land').addEventListener('change', render);
+$('#haslots').addEventListener('change', render);
+render();
+</script>
+</body>
+</html>

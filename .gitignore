@@ -8,9 +8,14 @@
 !HSSQoL.csproj
 !*.cs
 
-# README images
+# Docs: README images, game reference docs (Markdown + standalone HTML), their generators and data
 !docs/
 !docs/*.png
+!docs/*.md
+!docs/*.html
+!docs/*.py
+!docs/data/
+!docs/data/*.json
 
 # Layout designer
 !designer/

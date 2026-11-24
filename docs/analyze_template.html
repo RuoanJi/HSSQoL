@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSS DX Analyze</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1f2328; --muted: #6a6f76; --line: #e3e1da;
+  --accent: #1f6f8b; --accent-soft: #e3f0f4; --hit: #fff2c2; --hit-ink: #6b4b00; --bar: #8fc1d1;
+  --k-money: #b07d10; --k-equip: #2f6fb0; --k-item: #2f8a4f; --k-point: #8a4fb0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+    --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+    --k-money: #e0b04a; --k-equip: #7ab2ea; --k-item: #6cc98d; --k-point: #c493e6;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+  --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+  --k-money: #e0b04a; --k-equip: #7ab2ea; --k-item: #6cc98d; --k-point: #c493e6;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.5 system-ui, "Microsoft YaHei", "PingFang SC", sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+h1 { font-size: 18px; margin: 14px 0 10px; }
+.top a { color: var(--accent); font-size: 13px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 10px; }
+.tabs, .lvs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button, .lvs button { border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; }
+.lvs button { padding: 3px 9px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.tabs button.on, .lvs button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+input, select { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); min-width: 0; }
+input { flex: 1 1 220px; }
+label.ctl { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); white-space: nowrap; }
+.count { color: var(--muted); font-size: 12px; }
+main { padding: 14px 0 40px; }
+.rules { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; }
+.rules summary { cursor: pointer; font-weight: 600; }
+.rules ul { margin: 6px 0 2px; padding-left: 18px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 10px; }
+.card h2 { font-size: 14px; margin: 0; padding: 9px 12px; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+.card h2 .m { color: var(--muted); font-size: 12px; font-weight: 400; }
+.body { padding: 0 12px 10px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; }
+td.n, th.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.bar { display: inline-block; height: 8px; background: var(--bar); border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.k { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.k.money { background: var(--k-money); } .k.equip { background: var(--k-equip); }
+.k.item { background: var(--k-item); } .k.point { background: var(--k-point); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 12px; margin: 0 0 10px; }
+mark { background: var(--hit); color: var(--hit-ink); padding: 0 2px; border-radius: 3px; }
+.empty { color: var(--muted); padding: 20px 0; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><h1>High Sea Saga DX · 解析结果</h1><span style="font-size:13px;display:flex;gap:14px"><a href="loot.html">掉落表</a><a href="ports.html">港口</a></span></div>
+  <div class="controls">
+    <div class="tabs" id="tabs">
+      <button data-t="item" class="on">按解析道具</button>
+      <button data-t="find">反查奖励</button>
+    </div>
+    <select id="elem" aria-label="解析道具"></select>
+    <input id="q" type="search" placeholder="搜索奖励：例如 幻之宝石、金钱、装备…">
+    <label class="ctl">每次解析产出
+      <select id="picks" aria-label="产出数">
+        <option>1</option><option>2</option><option>3</option><option selected>4</option>
+        <option>5</option><option>6</option><option>7</option>
+      </select>个</label>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="controls" id="lvbar"><div class="lvs" id="lvs"></div></div>
+</div></header>
+<main class="wrap">
+  <details class="rules" id="rules">
+    <summary>解析机制</summary>
+    <ul>
+      <li>共 11 种解析道具，每种有 Lv.0–13 共 14 个等级，每个等级有自己的产出表。</li>
+      <li>所需工作量 = (等级+1) × 难度。每次工作进度 = 5 + 賢さ/20（怪物为 5）+ 解析设施的解析值 / 10。</li>
+      <li>每次解析产出数：船员 3–4 个；当前职业为药剂师 +2；每周奖励“解析UP”期间 +1。怪物 1–2 个。</li>
+      <li>每个产出从表的第一行开始依次判定（循环），掷 0–100 小于该行权重即选中。因此排在前面的行更容易出现，实际概率不等于“权重/总和”。</li>
+      <li>某行被选中后，本次解析中它的权重 −30（最低 1），所以同一次解析很少重复出同一行。</li>
+      <li>“单次概率”= 一个产出抽到该行的概率；“平均获得数”= 按所选产出数，一次解析平均得到的数量；“至少一个”= 一次解析至少得到一个的概率。</li>
+    </ul>
+  </details>
+  <div class="legend"><span><i class="k money"></i>金钱</span><span><i class="k equip"></i>装备</span><span><i class="k item"></i>道具</span><span><i class="k point"></i>资源</span></div>
+  <div id="out"></div>
+</main>
+<script>
+const A = /*ANALYZE_DATA*/null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct = p => p >= 0.001 ? (p * 100).toFixed(p >= 0.1 ? 0 : 1) + '%' : (p > 0 ? '<0.1%' : '0%');
+
+const st = { tab: 'item', elem: 0, lv: -1 };
+try { Object.assign(st, JSON.parse(localStorage.getItem('hssAnalyze') || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem('hssAnalyze', JSON.stringify(st)); } catch (e) {} };
+
+$('#elem').innerHTML = A.map((e, i) => `<option value="${i}">${esc(e.name)}（难度 ${e.bp}）</option>`).join('');
+$('#lvs').innerHTML = '<button data-lv="-1">全部等级</button>' + A[0].levels.map((_, i) => `<button data-lv="${i}">Lv.${i}</button>`).join('');
+
+// Same rules as the game's ItemElement.GetChoice: sequential scan, accept if rand(0..100) < max(w - 30*picked, 1).
+function single(ws, pen) {
+  let fail = 1; const q = [];
+  for (let i = 0; i < ws.length; i++) { const p = Math.max(ws[i] - 30 * pen[i], 1) / 101; q.push(fail * p); fail *= 1 - p; }
+  const tot = 1 - fail; return q.map(x => x / tot);
+}
+const cache = new Map();
+function stats(ei, lv, picks) {
+  const key = ei + '/' + lv + '/' + picks;
+  if (cache.has(key)) return cache.get(key);
+  const ws = A[ei].levels[lv].map(r => r[0]), n = ws.length, memo = new Map();
+  // returns [expected counts per row, P(row never picked)] for `left` picks from penalty state
+  function rec(pen, left) {
+    if (left === 0) return [new Array(n).fill(0), new Array(n).fill(1)];
+    const k = pen.join(',') + '|' + left;
+    if (memo.has(k)) return memo.get(k);
+    const ps = single(ws, pen), ex = new Array(n).fill(0), none = new Array(n).fill(0);
+    ps.forEach((p, i) => {
+      const np = pen.slice(); np[i]++;
+      const [se, sn] = rec(np, left - 1);
+      for (let j = 0; j < n; j++) { ex[j] += p * (se[j] + (i === j ? 1 : 0)); none[j] += p * (i === j ? 0 : sn[j]); }
+    });
+    const r = [ex, none]; memo.set(k, r); return r;
+  }
+  const zero = new Array(n).fill(0);
+  const [ex, none] = rec(zero, picks);
+  const out = { one: single(ws, zero), ex, any: none.map(x => 1 - x) };
+  cache.set(key, out); return out;
+}
+
+function hl(text, q) {
+  const t = esc(text); if (!q) return t;
+  const i = text.toLowerCase().indexOf(q); if (i < 0) return t;
+  return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+}
+function levelCard(ei, lv, picks, q) {
+  const e = A[ei], rows = e.levels[lv], s = stats(ei, lv, picks);
+  const max = Math.max(...s.one);
+  return `<section class="card"><h2>${esc(e.name)} Lv.${lv}<span class="m">所需工作量 ${(lv + 1) * e.bp} · ${rows.length} 种结果</span></h2>
+    <div class="body"><table><tr><th>结果</th><th class="n">权重</th><th>单次概率</th><th class="n">平均获得数（${picks} 个产出）</th><th class="n">至少一个</th></tr>` +
+    rows.map(([w, name, kind], i) => `<tr><td><i class="k ${kind}"></i>${hl(name, q)}</td><td class="n">${w}</td>
+      <td class="n" style="text-align:left"><span class="bar" style="width:${Math.round(s.one[i] / max * 70)}px"></span>${pct(s.one[i])}</td>
+      <td class="n">${s.ex[i].toFixed(2)}</td><td class="n">${pct(s.any[i])}</td></tr>`).join('') + '</table></div></section>';
+}
+function renderItem(picks, q) {
+  const lvs = st.lv < 0 ? A[st.elem].levels.map((_, i) => i) : [st.lv];
+  $('#count').textContent = '';
+  return lvs.map(lv => levelCard(st.elem, lv, picks, q)).join('');
+}
+function renderFind(picks, q) {
+  if (!q) { $('#count').textContent = ''; return '<p class="empty">输入奖励名称（例如 幻之宝石、皮包、金钱），即可列出所有能解析出它的道具和等级，按平均获得数排序。</p>'; }
+  const hits = [];
+  A.forEach((e, ei) => e.levels.forEach((rows, lv) => rows.forEach(([w, name, kind], i) => {
+    if (!name.toLowerCase().includes(q)) return;
+    const s = stats(ei, lv, picks);
+    hits.push({ ei, lv, name, kind, w, one: s.one[i], ex: s.ex[i], any: s.any[i] });
+  })));
+  hits.sort((a, b) => b.ex - a.ex);
+  $('#count').textContent = `${hits.length} 个结果`;
+  if (!hits.length) return '<p class="empty">没有匹配的结果。</p>';
+  const max = hits[0].ex;
+  return `<section class="card"><div class="body" style="padding-top:8px"><table><tr><th>结果</th><th>解析道具</th><th class="n">等级</th><th class="n">所需工作量</th>
+    <th class="n">单次概率</th><th class="n" style="text-align:left">平均获得数（${picks} 个产出）</th><th class="n">至少一个</th></tr>` +
+    hits.map(h => `<tr><td><i class="k ${h.kind}"></i>${hl(h.name, q)}</td><td>${esc(A[h.ei].name)}</td><td class="n">Lv.${h.lv}</td>
+      <td class="n">${(h.lv + 1) * A[h.ei].bp}</td><td class="n">${pct(h.one)}</td>
+      <td class="n" style="text-align:left"><span class="bar" style="width:${Math.round(h.ex / max * 70)}px"></span>${h.ex.toFixed(2)}</td>
+      <td class="n">${pct(h.any)}</td></tr>`).join('') + '</table></div></section>';
+}
+function render() {
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === st.tab));
+  document.querySelectorAll('#lvs button').forEach(b => b.classList.toggle('on', +b.dataset.lv === st.lv));
+  $('#elem').value = st.elem;
+  $('#elem').style.display = st.tab === 'item' ? '' : 'none';
+  $('#lvbar').style.display = st.tab === 'item' ? '' : 'none';
+  const picks = +$('#picks').value, q = $('#q').value.trim().toLowerCase();
+  $('#out').innerHTML = st.tab === 'item' ? renderItem(picks, q) : renderFind(picks, q);
+  save();
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { st.tab = b.dataset.t; render(); } });
+$('#lvs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { st.lv = +b.dataset.lv; render(); } });
+$('#elem').addEventListener('change', e => { st.elem = +e.target.value; render(); });
+$('#picks').addEventListener('change', render);
+let timer; $('#q').addEventListener('input', () => {
+  clearTimeout(timer);
+  timer = setTimeout(() => { if ($('#q').value.trim() && st.tab === 'item' && st.lv >= 0) { /* keep view */ } render(); }, 150);
+});
+if (!(st.elem >= 0 && st.elem < A.length)) st.elem = 0;
+render();
+</script>
+</body>
+</html>

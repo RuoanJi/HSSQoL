@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSS DX Jobs</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1f2328; --muted: #6a6f76; --line: #e3e1da;
+  --accent: #1f6f8b; --accent-soft: #e3f0f4; --hit: #fff2c2; --hit-ink: #6b4b00; --bar: #8fc1d1;
+  --ok: #2e7d4f; --ok-soft: #e1f2e7; --no: #a8432f; --no-soft: #f8e4df; --gold: #9a6b00;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+    --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+    --ok: #7fd1a0; --ok-soft: #1c3627; --no: #f09a86; --no-soft: #3d2420; --gold: #e3b54a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+  --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+  --ok: #7fd1a0; --ok-soft: #1c3627; --no: #f09a86; --no-soft: #3d2420; --gold: #e3b54a;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.5 system-ui, "Microsoft YaHei", "PingFang SC", sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.top nav { display: flex; gap: 14px; font-size: 13px; }
+.top a { color: var(--accent); }
+h1 { font-size: 18px; margin: 14px 0 10px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 8px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; }
+.tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+input, select { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); min-width: 0; }
+input[type=search] { flex: 1 1 200px; }
+label.ctl { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; white-space: nowrap; cursor: pointer; }
+.count { color: var(--muted); font-size: 12px; }
+.mine { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding-bottom: 10px; font-size: 12px; color: var(--muted); }
+.mine label { display: inline-flex; align-items: center; gap: 4px; }
+.mine input[type=number] { width: 52px; padding: 3px 6px; }
+.mine button { font: inherit; font-size: 12px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); cursor: pointer; }
+main { padding: 14px 0 40px; }
+.note { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; position: sticky; top: 0; background: var(--panel); }
+th[data-k] { cursor: pointer; user-select: none; }
+th[data-k]:hover { color: var(--ink); }
+th .arr { font-size: 10px; margin-left: 3px; }
+td.n, th.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.name { white-space: nowrap; font-weight: 600; }
+.chip { display: inline-block; padding: 0 6px; margin: 1px 4px 1px 0; border-radius: 4px; background: var(--accent-soft); font-size: 12px; white-space: nowrap; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.no { background: var(--no-soft); color: var(--no); }
+.chip.bad { background: var(--no-soft); }
+.medal { color: var(--gold); font-size: 12px; margin-left: 4px; font-weight: 500; }
+.sub { color: var(--muted); font-size: 11px; display: block; }
+.desc { color: var(--muted); font-size: 12px; min-width: 200px; }
+tr.locked td { opacity: .55; }
+mark { background: var(--hit); color: var(--hit-ink); padding: 0 2px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><h1>High Sea Saga DX · 职业</h1><nav><a href="facilities.html">设施</a><a href="ports.html">港口</a><a href="loot.html">掉落表</a><a href="analyze.html">解析结果</a></nav></div>
+  <div class="controls">
+    <div class="tabs" id="tabs">
+      <button data-t="stats" class="on">能力值</button><button data-t="other">武器·设施</button>
+      <button data-t="bed">寝室</button><button data-t="know">转职知识总量</button>
+    </div>
+    <input id="q" type="search" placeholder="搜索：职业、技能、武器、设施…">
+    <select id="mode" aria-label="能力值显示">
+      <option value="r">Lv1 → Max</option><option value="max">Max</option><option value="min">Lv1</option><option value="per">每级成长</option>
+    </select>
+    <label class="ctl"><input type="checkbox" id="nomedal"> 隐藏勋章职业</label>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="mine" id="mine"></div>
+</div></header>
+<main class="wrap"><div id="out"></div></main>
+<script>
+const D = {"jobs":[{"id":0,"name":"水手","maxLv":15,"exp":3881,"req":{"近战":1},"stats":[[23,61],[5,12],[8,28],[5,25],[8,15],[23,60]],"mastery":[20,1,7,2,1,1],"skill":"HP提升 Ⅰ","good":[],"bad":["Wand","Spear","Gun","Bow"],"fav":["澡堂"],"act":0,"work":120,"getExp":13,"cls":1,"rank":0,"masterNum":0,"medal":0,"desc":"可以迅捷快速地活动","bed":{"room":"#4 (base room)","param":"舒适 48","area":"舒适 +10","extra":""}},{"id":1,"name":"船夫","maxLv":20,"exp":7200,"req":{"海员":1},"stats":[[35,93],[11,18],[12,44],[8,31],[12,23],[28,74]],"mastery":[30,2,10,4,1,1],"skill":"智慧提升 Ⅰ","good":[],"bad":["Wand"],"fav":["情报信息馆"],"act":1,"work":140,"getExp":25,"cls":0,"rank":0,"masterNum":0,"medal":0,"desc":"船的速度+2 (最多+10)","bed":{"room":"#4 (base room)","param":"舒适 48","area":"舒适 +10","extra":""}},{"id":2,"name":"海贼","maxLv":20,"exp":7200,"req":{"勇敢战士":1},"stats":[[48,137],[10,19],[19,73],[12,42],[16,33],[7,24]],"mastery":[42,2,16,6,1,1],"skill":"加速之术Ⅰ","good":["Sword"],"bad":["Wand","Gun","Bow"],"fav":["花"],"act":1,"work":70,"getExp":37,"cls":1,"rank":0,"masterNum":0,"medal":0,"desc":"岛上的物资补给+10","bed":{"room":"#4 (base room)","param":"舒适 48","area":"舒适 +10","extra":""}},{"id":3,"name":"厨子","maxLv":15,"exp":3881,"req":{"探究心":1},"stats":[[23,60],[7,13],[7,24],[4,22],[4,8],[40,100]],"mastery":[20,1,6,2,1,1],"skill":"SP提升 Ⅰ","good":[],"bad":["Wand","Spear","Gun","Bow"],"fav":["船员食堂","厨房"],"act":0,"work":170,"getExp":12,"cls":4,"rank":0,"masterNum":0,"medal":0,"desc":"体力回复CD-10秒(最多60秒)","bed":{"room":"#62","param":"舒适 80","area":"舒适 +30","extra":"工作心知识 +10"}},{"id":4,"name":"农民","maxLv":15,"exp":3881,"req":{"工作心":1},"stats":[[27,69],[10,19],[10,37],[8,32],[8,17],[42,104]],"mastery":[23,2,9,4,1,1],"skill":"法仗系契合度提升","good":[],"bad":["Sword","Wand","Spear","Gun","Bow"],"fav":["农田","植树厂"],"act":1,"work":180,"getExp":16,"cls":4,"rank":0,"masterNum":0,"medal":0,"desc":"在农田的种植收获为两倍","bed":{"room":"#61","param":"舒适 32","area":"舒适 +8, 收获 +2","extra":"资源 +3"}},{"id":5,"name":"商人","maxLv":15,"exp":3881,"req":{"远程":1},"stats":[[25,66],[5,11],[7,24],[6,26],[4,8],[22,56]],"mastery":[22,1,6,3,1,1],"skill":"洞察力提升 Ⅰ","good":[],"bad":["Sword","Wand","Axe","Spear","Gun"],"fav":["通信室"],"act":0,"work":120,"getExp":12,"cls":4,"rank":0,"masterNum":0,"medal":0,"desc":"能在船内开设道具商铺","bed":{"room":"#7","param":"舒适 64","area":"舒适 +12","extra":""}},{"id":6,"name":"铁匠","maxLv":25,"exp":11718,"req":{"探究心":2},"stats":[[52,141],[18,26],[16,60],[11,37],[22,40],[31,82]],"mastery":[47,2,14,6,1,1],"skill":"水平线攻击 Ⅰ","good":["Fist"],"bad":["Sword","Wand","Gun","Bow"],"fav":["传说之剑"],"act":1,"work":150,"getExp":47,"cls":2,"rank":0,"masterNum":0,"medal":0,"desc":"能在船内开设武器店铺","bed":{"room":"#8","param":"舒适 80","area":"舒适 +12","extra":""}},{"id":7,"name":"渔师","maxLv":35,"exp":24806,"req":{"工作心":3},"stats":[[60,159],[32,39],[16,58],[9,35],[22,39],[58,150]],"mastery":[55,3,14,5,1,1],"skill":"防御上升 Ⅰ","good":[],"bad":["Sword","Wand","Axe","Gun","Bow"],"fav":["钓鱼竿保存处"],"act":1,"work":240,"getExp":80,"cls":0,"rank":0,"masterNum":0,"medal":0,"desc":"对敌人给予最后一击时解析物的掉落率提升","bed":{"room":"#63","param":"舒适 32","area":"舒适 +6, 收获 +2","extra":"海员知识 +10"}},{"id":8,"name":"木工","maxLv":25,"exp":11718,"req":{"工作心":2},"stats":[[57,151],[18,28],[17,64],[19,54],[17,33],[28,76]],"mastery":[51,2,15,10,1,1],"skill":"击打系契合度提升","good":[],"bad":["Sword","Spear","Gun","Bow"],"fav":["水槽"],"act":2,"work":140,"getExp":51,"cls":0,"rank":0,"masterNum":0,"medal":0,"desc":"可以缩短在岛上建造设施的所需时间","bed":{"room":"#60","param":"舒适 64","area":"舒适 +6, 锻炼 +2","extra":"工作心知识 +5"}},{"id":9,"name":"鲁莽汉","maxLv":30,"exp":17550,"req":{"近战":2},"stats":[[62,170],[12,21],[23,84],[15,46],[21,39],[8,25]],"mastery":[56,2,20,8,1,1],"skill":"斧头系契合度提升","good":["Axe","Fist"],"bad":["Sword","Wand","Spear","Gun","Bow"],"fav":["水瓮"],"act":2,"work":70,"getExp":59,"cls":1,"rank":0,"masterNum":0,"medal":0,"desc":"装备斧头时容易触发光环","bed":{"room":"#4 (base room)","param":"舒适 48","area":"舒适 +10","extra":""}},{"id":10,"name":"战士","maxLv":30,"exp":17550,"req":{"勇敢战士":2},"stats":[[73,212],[13,22],[26,101],[16,49],[25,48],[7,23]],"mastery":[66,2,23,8,1,1],"skill":"剑系契合度提升","good":["Sword"],"bad":["Wand","Spear","Gun","Bow"],"fav":["特训场"],"act":2,"work":70,"getExp":69,"cls":0,"rank":0,"masterNum":1,"medal":0,"desc":"探险迷宫可获得双倍经验值","bed":{"room":"#69","param":"舒适 64","area":"舒适 +12, 锻炼 +4","extra":"近战知识 +15"}},{"id":11,"name":"武道家","maxLv":30,"exp":17550,"req":{"近战":2,"海员":1},"stats":[[54,148],[18,27],[18,69],[14,45],[43,76],[37,100]],"mastery":[48,2,16,7,1,1],"skill":"速度提升 Ⅰ","good":[],"bad":["Sword","Axe","Spear","Gun","Bow"],"fav":["电灯"],"act":2,"work":170,"getExp":71,"cls":1,"rank":0,"masterNum":1,"medal":0,"desc":"其速度的一半能转化为攻击力加成","bed":{"room":"#69","param":"舒适 64","area":"舒适 +12, 锻炼 +4","extra":"近战知识 +15"}},{"id":12,"name":"弓箭手","maxLv":25,"exp":11718,"req":{"远程":2},"stats":[[55,150],[15,23],[14,53],[17,50],[14,27],[26,72]],"mastery":[49,2,12,9,1,1],"skill":"弓系契合度提升","good":["Bow"],"bad":["Sword","Wand","Axe","Spear","Fist"],"fav":["投标盘"],"act":2,"work":130,"getExp":47,"cls":4,"rank":1,"masterNum":0,"medal":0,"desc":"持重弓时可从后列发射具有贯通性的箭矢","bed":{"room":"#65","param":"舒适 64","area":"舒适 +8, 锻炼 +2","extra":"远程知识 +15"}},{"id":13,"name":"僧侣","maxLv":20,"exp":7200,"req":{"秘传":1},"stats":[[48,151],[24,41],[19,79],[13,50],[19,43],[63,193]],"mastery":[41,2,15,7,1,1],"skill":"HP回復术 Ⅱ","good":[],"bad":["Sword","Axe","Spear","Fist"],"fav":["祈祷处"],"act":1,"work":240,"getExp":41,"cls":4,"rank":1,"masterNum":2,"medal":0,"desc":"其智慧的一半能转化为攻击力加成","bed":{"room":"#64","param":"舒适 128","area":"舒适 +24, 收获 +8","extra":"秘传知识 +5"}},{"id":14,"name":"小丑","maxLv":25,"exp":11718,"req":{"秘传":2},"stats":[[72,225],[25,39],[22,94],[19,61],[25,52],[42,131]],"mastery":[63,2,19,10,1,1],"skill":"重量克服","good":[],"bad":["Sword","Wand","Axe","Spear","Gun","Bow"],"fav":["谈话室"],"act":2,"work":180,"getExp":48,"cls":4,"rank":1,"masterNum":5,"medal":0,"desc":"自身受到攻击时可反击使敌人气绝(需消费SP)","bed":{"room":"#73","param":"舒适 64","area":"舒适 +16, 收获 +4","extra":"购物 +5"}},{"id":15,"name":"冒险家","maxLv":30,"exp":17550,"req":{"海员":2},"stats":[[70,189],[25,33],[23,83],[15,46],[32,58],[33,91]],"mastery":[63,2,20,8,1,1],"skill":"SP提升 Ⅱ","good":["Axe","Fist"],"bad":[],"fav":["饮料吧"],"act":2,"work":160,"getExp":69,"cls":2,"rank":1,"masterNum":1,"medal":0,"desc":"探险所需体力 -1(最多减2点)","bed":{"room":"#72","param":"舒适 128","area":"舒适 +16, 锻炼 +4","extra":"海员知识 +10"}},{"id":16,"name":"发明家","maxLv":35,"exp":24806,"req":{"探究心":3,"海员":1},"stats":[[62,168],[32,40],[15,55],[8,33],[21,38],[59,159]],"mastery":[56,3,13,4,1,5],"skill":"观察力提升","good":[],"bad":["Sword","Wand","Axe","Spear","Fist","Bow"],"fav":["解析室"],"act":1,"work":240,"getExp":79,"cls":0,"rank":1,"masterNum":0,"medal":0,"desc":"能在船内开设防具店铺","bed":{"room":"#9","param":"舒适 96","area":"舒适 +14","extra":""}},{"id":17,"name":"火枪手","maxLv":35,"exp":24806,"req":{"远程":3},"stats":[[86,234],[31,39],[27,98],[16,49],[41,73],[36,99]],"mastery":[78,3,24,9,1,1],"skill":"加速之术 Ⅱ","good":["Sword","Gun"],"bad":["Wand"],"fav":["弹药库"],"act":2,"work":170,"getExp":91,"cls":0,"rank":1,"masterNum":2,"medal":0,"desc":"持重枪时可发动快速攻击","bed":{"room":"#65","param":"舒适 64","area":"舒适 +8, 锻炼 +2","extra":"远程知识 +15"}},{"id":18,"name":"枪兵","maxLv":35,"exp":24806,"req":{"近战":3},"stats":[[87,237],[15,23],[31,114],[19,54],[31,56],[9,27]],"mastery":[79,2,28,10,1,1],"skill":"长枪系契合度提升","good":["Spear"],"bad":["Wand","Bow"],"fav":["训练设施"],"act":2,"work":80,"getExp":91,"cls":1,"rank":1,"masterNum":0,"medal":0,"desc":"可以减弱对手的光环","bed":{"room":"#69","param":"舒适 64","area":"舒适 +12, 锻炼 +4","extra":"近战知识 +15"}},{"id":19,"name":"魔法师","maxLv":40,"exp":33600,"req":{"远程":4,"探究心":2},"stats":[[76,210],[42,52],[19,72],[11,40],[29,53],[68,185]],"mastery":[69,3,17,6,1,1],"skill":"究极攻击 Ⅰ","good":["Wand"],"bad":["Sword","Axe","Spear"],"fav":["图书馆"],"act":1,"work":280,"getExp":103,"cls":0,"rank":1,"masterNum":5,"medal":0,"desc":"可以从后列发动魔法攻击","bed":{"room":"#66","param":"舒适 96","area":"舒适 +12, 解析 +4","extra":"探究心知识 +10"}},{"id":20,"name":"王国兵","maxLv":45,"exp":44043,"req":{"近战":4},"stats":[[105,290],[20,30],[39,146],[24,67],[40,73],[12,37]],"mastery":[96,2,35,13,1,1],"skill":"盾的极意","good":["Sword","Axe"],"bad":["Fist","Gun","Bow"],"fav":["守护之铠"],"act":2,"work":90,"getExp":116,"cls":1,"rank":1,"masterNum":5,"medal":0,"desc":"自身获得的爆气光环值可以分配给前列队员","bed":{"room":"#69","param":"舒适 64","area":"舒适 +12, 锻炼 +4","extra":"近战知识 +15"}},{"id":21,"name":"医者","maxLv":50,"exp":56250,"req":{"探究心":5,"工作心":3},"stats":[[91,249],[51,58],[20,74],[10,36],[34,59],[75,202]],"mastery":[84,4,18,6,1,1],"skill":"对小岛的爱心","good":[],"bad":["Sword","Axe","Spear"],"fav":["医务室"],"act":1,"work":300,"getExp":133,"cls":4,"rank":1,"masterNum":0,"medal":0,"desc":"拉拢敌人为同伴时所需的G 减少5%(最多30%)","bed":{"room":"#59","param":"舒适 256","area":"舒适 +204","extra":"探究心知识 +10"}},{"id":22,"name":"赌徒","maxLv":35,"exp":24806,"req":{"秘传":3,"探究心":1},"stats":[[99,314],[35,49],[30,129],[18,57],[49,100],[41,129]],"mastery":[88,3,27,9,1,1],"skill":"水平线攻击 Ⅱ","good":[],"bad":[],"fav":["桌游室"],"act":2,"work":180,"getExp":90,"cls":4,"rank":1,"masterNum":4,"medal":0,"desc":"双六费用 -1枚(最多2枚)","bed":{"room":"#67","param":"舒适 112","area":"舒适 +14, 解析 +4","extra":"探究心知识 +10"}},{"id":23,"name":"狙击手","maxLv":35,"exp":24806,"req":{"远程":3,"海员":1},"stats":[[82,222],[22,29],[17,63],[24,63],[21,38],[28,76]],"mastery":[74,2,15,13,1,1],"skill":"火枪系契合度提升","good":["Spear","Gun","Bow"],"bad":["Sword","Wand","Axe","Fist"],"fav":["射击训练场"],"act":2,"work":140,"getExp":79,"cls":4,"rank":1,"masterNum":1,"medal":0,"desc":"海贼船对战中可使用大炮 (最多3人)","bed":{"room":"#65","param":"舒适 64","area":"舒适 +8, 锻炼 +2","extra":"远程知识 +15"}},{"id":24,"name":"怪盗","maxLv":50,"exp":56250,"req":{"海员":5,"远程":3},"stats":[[85,234],[29,37],[25,94],[19,55],[78,135],[46,126]],"mastery":[78,2,23,10,1,5],"skill":"节约心","good":["Spear","Fist","Gun"],"bad":["Sword","Wand","Axe"],"fav":["绘画角"],"act":2,"work":200,"getExp":135,"cls":2,"rank":1,"masterNum":5,"medal":0,"desc":"在迷宫中生还的话可获得4倍G","bed":{"room":"#72","param":"舒适 128","area":"舒适 +16, 锻炼 +4","extra":"海员知识 +10"}},{"id":25,"name":"航海士","maxLv":35,"exp":24806,"req":{"海员":3,"近战":1},"stats":[[77,212],[14,22],[28,103],[18,52],[28,51],[8,25]],"mastery":[70,2,25,9,1,1],"skill":"HP回复术 Ⅰ","good":["Sword","Spear"],"bad":["Wand","Bow"],"fav":["探测室"],"act":2,"work":70,"getExp":80,"cls":0,"rank":1,"masterNum":1,"medal":0,"desc":"航海所需体力 -1(最多可减2)","bed":{"room":"#72","param":"舒适 128","area":"舒适 +16, 锻炼 +4","extra":"海员知识 +10"}},{"id":26,"name":"药剂师","maxLv":45,"exp":44043,"req":{"探究心":4,"工作心":2},"stats":[[82,227],[47,57],[21,80],[12,42],[32,58],[72,196]],"mastery":[75,3,19,7,1,1],"skill":"对船的爱心","good":[],"bad":["Sword","Wand","Axe","Spear"],"fav":["职务室"],"act":1,"work":290,"getExp":114,"cls":0,"rank":2,"masterNum":0,"medal":0,"desc":"解析物品时产出量+2","bed":{"room":"#67","param":"舒适 112","area":"舒适 +14, 解析 +4","extra":"探究心知识 +10"}},{"id":27,"name":"舞者","maxLv":40,"exp":33600,"req":{"秘传":4,"近战":2},"stats":[[82,267],[29,45],[27,119],[13,50],[74,152],[50,162]],"mastery":[74,2,24,7,1,1],"skill":"速度提升 Ⅱ","good":[],"bad":["Sword","Fist"],"fav":["舞厅"],"act":2,"work":210,"getExp":105,"cls":1,"rank":2,"masterNum":5,"medal":0,"desc":"攻击时可吸收5点SP","bed":{"room":"#74","param":"舒适 144","area":"舒适 +14, 收获 +4","extra":"海员知识 +5"}},{"id":28,"name":"维京海盗","maxLv":50,"exp":56250,"req":{"近战":5},"stats":[[117,320],[18,24],[40,147],[22,60],[42,73],[9,25]],"mastery":[107,2,36,12,1,1],"skill":"攻击提升 Ⅰ","good":["Sword","Axe","Fist"],"bad":["Gun","Bow"],"fav":["船员食堂","饮料吧","水瓮"],"act":2,"work":80,"getExp":133,"cls":0,"rank":2,"masterNum":0,"medal":0,"desc":"自身给予的伤害量的5%可转换为HP回复量","bed":{"room":"#69","param":"舒适 64","area":"舒适 +12, 锻炼 +4","extra":"近战知识 +15"}},{"id":29,"name":"召唤师","maxLv":45,"exp":44043,"req":{"海员":4,"近战":2,"工作心":1},"stats":[[100,275],[37,44],[30,113],[18,52],[50,87],[37,100]],"mastery":[92,3,28,10,1,1],"skill":"捆绑力提高","good":["Axe","Spear"],"bad":[],"fav":["牧场(鸡)","牧场(猪)","牧场(牛)"],"act":2,"work":170,"getExp":111,"cls":1,"rank":2,"masterNum":5,"medal":0,"desc":"可以携带宠物一同作战","bed":{"room":"#68","param":"舒适 160","area":"舒适 +6","extra":"勇敢战士知识 +5"}},{"id":30,"name":"提督","maxLv":65,"exp":104568,"req":{"海员":7,"远程":5,"探究心":3},"stats":[[168,466],[65,74],[51,190],[30,77],[90,155],[49,134]],"mastery":[156,4,47,17,1,1],"skill":"加速之术 Ⅲ","good":["Sword","Axe","Spear","Gun"],"bad":[],"fav":["幸运之鸟","探测室","指南针"],"act":3,"work":210,"getExp":200,"cls":4,"rank":2,"masterNum":5,"medal":0,"desc":"给予怪物1.25倍的伤害","bed":{"room":"#10","param":"舒适 288","area":"舒适 +32, 锻炼 +10","extra":"海员知识 +10"}},{"id":31,"name":"大剑士","maxLv":80,"exp":172800,"req":{"勇敢战士":7,"近战":5},"stats":[[217,646],[37,49],[75,304],[45,114],[85,160],[20,62]],"mastery":[201,3,69,25,1,1],"skill":"连续攻击 Ⅰ","good":["Sword"],"bad":["Wand","Axe","Spear","Fist","Gun","Bow"],"fav":["女神像","电灯","守护之铠"],"act":3,"work":120,"getExp":246,"cls":4,"rank":2,"masterNum":5,"medal":1,"desc":"装备重剑发动具有贯通性的攻击","bed":{"room":"#10","param":"舒适 288","area":"舒适 +32, 锻炼 +10","extra":"海员知识 +10"}},{"id":32,"name":"大海贼","maxLv":90,"exp":230850,"req":{"海员":7,"近战":5,"工作心":3},"stats":[[229,640],[40,50],[81,307],[49,117],[91,161],[22,64]],"mastery":[214,3,75,27,1,1],"skill":"全属性 Ⅱ","good":["Sword","Axe","Spear","Fist","Gun"],"bad":[],"fav":["指南针","弹药库","格斗场","船员食堂"],"act":3,"work":120,"getExp":280,"cls":4,"rank":2,"masterNum":5,"medal":1,"desc":"装备重锤发动具有贯通性的攻击","bed":{"room":"#76","param":"舒适 160","area":"舒适 +20, 解析 +6","extra":"秘传知识 +10"}},{"id":33,"name":"贵族","maxLv":60,"exp":86400,"req":{"工作心":6,"海员":4},"stats":[[160,426],[49,57],[34,125],[51,115],[48,83],[39,104]],"mastery":[148,3,31,28,1,1],"skill":"防御上升 Ⅱ","good":[],"bad":["Wand","Axe","Spear","Bow"],"fav":["游泳池"],"act":3,"work":180,"getExp":181,"cls":2,"rank":2,"masterNum":2,"medal":0,"desc":"攻击时获得与自身等级相应的G","bed":{"room":"#10","param":"舒适 288","area":"舒适 +32, 锻炼 +10","extra":"海员知识 +10"}},{"id":34,"name":"魔人","maxLv":80,"exp":172800,"req":{"近战":7,"勇敢战士":5,"秘传":3},"stats":[[222,619],[68,80],[45,174],[70,158],[67,120],[47,132]],"mastery":[206,4,42,38,1,1],"skill":"究极攻击 Ⅱ","good":["Sword","Axe","Spear","Fist"],"bad":["Wand","Gun","Bow"],"fav":["船员食堂"],"act":4,"work":210,"getExp":248,"cls":0,"rank":2,"masterNum":10,"medal":1,"desc":"装备重斧发动具有贯通性的攻击","bed":{"room":"#75","param":"舒适 96","area":"舒适 +2","extra":"勇敢战士知识 +15"}},{"id":35,"name":"忍者","maxLv":85,"exp":200493,"req":{"远程":7,"近战":5,"工作心":3},"stats":[[155,435],[58,70],[47,182],[38,96],[157,274],[75,209]],"mastery":[144,4,44,21,5,1],"skill":"韦陀","good":["Sword"],"bad":["Wand"],"fav":["澡堂","舞厅","训练设施"],"act":3,"work":300,"getExp":271,"cls":0,"rank":2,"masterNum":8,"medal":1,"desc":"利用轻剑发动连续攻击","bed":{"room":"#11","param":"舒适 240","area":"舒适 +42, 收获 +14","extra":"秘传知识 +8"}},{"id":36,"name":"勇者","maxLv":90,"exp":230850,"req":{"近战":7,"勇敢战士":5},"stats":[[227,633],[91,102],[69,260],[42,102],[125,216],[60,165]],"mastery":[212,6,64,23,1,1],"skill":"连续攻击 Ⅱ","good":["Sword","Axe","Spear","Fist"],"bad":["Gun","Bow"],"fav":["传说之剑","宝物资料馆","守护之铠","格斗场"],"act":3,"work":250,"getExp":278,"cls":1,"rank":2,"masterNum":15,"medal":1,"desc":"装备重剑发动水平线攻击","bed":{"room":"#10","param":"舒适 288","area":"舒适 +32, 锻炼 +10","extra":"海员知识 +10"}},{"id":37,"name":"大王","maxLv":75,"exp":147656,"req":{"探究心":7,"工作心":5,"秘传":3},"stats":[[201,560],[60,70],[40,153],[63,142],[59,105],[43,119]],"mastery":[187,4,37,34,1,1],"skill":"HP回復术 Ⅲ","good":["Sword","Gun"],"bad":["Wand","Axe","Spear","Fist","Bow"],"fav":["椅子","伟大的椅子","宝物资料馆"],"act":4,"work":190,"getExp":224,"cls":0,"rank":2,"masterNum":10,"medal":0,"desc":"能让全队的光环爆气持续时间增加1倍","bed":{"room":"#10","param":"舒适 288","area":"舒适 +32, 锻炼 +10","extra":"海员知识 +10"}},{"id":38,"name":"经营者","maxLv":45,"exp":44043,"req":{"工作心":4,"探究心":2},"stats":[[83,218],[47,53],[19,68],[10,36],[31,53],[70,181]],"mastery":[76,3,17,6,1,1],"skill":"洞察力提升 Ⅱ","good":["Gun","Bow"],"bad":["Sword","Wand","Axe","Spear","Fist"],"fav":["画室","图书馆","情报信息馆","通信室","谈话室"],"act":1,"work":280,"getExp":123,"cls":1,"rank":2,"masterNum":12,"medal":0,"desc":"能在船内开设饰品店铺","bed":{"room":"#5","param":"舒适 32","area":"舒适 +10","extra":""}},{"id":39,"name":"富豪","maxLv":85,"exp":200493,"req":{"远程":7,"工作心":5,"秘传":3},"stats":[[234,652],[69,77],[43,162],[71,156],[68,118],[43,120]],"mastery":[219,4,40,39,1,1],"skill":"全属性 Ⅰ","good":["Axe","Gun"],"bad":["Sword","Wand","Spear","Fist","Bow"],"fav":["宝物资料馆","游泳池","饮料吧"],"act":4,"work":200,"getExp":265,"cls":4,"rank":2,"masterNum":15,"medal":0,"desc":"利用设施时获得与自身等级相应的G","bed":{"room":"#10","param":"舒适 288","area":"舒适 +32, 锻炼 +10","extra":"海员知识 +10"}},{"id":40,"name":"武士","maxLv":45,"exp":44043,"req":{"勇敢战士":4,"近战":2,"工作心":1},"stats":[[119,348],[45,57],[36,142],[22,64],[61,113],[42,124]],"mastery":[108,3,32,12,1,1],"skill":"攻击上升 Ⅱ","good":["Sword"],"bad":["Wand","Axe","Spear","Fist","Gun","Bow"],"fav":["观叶植物","观叶树木","花"],"act":2,"work":190,"getExp":124,"cls":4,"rank":2,"masterNum":5,"medal":0,"desc":"装备轻量的剑发动水平线攻击","bed":{"room":"#11","param":"舒适 240","area":"舒适 +42, 收获 +14","extra":"秘传知识 +8"}},{"id":41,"name":"格斗家","maxLv":35,"exp":24806,"req":{"勇敢战士":3,"近战":1,"海员":1},"stats":[[93,270],[17,27],[33,131],[21,61],[33,64],[10,32]],"mastery":[84,2,29,11,1,1],"skill":"HP提升 Ⅱ","good":[],"bad":["Spear","Gun","Bow"],"fav":["格斗场"],"act":2,"work":80,"getExp":92,"cls":4,"rank":2,"masterNum":3,"medal":0,"desc":"无防具时能持续处于光环爆发状态","bed":{"room":"#69","param":"舒适 64","area":"舒适 +12, 锻炼 +4","extra":"近战知识 +15"}},{"id":42,"name":"人偶装","maxLv":90,"exp":230850,"req":{"近战":7,"秘传":5,"勇敢战士":3},"stats":[[182,509],[113,125],[41,157],[23,64],[76,134],[127,348]],"mastery":[170,7,38,13,2,1],"skill":"武器完全精通","good":["Spear","Bow"],"bad":["Gun"],"fav":["观叶树木","女神像"],"act":2,"work":480,"getExp":290,"cls":2,"rank":3,"masterNum":10,"medal":1,"desc":"装备锤子类武器发动快速攻击","bed":{"room":"#10","param":"舒适 288","area":"舒适 +32, 锻炼 +10","extra":"海员知识 +10"}},{"id":43,"name":"极猩猩","maxLv":95,"exp":263981,"req":{"工作心":7,"勇敢战士":5,"秘传":3},"stats":[[243,650],[98,105],[74,268],[46,107],[134,225],[62,165]],"mastery":[227,6,68,25,3,1],"skill":"水平线攻击 Ⅲ","good":["Sword","Wand","Axe","Gun"],"bad":[],"fav":["桌游室","投标盘","画室"],"act":3,"work":260,"getExp":313,"cls":0,"rank":3,"masterNum":20,"medal":1,"desc":"光环爆发时攻击减半 防御4倍","bed":{"room":"#70","param":"舒适 288","area":"舒适 +38, 锻炼 +12","extra":"勇敢战士知识 +15"}},{"id":44,"name":"机器人","maxLv":99,"exp":292559,"req":{"秘传":7,"勇敢战士":5,"远程":3},"stats":[[398,1313],[156,202],[112,504],[108,275],[156,323],[4,19]],"mastery":[370,9,104,59,5,1],"skill":"究极攻击 Ⅲ","good":["Sword","Axe","Fist"],"bad":["Gun","Bow"],"fav":["厕所","饮料吧","牧场(猪)","女神像"],"act":4,"work":60,"getExp":337,"cls":0,"rank":3,"masterNum":35,"medal":3,"desc":"光环爆发时攻击1.5倍 防御1/4","bed":{"room":"#71","param":"舒适 320","area":"舒适 +44, 解析 +14","extra":"秘传知识 +20"}},{"id":45,"name":"剑斗士","maxLv":99,"exp":292559,"req":{"近战":13,"勇敢战士":6,"秘传":3},"stats":[[311,924],[94,113],[60,246],[162,360],[93,175],[56,166]],"mastery":[290,6,56,88,2,1],"skill":"防御提升","good":["Sword"],"bad":["Gun","Bow"],"fav":["训练设施","特训场","格斗场"],"act":4,"work":240,"getExp":357,"cls":1,"rank":3,"masterNum":45,"medal":1,"desc":"防御成功时反击(需消费SP)","bed":{"room":"#69","param":"舒适 64","area":"舒适 +12, 锻炼 +4","extra":"近战知识 +15"}},{"id":46,"name":"相扑选手","maxLv":90,"exp":230850,"req":{"工作心":11,"海员":5,"近战":2},"stats":[[227,647],[39,49],[241,921],[48,116],[33,61],[21,62]],"mastery":[212,3,222,26,2,1],"skill":"肉身真元","good":["Fist"],"bad":["Gun","Bow"],"fav":["游泳池","船员食堂","格斗场"],"act":3,"work":120,"getExp":290,"cls":2,"rank":3,"masterNum":46,"medal":0,"desc":"能抑制敌人的辅助技能(需消费SP)","bed":{"room":"#11","param":"舒适 240","area":"舒适 +42, 收获 +14","extra":"秘传知识 +8"}},{"id":47,"name":"生物学者","maxLv":85,"exp":200493,"req":{"探究心":10,"秘传":5,"近战":2},"stats":[[171,508],[208,238],[39,160],[22,66],[71,135],[121,354]],"mastery":[159,11,36,12,2,1],"skill":"精神集中","good":["Wand","Bow"],"bad":["Sword","Axe","Spear"],"fav":["观叶树木","职务室","水槽","椅子"],"act":2,"work":460,"getExp":269,"cls":3,"rank":3,"masterNum":44,"medal":0,"desc":"重装备下能够消除对方10%SP(需消费SP)","bed":{"room":"#10","param":"舒适 288","area":"舒适 +32, 锻炼 +10","extra":"海员知识 +10"}},{"id":48,"name":"魔界斗士","maxLv":99,"exp":292559,"req":{"秘传":14,"勇敢战士":7,"远程":3},"stats":[[365,1283],[124,174],[122,582],[72,202],[205,450],[91,318]],"mastery":[338,7,112,39,2,1],"skill":"魔鬼的步伐","good":["Sword","Wand","Axe"],"bad":["Spear","Gun","Bow"],"fav":["伟大的椅子","祈祷处","医务室"],"act":4,"work":360,"getExp":382,"cls":4,"rank":3,"masterNum":47,"medal":1,"desc":"装备斧头给予怪物双倍伤害(需消费SP)","bed":{"room":"#75","param":"舒适 96","area":"舒适 +2","extra":"勇敢战士知识 +15"}}],"know":[{"k":"近战 (melee)","all":"20 / 78 / 275,000 / 22.8%","noMedal":"13 / 29 / 55,000 / 9.7%"},{"k":"远程 (ranged)","all":"11 / 41 / 115,000 / 9.5%","noMedal":"8 / 28 / 75,000 / 13.2%"},{"k":"海员 (sailor)","all":"13 / 42 / 120,000 / 10.0%","noMedal":"12 / 35 / 92,000 / 16.2%"},{"k":"探究心 (curiosity)","all":"11 / 40 / 131,000 / 10.9%","noMedal":"11 / 40 / 131,000 / 23.1%"},{"k":"工作心 (work)","all":"15 / 57 / 188,000 / 15.6%","noMedal":"12 / 44 / 148,000 / 26.1%"},{"k":"勇敢战士 (bravery)","all":"12 / 53 / 163,000 / 13.5%","noMedal":"4 / 10 / 20,000 / 3.5%"},{"k":"秘传 (secret)","all":"13 / 56 / 213,000 / 17.7%","noMedal":"7 / 21 / 47,000 / 8.3%"},{"k":"**Total**","all":"95 / 367 / 1,205,000","noMedal":"67 / 207 / 568,000"}],"kn":["近战","远程","海员","探究心","工作心","勇敢战士","秘传"],"src":"Exported from the game's loaded data (2026-11-22 00:12). 49 jobs."};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => n.toLocaleString('en-US');
+const STAT = ['HP', 'SP', '攻撃', '守り', '早さ', '賢さ'];
+const STAT_ZH = ['HP', 'SP', '攻击', '防御', '速度', '智慧'];
+const W = { Sword: '剑', Wand: '杖', Axe: '斧', Spear: '枪', Fist: '拳', Gun: '火枪', Bow: '弓' };
+const st = { tab: 'stats', key: 'id', dir: 1, mode: 'r', nomedal: false, onlyOk: false, my: {} };
+try { Object.assign(st, JSON.parse(localStorage.getItem('hssJobs') || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem('hssJobs', JSON.stringify(st)); } catch (e) {} };
+
+$('#mode').value = st.mode; $('#nomedal').checked = st.nomedal;
+$('#mine').innerHTML = '我的知识等级：' + D.kn.map(k =>
+  `<label>${k}<input type="number" min="0" max="20" data-kn="${k}" value="${st.my[k] || ''}" placeholder="0"></label>`).join('') +
+  `<label class="ctl"><input type="checkbox" id="onlyok"${st.onlyOk ? ' checked' : ''}> 只看可转职</label><button id="clr">清空</button>`;
+
+const hasMy = () => D.kn.some(k => st.my[k] > 0);
+const canDo = j => Object.entries(j.req).every(([k, lv]) => (st.my[k] || 0) >= lv);
+const hay = j => [j.name, j.skill, j.desc, ...Object.keys(j.req), ...j.good.map(w => W[w] || w), ...j.bad.map(w => W[w] || w),
+  ...j.good, ...j.bad, ...j.fav, j.bed.room, j.bed.area, j.bed.extra].join(' ').toLowerCase();
+function hl(text, q) {
+  const t = esc(text); if (!q) return t;
+  const i = text.toLowerCase().indexOf(q); if (i < 0) return t;
+  return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+}
+function statVal(j, i, mode = st.mode) {
+  const [a, b] = j.stats[i];
+  return mode === 'min' ? a : mode === 'per' ? (j.maxLv > 1 ? (b - a) / (j.maxLv - 1) : 0) : b;
+}
+const reqSum = j => Object.values(j.req).reduce((s, v) => s + v, 0);
+const val = (j, k) => k[0] === 's' && k.length === 2 ? statVal(j, +k[1]) : k[0] === 'm' && k.length === 2 ? j.mastery[+k[1]] :
+  ({ id: j.id, name: j.name, maxLv: j.maxLv, exp: j.exp, req: reqSum(j), skill: j.skill, act: j.act, work: j.work,
+     getExp: j.getExp, cls: j.cls, rank: j.rank, masterNum: j.masterNum, medal: j.medal, room: j.bed.room })[k];
+function th(k, label, cls = '', title = '') {
+  const a = st.key === k ? `<span class="arr">${st.dir > 0 ? '▲' : '▼'}</span>` : '';
+  return `<th data-k="${k}" class="${cls}"${title ? ` title="${esc(title)}"` : ''}>${label}${a}</th>`;
+}
+function rows(q) {
+  let r = D.jobs.filter(j => (!st.nomedal || !j.medal) && (!st.onlyOk || !hasMy() || canDo(j)) && (!q || hay(j).includes(q)));
+  r.sort((a, b) => { const x = val(a, st.key), y = val(b, st.key);
+    return (typeof x === 'string' ? x.localeCompare(y, 'zh') : x - y) * st.dir || a.id - b.id; });
+  return r;
+}
+const nameCell = (j, q) => `<td class="name">${hl(j.name, q)}${j.medal ? `<span class="medal" title="需要勋章 ×${j.medal}">★${j.medal}</span>` : ''}</td>`;
+const reqChips = (j, q) => Object.entries(j.req).map(([k, lv]) => {
+  const c = hasMy() ? ((st.my[k] || 0) >= lv ? ' ok' : ' no') : '';
+  return `<span class="chip${c}">${hl(k, q)} ${lv}</span>`;
+}).join('');
+const lockCls = j => hasMy() && !canDo(j) ? ' class="locked"' : '';
+
+function renderStats(q) {
+  const r = rows(q);
+  const max = STAT.map((_, i) => Math.max(...D.jobs.map(j => statVal(j, i))));
+  const cell = (j, i) => {
+    const [a, b] = j.stats[i], v = statVal(j, i), pct = Math.round(v / max[i] * 55);
+    const txt = st.mode === 'r' ? `<span class="sub" style="display:inline">${a}→</span>${b}` : st.mode === 'per' ? v.toFixed(1) : v;
+    return `<td class="n" style="background:color-mix(in srgb, var(--bar) ${pct}%, transparent)">${txt}<span class="sub">精通 +${j.mastery[i]}</span></td>`;
+  };
+  $('#count').textContent = `${r.length} / ${D.jobs.length} 个职业`;
+  return `<p class="note">需求 = 转职所需知识等级（全部满足）。能力值是职业自身的加成，转职时替换；下方小字为练满该职业后永久获得的精通加成。色块深浅 = 该列相对最大值。${hasMy() ? '绿色/红色 = 你的知识等级是否满足。' : '在上方填入知识等级可检查能否转职。'}点击表头排序。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '职业')}${th('req', '转职需求')}${th('maxLv', '最高Lv', 'n')}${th('exp', '总EXP', 'n')}` +
+  STAT.map((s, i) => th('s' + i, STAT_ZH[i], 'n', s)).join('') + `${th('skill', '精通技能')}</tr>` +
+  r.map(j => `<tr${lockCls(j)}><td class="n">${j.id}</td>${nameCell(j, q)}<td>${reqChips(j, q)}</td><td class="n">${j.maxLv}</td>
+    <td class="n">${fmt(j.exp)}</td>${STAT.map((_, i) => cell(j, i)).join('')}<td>${hl(j.skill, q)}</td></tr>`).join('') + '</table></div>';
+}
+function renderOther(q) {
+  const r = rows(q);
+  const wp = (ws, cls) => ws.map(w => `<span class="chip${cls}">${hl(W[w] || w, q)}</span>`).join('') || '<span class="sub">—</span>';
+  $('#count').textContent = `${r.length} / ${D.jobs.length} 个职业`;
+  return `<p class="note">武器适性只列出非“普通”的。喜欢的设施：船员使用时知识 ×1.5。其余为数据原始值（含义未全部验证）。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '职业')}<th>擅长武器</th><th>不擅长武器</th><th>喜欢的设施</th>
+  ${th('act', '行动速度', 'n', 'actSpeed_')}${th('work', '工作上限', 'n', 'workCountMax_')}${th('getExp', '获得EXP', 'n', 'getExp_')}
+  ${th('cls', 'Class', 'n', 'class_')}${th('rank', 'Rank组', 'n', 'rankGroup_')}${th('masterNum', 'Master', 'n', 'masterNum_')}${th('medal', '勋章', 'n', 'medalNum_')}<th>职业特性</th></tr>` +
+  r.map(j => `<tr${lockCls(j)}><td class="n">${j.id}</td>${nameCell(j, q)}<td>${wp(j.good, '')}</td><td>${wp(j.bad, ' bad')}</td>
+    <td>${j.fav.map(f => `<span class="chip">${hl(f, q)}</span>`).join('')}</td><td class="n">${j.act}</td><td class="n">${j.work}</td>
+    <td class="n">${j.getExp}</td><td class="n">${j.cls}</td><td class="n">${j.rank}</td><td class="n">${j.masterNum}</td><td class="n">${j.medal || ''}</td>
+    <td class="desc">${hl(j.desc, q)}</td></tr>`).join('') + '</table></div>';
+}
+function renderBed(q) {
+  const r = rows(q);
+  $('#count').textContent = `${r.length} / ${D.jobs.length} 个职业`;
+  return `<p class="note">船员的寝室跟随其<b>当前</b>职业：睡觉时寝室格会重建为该职业的寝室。没有专属寝室的职业使用基础房间 (#4)。寝室为 1×1、不能升级、不给访客知识；效果像其他设施一样作用于距离 3 以内的邻格。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '职业')}${th('room', '寝室')}<th>参数</th><th>对邻格的区域效果</th><th>对邻格的额外效果</th></tr>` +
+  r.map(j => `<tr${lockCls(j)}><td class="n">${j.id}</td>${nameCell(j, q)}<td>${hl(j.bed.room, q)}</td><td>${esc(j.bed.param)}</td>
+    <td>${j.bed.area.split(', ').map(a => `<span class="chip">${hl(a, q)}</span>`).join('')}</td>
+    <td>${j.bed.extra ? `<span class="chip">${hl(j.bed.extra, q)}</span>` : '<span class="sub">—</span>'}</td></tr>`).join('') + '</table></div>';
+}
+function renderKnow() {
+  $('#count').textContent = '';
+  const cols = s => s.split(' / ');
+  const head = '<th class="n">职业数</th><th class="n">等级合计</th><th class="n">最少EXP</th><th class="n">EXP占比</th>';
+  return `<p class="note">转职会消耗所需的知识等级（并清空这些类型当前的零头 EXP）。知识 Lv L → L+1 需要 (L+1) × 1000 EXP（上限 Lv 20），所以从 0 获得 r 级需要 1000 × r(r+1)/2 EXP（“最少EXP”；若从更高等级扣除则更多）。下表为每名船员转职到每个职业各一次的总量。</p>
+  <div class="card"><table><tr><th rowspan="2">知识</th><th colspan="4">全部 ${D.jobs.length} 个职业</th><th colspan="4">不含 ${D.jobs.filter(j => j.medal).length} 个勋章职业</th></tr><tr>${head}${head}</tr>` +
+  D.know.map(r => { const t = r.k.startsWith('**'), a = cols(r.all), b = cols(r.noMedal), pad = x => [...x, '', '', '', ''].slice(0, 4);
+    return `<tr${t ? ' style="font-weight:600"' : ''}><td>${esc(r.k.replace(/\*/g, ''))}</td>${[...pad(a), ...pad(b)].map(c => `<td class="n">${esc(c)}</td>`).join('')}</tr>`;
+  }).join('') + '</table></div>';
+}
+function render() {
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === st.tab));
+  const know = st.tab === 'know';
+  $('#mode').style.display = st.tab === 'stats' ? '' : 'none';
+  ['#q', '#nomedal', '#mine'].forEach(s => { const e = s === '#nomedal' ? $(s).parentElement : $(s); e.style.display = know ? 'none' : ''; });
+  const q = $('#q').value.trim().toLowerCase();
+  $('#out').innerHTML = { stats: renderStats, other: renderOther, bed: renderBed, know: renderKnow }[st.tab](q);
+  save();
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { st.tab = b.dataset.t; render(); } });
+$('#out').addEventListener('click', e => {
+  const h = e.target.closest('th[data-k]'); if (!h) return;
+  const k = h.dataset.k;
+  if (st.key === k) st.dir = -st.dir; else { st.key = k; st.dir = ['id', 'name', 'skill', 'room'].includes(k) ? 1 : -1; }
+  render();
+});
+let timer; $('#q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+$('#mode').addEventListener('change', e => { st.mode = e.target.value; render(); });
+$('#nomedal').addEventListener('change', e => { st.nomedal = e.target.checked; render(); });
+$('#mine').addEventListener('input', e => {
+  if (e.target.dataset.kn) { st.my[e.target.dataset.kn] = Math.max(0, +e.target.value || 0); render(); }
+  else if (e.target.id === 'onlyok') { st.onlyOk = e.target.checked; render(); }
+});
+$('#clr').addEventListener('click', () => { st.my = {}; document.querySelectorAll('[data-kn]').forEach(i => i.value = ''); render(); });
+render();
+</script>
+</body>
+</html>

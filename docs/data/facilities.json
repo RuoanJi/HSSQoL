@@ -1,0 +1,6442 @@
+{
+  "paramNames": [
+    "快適",
+    "鍛錬",
+    "解析",
+    "収穫"
+  ],
+  "categoryNames": [
+    "設備",
+    "建物",
+    "環境"
+  ],
+  "knowNames": [
+    "近接ﾊﾞﾄﾙ",
+    "遠隔ﾊﾞﾄﾙ",
+    "ふなのり",
+    "探究心",
+    "働く心",
+    "勇敢戦士",
+    "秘伝"
+  ],
+  "models": [
+    {
+      "index": 0,
+      "id": 0,
+      "name": "地板",
+      "explain": "快適(0)床です",
+      "type": 0,
+      "category": 0,
+      "sortID": 100,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 0,
+      "buildNone": 0,
+      "buildCost": 100,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 16,
+      "areaEffect": [
+        [
+          0,
+          10
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": false,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 1,
+      "id": 1,
+      "name": "楼梯",
+      "explain": "階段です",
+      "type": 1,
+      "category": 0,
+      "sortID": 101,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 0,
+      "buildNone": 0,
+      "buildCost": 100,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 24,
+      "areaEffect": [
+        [
+          0,
+          10
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": false,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 2,
+      "id": 2,
+      "name": "柱子",
+      "explain": "柱です",
+      "type": 2,
+      "category": 2,
+      "sortID": 302,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 0,
+      "buildNone": 0,
+      "buildCost": 400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 120,
+      "areaEffect": [
+        [
+          0,
+          12
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 3,
+      "id": 3,
+      "name": "拼块地板",
+      "explain": "提升步行速度",
+      "type": 0,
+      "category": 0,
+      "sortID": 403,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 0,
+      "buildNone": 1,
+      "buildCost": 100,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 40,
+      "areaEffect": [
+        [
+          0,
+          32
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": false,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": false,
+      "find": 0,
+      "owned": 1,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 4,
+      "id": 4,
+      "name": "寝室",
+      "explain": "提供船员休息的舒适空间",
+      "type": 4,
+      "category": 0,
+      "sortID": 4,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 100,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 48,
+      "areaEffect": [
+        [
+          0,
+          10
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": 0,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 1,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 0,
+      "owned": 1,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 5,
+      "id": 5,
+      "name": "寝室",
+      "explain": "岛上居民可以来购物",
+      "type": 4,
+      "category": 0,
+      "sortID": 205,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 32,
+      "areaEffect": [
+        [
+          0,
+          10
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": 1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": 3,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": true,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 6,
+      "id": 6,
+      "name": "医务室",
+      "explain": "附近房间的回复效果提升",
+      "type": 2,
+      "category": 1,
+      "sortID": 1006,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 160,
+      "areaEffect": [
+        [
+          0,
+          128
+        ]
+      ],
+      "exEffect": [
+        9,
+        5
+      ],
+      "getKnowTime": 810,
+      "getKnow": [
+        3,
+        80
+      ],
+      "knowValueNow": [
+        3,
+        104
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          24,
+          9,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 19,
+      "exp": 2724
+    },
+    {
+      "index": 7,
+      "id": 7,
+      "name": "寝室",
+      "explain": "岛上居民可以来购物的寝室",
+      "type": 4,
+      "category": 0,
+      "sortID": 407,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 500,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 64,
+      "areaEffect": [
+        [
+          0,
+          12
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": 2,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": 0,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": true,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 8,
+      "id": 8,
+      "name": "寝室",
+      "explain": "岛上居民可以来购物的寝室",
+      "type": 4,
+      "category": 0,
+      "sortID": 508,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 80,
+      "areaEffect": [
+        [
+          0,
+          12
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": 3,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": 1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": true,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 9,
+      "id": 9,
+      "name": "寝室",
+      "explain": "岛上居民可以来购物的寝室",
+      "type": 4,
+      "category": 0,
+      "sortID": 609,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 700,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 96,
+      "areaEffect": [
+        [
+          0,
+          14
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": 4,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": 2,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": true,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 10,
+      "id": 10,
+      "name": "寝室",
+      "explain": "提供船员休息的舒适空间",
+      "type": 4,
+      "category": 0,
+      "sortID": 1810,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 288,
+      "areaEffect": [
+        [
+          0,
+          32
+        ],
+        [
+          1,
+          10
+        ]
+      ],
+      "exEffect": [
+        6,
+        10
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 11,
+      "id": 11,
+      "name": "寝室",
+      "explain": "提供船员休息的舒适空间",
+      "type": 4,
+      "category": 0,
+      "sortID": 1511,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1800,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 240,
+      "areaEffect": [
+        [
+          0,
+          42
+        ],
+        [
+          3,
+          14
+        ]
+      ],
+      "exEffect": [
+        10,
+        8
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 12,
+      "id": 12,
+      "name": "仓库",
+      "explain": "收纳重要物品的设施",
+      "type": 12,
+      "category": 0,
+      "sortID": 1112,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1300,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 0,
+      "paramType": 3,
+      "paramValue": 44,
+      "areaEffect": [
+        [
+          3,
+          22
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "exEffect": [
+        11,
+        1
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 2,
+      "isGetKnow": false,
+      "isParamUp": false,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": false,
+      "find": 0,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 13,
+      "id": 13,
+      "name": "巨大仓库",
+      "explain": "收纳重要物品的设施",
+      "type": 13,
+      "category": 0,
+      "sortID": 2413,
+      "menuPos": 0,
+      "sizeW": 2,
+      "sizeH": 2,
+      "widthNum": 2,
+      "heightNum": 2,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2800,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 0,
+      "paramType": 3,
+      "paramValue": 96,
+      "areaEffect": [
+        [
+          3,
+          40
+        ],
+        [
+          2,
+          14
+        ]
+      ],
+      "exEffect": [
+        12,
+        1
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": false,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": false,
+      "find": 0,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 14,
+      "id": 14,
+      "name": "船员食堂",
+      "explain": "船员享用料理可以提升回复速度",
+      "type": 5,
+      "category": 1,
+      "sortID": 514,
+      "menuPos": 1,
+      "sizeW": 2,
+      "sizeH": 2,
+      "widthNum": 2,
+      "heightNum": 2,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 600,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 6,
+      "paramType": 0,
+      "paramValue": 20,
+      "areaEffect": [
+        [
+          0,
+          46
+        ],
+        [
+          3,
+          16
+        ]
+      ],
+      "exEffect": [
+        11,
+        4
+      ],
+      "getKnowTime": 720,
+      "getKnow": [
+        4,
+        80
+      ],
+      "knowValueNow": [
+        4,
+        93
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          15,
+          -10,
+          2,
+          1
+        ],
+        [
+          -5,
+          -2,
+          0,
+          0
+        ],
+        [
+          40,
+          3,
+          2,
+          3
+        ],
+        [
+          20,
+          11,
+          0,
+          2
+        ],
+        [
+          36,
+          -12,
+          0,
+          -4
+        ]
+      ],
+      "nodePoint": [
+        [
+          0,
+          8,
+          7,
+          6
+        ],
+        [
+          30,
+          -4,
+          7,
+          2
+        ],
+        [
+          47,
+          -1,
+          1,
+          3
+        ],
+        [
+          60,
+          8,
+          2,
+          5
+        ],
+        [
+          30,
+          23,
+          5,
+          6
+        ],
+        [
+          45,
+          14,
+          3,
+          4
+        ],
+        [
+          14,
+          17,
+          0,
+          4
+        ],
+        [
+          15,
+          0,
+          0,
+          1
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 11,
+      "exp": 1563
+    },
+    {
+      "index": 15,
+      "id": 15,
+      "name": "解析室",
+      "explain": "能将仓库堆放的物品解析为珍品",
+      "type": 7,
+      "category": 0,
+      "sortID": 315,
+      "menuPos": 0,
+      "sizeW": 2,
+      "sizeH": 2,
+      "widthNum": 2,
+      "heightNum": 2,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 2,
+      "paramValue": 48,
+      "areaEffect": [
+        [
+          2,
+          64
+        ],
+        [
+          0,
+          22
+        ]
+      ],
+      "exEffect": [
+        7,
+        5
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        3,
+        60
+      ],
+      "knowValueNow": [
+        3,
+        84
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          40,
+          3,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          0,
+          8,
+          3,
+          3
+        ],
+        [
+          30,
+          23,
+          3,
+          2
+        ],
+        [
+          45,
+          14,
+          1,
+          1
+        ],
+        [
+          14,
+          17,
+          0,
+          1
+        ]
+      ],
+      "optPoint": [
+        [
+          29,
+          -6,
+          0
+        ],
+        [
+          10,
+          4,
+          1
+        ]
+      ],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 22,
+      "exp": 3232
+    },
+    {
+      "index": 16,
+      "id": 16,
+      "name": "未使用",
+      "explain": "未使用です",
+      "type": 2,
+      "category": 1,
+      "sortID": 2216,
+      "menuPos": 1,
+      "sizeW": 2,
+      "sizeH": 2,
+      "widthNum": 2,
+      "heightNum": 2,
+      "bigChip": true,
+      "visitNone": 0,
+      "selectNone": 0,
+      "buildNone": 0,
+      "buildCost": 2600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 88,
+      "areaEffect": [
+        [
+          0,
+          38
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 500,
+      "getKnow": [
+        6,
+        85
+      ],
+      "knowValueNow": [
+        6,
+        85
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 70,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 17,
+      "id": 17,
+      "name": "格斗场",
+      "explain": "锻炼勇气的格斗设施",
+      "type": 2,
+      "category": 1,
+      "sortID": 2917,
+      "menuPos": 1,
+      "sizeW": 2,
+      "sizeH": 2,
+      "widthNum": 2,
+      "heightNum": 2,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 3500,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 116,
+      "areaEffect": [
+        [
+          1,
+          50
+        ],
+        [
+          2,
+          16
+        ]
+      ],
+      "exEffect": [
+        4,
+        10
+      ],
+      "getKnowTime": 550,
+      "getKnow": [
+        5,
+        90
+      ],
+      "knowValueNow": [
+        5,
+        113
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 90,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          10,
+          0,
+          1,
+          -2
+        ],
+        [
+          50,
+          0,
+          2,
+          -2
+        ],
+        [
+          15,
+          -9,
+          1,
+          -2
+        ],
+        [
+          44,
+          -9,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          23,
+          1,
+          2
+        ],
+        [
+          60,
+          8,
+          0,
+          -6
+        ],
+        [
+          0,
+          8,
+          0,
+          -6
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 3,
+      "lv": 17,
+      "exp": 2485
+    },
+    {
+      "index": 18,
+      "id": 18,
+      "name": "游泳池",
+      "explain": "游泳可以获取经验值",
+      "type": 2,
+      "category": 1,
+      "sortID": 1518,
+      "menuPos": 1,
+      "sizeW": 2,
+      "sizeH": 2,
+      "widthNum": 2,
+      "heightNum": 2,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1800,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 60,
+      "areaEffect": [
+        [
+          1,
+          112
+        ],
+        [
+          0,
+          40
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 450,
+      "getKnow": [
+        2,
+        105
+      ],
+      "knowValueNow": [
+        2,
+        137
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          10,
+          0,
+          1,
+          -2
+        ],
+        [
+          28,
+          9,
+          2,
+          -2
+        ],
+        [
+          28,
+          -9,
+          1,
+          -2
+        ],
+        [
+          47,
+          0,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          23,
+          1,
+          2
+        ],
+        [
+          60,
+          8,
+          0,
+          -6
+        ],
+        [
+          0,
+          8,
+          0,
+          -6
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 3,
+      "lv": 21,
+      "exp": 3001
+    },
+    {
+      "index": 19,
+      "id": 19,
+      "name": "舞厅",
+      "explain": "愉快地跳舞能够锻炼身体",
+      "type": 2,
+      "category": 1,
+      "sortID": 1819,
+      "menuPos": 1,
+      "sizeW": 2,
+      "sizeH": 2,
+      "widthNum": 2,
+      "heightNum": 2,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 72,
+      "areaEffect": [
+        [
+          1,
+          32
+        ],
+        [
+          0,
+          10
+        ]
+      ],
+      "exEffect": [
+        9,
+        5
+      ],
+      "getKnowTime": 500,
+      "getKnow": [
+        6,
+        85
+      ],
+      "knowValueNow": [
+        6,
+        101
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 70,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          6,
+          0,
+          1,
+          -2
+        ],
+        [
+          28,
+          12,
+          2,
+          -2
+        ],
+        [
+          28,
+          -9,
+          1,
+          -2
+        ],
+        [
+          52,
+          0,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          23,
+          1,
+          2
+        ],
+        [
+          60,
+          8,
+          0,
+          -6
+        ],
+        [
+          0,
+          8,
+          0,
+          -6
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 12,
+      "exp": 1787
+    },
+    {
+      "index": 20,
+      "id": 20,
+      "name": "厨房",
+      "explain": "提供美食的基石",
+      "type": 2,
+      "category": 1,
+      "sortID": 520,
+      "menuPos": 1,
+      "sizeW": 2,
+      "sizeH": 1,
+      "widthNum": 2,
+      "heightNum": 1,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 20,
+      "areaEffect": [
+        [
+          0,
+          76
+        ],
+        [
+          1,
+          26
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 720,
+      "getKnow": [
+        4,
+        80
+      ],
+      "knowValueNow": [
+        4,
+        98
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          13,
+          5,
+          0,
+          -2
+        ],
+        [
+          26,
+          12,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          23,
+          1,
+          -4
+        ],
+        [
+          30,
+          14,
+          0,
+          2
+        ],
+        [
+          17,
+          7,
+          1,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 14,
+      "exp": 2089
+    },
+    {
+      "index": 21,
+      "id": 21,
+      "name": "射击训练场",
+      "explain": "学习远程攻击方式的设施",
+      "type": 2,
+      "category": 1,
+      "sortID": 1221,
+      "menuPos": 1,
+      "sizeW": 2,
+      "sizeH": 1,
+      "widthNum": 2,
+      "heightNum": 1,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 48,
+      "areaEffect": [
+        [
+          1,
+          22
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "exEffect": [
+        5,
+        5
+      ],
+      "getKnowTime": 450,
+      "getKnow": [
+        1,
+        90
+      ],
+      "knowValueNow": [
+        1,
+        109
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          36,
+          15,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 14,
+      "exp": 2017
+    },
+    {
+      "index": 22,
+      "id": 22,
+      "name": "特训场",
+      "explain": "锻炼勇气的格斗设施",
+      "type": 2,
+      "category": 1,
+      "sortID": 2022,
+      "menuPos": 1,
+      "sizeW": 2,
+      "sizeH": 1,
+      "widthNum": 2,
+      "heightNum": 1,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 80,
+      "areaEffect": [
+        [
+          1,
+          34
+        ],
+        [
+          2,
+          12
+        ]
+      ],
+      "exEffect": [
+        4,
+        5
+      ],
+      "getKnowTime": 500,
+      "getKnow": [
+        5,
+        85
+      ],
+      "knowValueNow": [
+        5,
+        98
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 70,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          29,
+          11,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 10,
+      "exp": 1412
+    },
+    {
+      "index": 23,
+      "id": 23,
+      "name": "祈祷处",
+      "explain": "船员可以在这里祈祷航海旅途顺利",
+      "type": 2,
+      "category": 1,
+      "sortID": 1923,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 2,
+      "widthNum": 1,
+      "heightNum": 2,
+      "bigChip": true,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2300,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 0,
+      "paramValue": 76,
+      "areaEffect": [
+        [
+          0,
+          32
+        ],
+        [
+          1,
+          10
+        ]
+      ],
+      "exEffect": [
+        10,
+        8
+      ],
+      "getKnowTime": 900,
+      "getKnow": [
+        6,
+        85
+      ],
+      "knowValueNow": [
+        6,
+        95
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 70,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          48,
+          5,
+          0,
+          -2
+        ],
+        [
+          32,
+          13,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          23,
+          1,
+          -4
+        ],
+        [
+          48,
+          14,
+          0,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 8,
+      "exp": 1166
+    },
+    {
+      "index": 24,
+      "id": 24,
+      "name": "宝物资料馆",
+      "explain": "藏有世间宝物的复制品",
+      "type": 2,
+      "category": 1,
+      "sortID": 1224,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 48,
+      "areaEffect": [
+        [
+          3,
+          34
+        ],
+        [
+          2,
+          12
+        ]
+      ],
+      "exEffect": [
+        11,
+        5
+      ],
+      "getKnowTime": 450,
+      "getKnow": [
+        3,
+        95
+      ],
+      "knowValueNow": [
+        3,
+        113
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          28,
+          7,
+          1,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 4,
+      "lv": 13,
+      "exp": 1919
+    },
+    {
+      "index": 25,
+      "id": 25,
+      "name": "情报信息馆",
+      "explain": "了解世间新闻获得知识",
+      "type": 2,
+      "category": 1,
+      "sortID": 1225,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 48,
+      "areaEffect": [
+        [
+          1,
+          22
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "exEffect": [
+        11,
+        2
+      ],
+      "getKnowTime": 450,
+      "getKnow": [
+        2,
+        85
+      ],
+      "knowValueNow": [
+        2,
+        98
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          38,
+          13,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          17,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 10,
+      "exp": 1412
+    },
+    {
+      "index": 26,
+      "id": 26,
+      "name": "澡堂",
+      "explain": "舒适地泡澡可以进行回复",
+      "type": 2,
+      "category": 1,
+      "sortID": 326,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 12,
+      "areaEffect": [
+        [
+          0,
+          32
+        ],
+        [
+          1,
+          10
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 720,
+      "getKnow": [
+        4,
+        75
+      ],
+      "knowValueNow": [
+        4,
+        97
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          30,
+          9,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 2,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 7,
+      "lv": 18,
+      "exp": 2651
+    },
+    {
+      "index": 27,
+      "id": 27,
+      "name": "图书馆",
+      "explain": "可以学习世界历史",
+      "type": 2,
+      "category": 1,
+      "sortID": 527,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 20,
+      "areaEffect": [
+        [
+          1,
+          14
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "exEffect": [
+        7,
+        5
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        3,
+        100
+      ],
+      "knowValueNow": [
+        3,
+        127
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          28,
+          15,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 18,
+      "exp": 2635
+    },
+    {
+      "index": 28,
+      "id": 28,
+      "name": "探测室",
+      "explain": "可以学习过去探测的历史",
+      "type": 2,
+      "category": 1,
+      "sortID": 928,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1100,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 36,
+      "areaEffect": [
+        [
+          1,
+          20
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "exEffect": [
+        6,
+        15
+      ],
+      "getKnowTime": 450,
+      "getKnow": [
+        2,
+        100
+      ],
+      "knowValueNow": [
+        2,
+        109
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          17,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          22,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 6,
+      "exp": 862
+    },
+    {
+      "index": 29,
+      "id": 29,
+      "name": "职务室",
+      "explain": "负责管理船团的房间",
+      "type": 2,
+      "category": 1,
+      "sortID": 1229,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 48,
+      "areaEffect": [
+        [
+          3,
+          22
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "exEffect": [
+        7,
+        5
+      ],
+      "getKnowTime": 450,
+      "getKnow": [
+        3,
+        90
+      ],
+      "knowValueNow": [
+        3,
+        90
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          10,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          29,
+          18,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 30,
+      "id": 30,
+      "name": "画室",
+      "explain": "培养画家的房间",
+      "type": 2,
+      "category": 1,
+      "sortID": 630,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 700,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 24,
+      "areaEffect": [
+        [
+          1,
+          16
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "exEffect": [
+        7,
+        5
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        3,
+        95
+      ],
+      "knowValueNow": [
+        3,
+        124
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          34,
+          11,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          19,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 20,
+      "exp": 2882
+    },
+    {
+      "index": 31,
+      "id": 31,
+      "name": "通信室",
+      "explain": "配备了最先进的通信技术",
+      "type": 2,
+      "category": 1,
+      "sortID": 1031,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 40,
+      "areaEffect": [
+        [
+          1,
+          20
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "exEffect": [
+        6,
+        5
+      ],
+      "getKnowTime": 450,
+      "getKnow": [
+        3,
+        100
+      ],
+      "knowValueNow": [
+        3,
+        124
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          23,
+          11,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [
+        [
+          29,
+          19,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 1,
+      "lv": 16,
+      "exp": 2393
+    },
+    {
+      "index": 32,
+      "id": 32,
+      "name": "弹药库",
+      "explain": "打磨炮弹的设施",
+      "type": 2,
+      "category": 1,
+      "sortID": 532,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 20,
+      "areaEffect": [
+        [
+          1,
+          38
+        ],
+        [
+          2,
+          12
+        ]
+      ],
+      "exEffect": [
+        5,
+        5
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        1,
+        80
+      ],
+      "knowValueNow": [
+        1,
+        114
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          34,
+          13,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          18,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 27,
+      "exp": 3984
+    },
+    {
+      "index": 33,
+      "id": 33,
+      "name": "饮料吧",
+      "explain": "可免费享用美味的果汁",
+      "type": 2,
+      "category": 1,
+      "sortID": 833,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1000,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 32,
+      "areaEffect": [
+        [
+          0,
+          46
+        ],
+        [
+          1,
+          16
+        ]
+      ],
+      "exEffect": [
+        11,
+        1
+      ],
+      "getKnowTime": 720,
+      "getKnow": [
+        0,
+        70
+      ],
+      "knowValueNow": [
+        0,
+        79
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          28,
+          18,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 8,
+      "exp": 1162
+    },
+    {
+      "index": 34,
+      "id": 34,
+      "name": "钓鱼竿保存处",
+      "explain": "可以观赏多种优质的钓鱼竿",
+      "type": 2,
+      "category": 1,
+      "sortID": 634,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 700,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 24,
+      "areaEffect": [
+        [
+          1,
+          16
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 400,
+      "getKnow": [
+        4,
+        80
+      ],
+      "knowValueNow": [
+        4,
+        122
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          32,
+          8,
+          1,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          29,
+          19,
+          -2,
+          -2
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 33,
+      "exp": 4835
+    },
+    {
+      "index": 35,
+      "id": 35,
+      "name": "谈话室",
+      "explain": "船员们可以在此得到放松",
+      "type": 2,
+      "category": 1,
+      "sortID": 735,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 800,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 28,
+      "areaEffect": [
+        [
+          0,
+          26
+        ],
+        [
+          1,
+          8
+        ]
+      ],
+      "exEffect": [
+        6,
+        5
+      ],
+      "getKnowTime": 720,
+      "getKnow": [
+        2,
+        80
+      ],
+      "knowValueNow": [
+        2,
+        87
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          39,
+          10,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          29,
+          20,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 6,
+      "exp": 776
+    },
+    {
+      "index": 36,
+      "id": 36,
+      "name": "厕所",
+      "explain": "保持清洁能够提升工作心",
+      "type": 2,
+      "category": 1,
+      "sortID": 836,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1000,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 32,
+      "areaEffect": [
+        [
+          0,
+          22
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "exEffect": [
+        12,
+        1
+      ],
+      "getKnowTime": 720,
+      "getKnow": [
+        4,
+        80
+      ],
+      "knowValueNow": [
+        4,
+        93
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          36,
+          5,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          33,
+          28,
+          1,
+          -3
+        ],
+        [
+          45,
+          19,
+          0,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 2,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 3,
+      "lv": 11,
+      "exp": 1582
+    },
+    {
+      "index": 37,
+      "id": 37,
+      "name": "训练设施",
+      "explain": "能够获得战斗知识",
+      "type": 6,
+      "category": 1,
+      "sortID": 537,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 20,
+      "areaEffect": [
+        [
+          1,
+          14
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "exEffect": [
+        4,
+        5
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        0,
+        80
+      ],
+      "knowValueNow": [
+        0,
+        106
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          30,
+          15,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 2,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 21,
+      "exp": 3140
+    },
+    {
+      "index": 38,
+      "id": 38,
+      "name": "宠物小屋",
+      "explain": "这里是宠物小屋",
+      "type": 11,
+      "category": 0,
+      "sortID": 38,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1500,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 180,
+      "areaEffect": [
+        [
+          3,
+          56
+        ],
+        [
+          0,
+          20
+        ]
+      ],
+      "exEffect": [
+        8,
+        5
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          29,
+          8,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": false,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 0,
+      "owned": 1,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 39,
+      "id": 39,
+      "name": "农田",
+      "explain": "可以消费G购买物资",
+      "type": 8,
+      "category": 0,
+      "sortID": 2439,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 500,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 36,
+      "paramType": 3,
+      "paramValue": 16,
+      "areaEffect": [
+        [
+          3,
+          14
+        ]
+      ],
+      "exEffect": [
+        12,
+        1
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        4,
+        75
+      ],
+      "knowValueNow": [
+        4,
+        163
+      ],
+      "harvestTime": 2000,
+      "harvestNum": [
+        1,
+        3
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          55,
+          15,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 2,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": true,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 1,
+      "lv": 71,
+      "exp": 10545
+    },
+    {
+      "index": 40,
+      "id": 40,
+      "name": "植树厂",
+      "explain": "可以消费G购买物资",
+      "type": 9,
+      "category": 0,
+      "sortID": 2840,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1000,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 6,
+      "paramType": 3,
+      "paramValue": 32,
+      "areaEffect": [
+        [
+          3,
+          18
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 400,
+      "getKnow": [
+        4,
+        100
+      ],
+      "knowValueNow": [
+        4,
+        113
+      ],
+      "harvestTime": 2000,
+      "harvestNum": [
+        2,
+        5
+      ],
+      "workPow": 50,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          55,
+          15,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": true,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 9,
+      "exp": 1304
+    },
+    {
+      "index": 41,
+      "id": 41,
+      "name": "牧场(鸡)",
+      "explain": "可以消费G购买物资",
+      "type": 10,
+      "category": 0,
+      "sortID": 3241,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1400,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 8,
+      "paramType": 3,
+      "paramValue": 48,
+      "areaEffect": [
+        [
+          3,
+          22
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 450,
+      "getKnow": [
+        2,
+        70
+      ],
+      "knowValueNow": [
+        2,
+        84
+      ],
+      "harvestTime": 3000,
+      "harvestNum": [
+        2,
+        4
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          42,
+          11,
+          2,
+          -3
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          17,
+          -4,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": true,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 12,
+      "exp": 1704
+    },
+    {
+      "index": 42,
+      "id": 42,
+      "name": "牧场(猪)",
+      "explain": "可以消费G购买物资",
+      "type": 10,
+      "category": 0,
+      "sortID": 3442,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1800,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 3,
+      "paramType": 3,
+      "paramValue": 56,
+      "areaEffect": [
+        [
+          3,
+          26
+        ]
+      ],
+      "exEffect": [
+        12,
+        1
+      ],
+      "getKnowTime": 450,
+      "getKnow": [
+        2,
+        85
+      ],
+      "knowValueNow": [
+        2,
+        85
+      ],
+      "harvestTime": 3000,
+      "harvestNum": [
+        4,
+        6
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          42,
+          11,
+          2,
+          -3
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          17,
+          -4,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": true,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 43,
+      "id": 43,
+      "name": "牧场(牛)",
+      "explain": "可以消费G购买物资",
+      "type": 10,
+      "category": 0,
+      "sortID": 4343,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2800,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 5,
+      "paramType": 3,
+      "paramValue": 92,
+      "areaEffect": [
+        [
+          3,
+          40
+        ]
+      ],
+      "exEffect": [
+        12,
+        1
+      ],
+      "getKnowTime": 500,
+      "getKnow": [
+        2,
+        95
+      ],
+      "knowValueNow": [
+        2,
+        95
+      ],
+      "harvestTime": 4000,
+      "harvestNum": [
+        5,
+        10
+      ],
+      "workPow": 80,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          42,
+          11,
+          2,
+          -3
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          17,
+          -4,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": true,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 44,
+      "id": 44,
+      "name": "电灯",
+      "explain": "温和的光线增加舒适度",
+      "type": 2,
+      "category": 2,
+      "sortID": 244,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 8,
+      "areaEffect": [
+        [
+          0,
+          20
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "exEffect": [
+        12,
+        1
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        2,
+        55
+      ],
+      "knowValueNow": [
+        2,
+        70
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          21,
+          18,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          23,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 4,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 9,
+      "lv": 15,
+      "exp": 2219
+    },
+    {
+      "index": 45,
+      "id": 45,
+      "name": "椅子",
+      "explain": "能让船员们舒适地休憩",
+      "type": 2,
+      "category": 2,
+      "sortID": 145,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 100,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 4,
+      "areaEffect": [
+        [
+          0,
+          18
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "exEffect": [
+        11,
+        2
+      ],
+      "getKnowTime": 720,
+      "getKnow": [
+        3,
+        55
+      ],
+      "knowValueNow": [
+        3,
+        71
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          32,
+          10,
+          2,
+          -2
+        ],
+        [
+          22,
+          5,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          21,
+          1,
+          -4
+        ],
+        [
+          22,
+          15,
+          1,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 2,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 13,
+      "lv": 16,
+      "exp": 2266
+    },
+    {
+      "index": 46,
+      "id": 46,
+      "name": "观叶植物",
+      "explain": "在船内增加绿色的治愈效果",
+      "type": 3,
+      "category": 2,
+      "sortID": 346,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 12,
+      "areaEffect": [
+        [
+          0,
+          22
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "exEffect": [
+        11,
+        2
+      ],
+      "getKnowTime": 720,
+      "getKnow": [
+        2,
+        55
+      ],
+      "knowValueNow": [
+        2,
+        71
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          23,
+          16,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          21,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 2,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 5,
+      "lv": 16,
+      "exp": 2258
+    },
+    {
+      "index": 47,
+      "id": 47,
+      "name": "观叶树木",
+      "explain": "在船内增加绿色的治愈效果",
+      "type": 3,
+      "category": 2,
+      "sortID": 347,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 12,
+      "areaEffect": [
+        [
+          0,
+          26
+        ],
+        [
+          1,
+          8
+        ]
+      ],
+      "exEffect": [
+        6,
+        5
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        2,
+        85
+      ],
+      "knowValueNow": [
+        2,
+        107
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          23,
+          16,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          21,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 3,
+      "lv": 17,
+      "exp": 2510
+    },
+    {
+      "index": 48,
+      "id": 48,
+      "name": "传说之剑",
+      "explain": "传说中的幻之宝剑",
+      "type": 2,
+      "category": 2,
+      "sortID": 5548,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 6600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 220,
+      "areaEffect": [
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          36
+        ]
+      ],
+      "exEffect": [
+        9,
+        5
+      ],
+      "getKnowTime": 700,
+      "getKnow": [
+        5,
+        100
+      ],
+      "knowValueNow": [
+        5,
+        101
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 130,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          34,
+          -1,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          29,
+          21,
+          1,
+          -3
+        ],
+        [
+          43,
+          13,
+          0,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 49,
+      "id": 49,
+      "name": "守护之铠",
+      "explain": "代替看门狗的设施",
+      "type": 2,
+      "category": 2,
+      "sortID": 4549,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 5400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 180,
+      "areaEffect": [
+        [
+          0,
+          82
+        ],
+        [
+          1,
+          28
+        ]
+      ],
+      "exEffect": [
+        10,
+        5
+      ],
+      "getKnowTime": 650,
+      "getKnow": [
+        6,
+        95
+      ],
+      "knowValueNow": [
+        6,
+        98
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 120,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          21,
+          16,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          28,
+          20,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 3,
+      "exp": 406
+    },
+    {
+      "index": 50,
+      "id": 50,
+      "name": "女神像",
+      "explain": "温柔地守护着船员们",
+      "type": 2,
+      "category": 2,
+      "sortID": 4850,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 5800,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 0,
+      "paramValue": 192,
+      "areaEffect": [
+        [
+          0,
+          88
+        ],
+        [
+          3,
+          30
+        ]
+      ],
+      "exEffect": [
+        9,
+        10
+      ],
+      "getKnowTime": 1170,
+      "getKnow": [
+        5,
+        95
+      ],
+      "knowValueNow": [
+        5,
+        101
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 120,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          19,
+          12,
+          0,
+          -2
+        ],
+        [
+          27,
+          16,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          22,
+          20,
+          -4,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 5,
+      "exp": 716
+    },
+    {
+      "index": 51,
+      "id": 51,
+      "name": "伟大的椅子",
+      "explain": "坐下去会有成为伟人的感觉",
+      "type": 2,
+      "category": 2,
+      "sortID": 3051,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 3600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 120,
+      "areaEffect": [
+        [
+          0,
+          52
+        ],
+        [
+          2,
+          18
+        ]
+      ],
+      "exEffect": [
+        9,
+        5
+      ],
+      "getKnowTime": 990,
+      "getKnow": [
+        5,
+        90
+      ],
+      "knowValueNow": [
+        5,
+        109
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 90,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          28,
+          9,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          29,
+          23,
+          1,
+          -3
+        ],
+        [
+          22,
+          17,
+          0,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 1,
+      "lv": 14,
+      "exp": 2058
+    },
+    {
+      "index": 52,
+      "id": 52,
+      "name": "绘画角",
+      "explain": "展示着名画家的作品",
+      "type": 2,
+      "category": 2,
+      "sortID": 1552,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1800,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 60,
+      "areaEffect": [
+        [
+          0,
+          28
+        ],
+        [
+          2,
+          10
+        ]
+      ],
+      "exEffect": [
+        11,
+        10
+      ],
+      "getKnowTime": 450,
+      "getKnow": [
+        5,
+        80
+      ],
+      "knowValueNow": [
+        5,
+        80
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          21,
+          11,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          20,
+          19,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 53,
+      "id": 53,
+      "name": "水瓮",
+      "explain": "提供干净美味的纯净水",
+      "type": 2,
+      "category": 2,
+      "sortID": 553,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 0,
+      "paramValue": 20,
+      "areaEffect": [
+        [
+          0,
+          22
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "exEffect": [
+        12,
+        1
+      ],
+      "getKnowTime": 720,
+      "getKnow": [
+        2,
+        80
+      ],
+      "knowValueNow": [
+        2,
+        93
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          38,
+          15,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          30,
+          20,
+          -3,
+          -3
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 1,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 3,
+      "lv": 11,
+      "exp": 1594
+    },
+    {
+      "index": 54,
+      "id": 54,
+      "name": "指南针",
+      "explain": "每艘船都应必备的基本设施",
+      "type": 2,
+      "category": 2,
+      "sortID": 6354,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 7600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 252,
+      "areaEffect": [
+        [
+          0,
+          124
+        ],
+        [
+          2,
+          44
+        ]
+      ],
+      "exEffect": [
+        7,
+        5
+      ],
+      "getKnowTime": 750,
+      "getKnow": [
+        2,
+        105
+      ],
+      "knowValueNow": [
+        2,
+        106
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 150,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          17,
+          3,
+          -2
+        ],
+        [
+          19,
+          17,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          29,
+          23,
+          -4,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 55,
+      "id": 55,
+      "name": "水槽",
+      "explain": "看着游泳嬉戏的鱼儿可以放松",
+      "type": 2,
+      "category": 2,
+      "sortID": 2855,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 3400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 1,
+      "paramValue": 112,
+      "areaEffect": [
+        [
+          0,
+          48
+        ],
+        [
+          3,
+          16
+        ]
+      ],
+      "exEffect": [
+        11,
+        3
+      ],
+      "getKnowTime": 550,
+      "getKnow": [
+        4,
+        90
+      ],
+      "knowValueNow": [
+        4,
+        110
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 90,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          47,
+          16,
+          3,
+          -2
+        ],
+        [
+          36,
+          22,
+          3,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 2,
+      "lv": 15,
+      "exp": 2115
+    },
+    {
+      "index": 56,
+      "id": 56,
+      "name": "幸运之鸟",
+      "explain": "据说是能给人带来好运的福鸟",
+      "type": 2,
+      "category": 2,
+      "sortID": 5056,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 6000,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 2,
+      "paramType": 1,
+      "paramValue": 200,
+      "areaEffect": [
+        [
+          0,
+          92
+        ],
+        [
+          3,
+          32
+        ]
+      ],
+      "exEffect": [
+        11,
+        15
+      ],
+      "getKnowTime": 700,
+      "getKnow": [
+        1,
+        95
+      ],
+      "knowValueNow": [
+        1,
+        95
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 130,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          21,
+          17,
+          0,
+          -3
+        ],
+        [
+          41,
+          17,
+          3,
+          -3
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 57,
+      "id": 57,
+      "name": "牢房",
+      "explain": "关押俘虏的设施",
+      "type": 14,
+      "category": 0,
+      "sortID": 1057,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 1,
+      "paramValue": 40,
+      "areaEffect": [
+        [
+          1,
+          20
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 1,
+      "isGetKnow": false,
+      "isParamUp": false,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": false,
+      "find": 0,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 58,
+      "id": 58,
+      "name": "红色绒毯",
+      "explain": "大幅提升步行速度",
+      "type": 0,
+      "category": 0,
+      "sortID": 58,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 0,
+      "buildNone": 1,
+      "buildCost": 200,
+      "buildTime": 1000,
+      "costType": 1,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 80,
+      "areaEffect": [
+        [
+          1,
+          60
+        ],
+        [
+          2,
+          20
+        ]
+      ],
+      "exEffect": [],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": false,
+      "isHarvest": false,
+      "isVisit": false,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 59,
+      "id": 59,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 1659,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1900,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 256,
+      "areaEffect": [
+        [
+          0,
+          204
+        ]
+      ],
+      "exEffect": [
+        7,
+        10
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 60,
+      "id": 60,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 460,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 500,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 64,
+      "areaEffect": [
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "exEffect": [
+        8,
+        5
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 61,
+      "id": 61,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 261,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 32,
+      "areaEffect": [
+        [
+          0,
+          8
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "exEffect": [
+        12,
+        3
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 62,
+      "id": 62,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 562,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 600,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 80,
+      "areaEffect": [
+        [
+          0,
+          30
+        ]
+      ],
+      "exEffect": [
+        8,
+        10
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 63,
+      "id": 63,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 263,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 32,
+      "areaEffect": [
+        [
+          0,
+          6
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "exEffect": [
+        6,
+        10
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 64,
+      "id": 64,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 864,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1000,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 128,
+      "areaEffect": [
+        [
+          0,
+          24
+        ],
+        [
+          3,
+          8
+        ]
+      ],
+      "exEffect": [
+        10,
+        5
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 65,
+      "id": 65,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 465,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 500,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 64,
+      "areaEffect": [
+        [
+          0,
+          8
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "exEffect": [
+        5,
+        15
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 66,
+      "id": 66,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 666,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 700,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 96,
+      "areaEffect": [
+        [
+          0,
+          12
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "exEffect": [
+        7,
+        10
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 67,
+      "id": 67,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 767,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 800,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 112,
+      "areaEffect": [
+        [
+          0,
+          14
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "exEffect": [
+        7,
+        10
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 68,
+      "id": 68,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 1068,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 160,
+      "areaEffect": [
+        [
+          0,
+          6
+        ]
+      ],
+      "exEffect": [
+        9,
+        5
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 69,
+      "id": 69,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 469,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 500,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 64,
+      "areaEffect": [
+        [
+          0,
+          12
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "exEffect": [
+        4,
+        15
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 70,
+      "id": 70,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 1870,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 288,
+      "areaEffect": [
+        [
+          0,
+          38
+        ],
+        [
+          1,
+          12
+        ]
+      ],
+      "exEffect": [
+        9,
+        15
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 71,
+      "id": 71,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 2071,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 320,
+      "areaEffect": [
+        [
+          0,
+          44
+        ],
+        [
+          2,
+          14
+        ]
+      ],
+      "exEffect": [
+        10,
+        20
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 72,
+      "id": 72,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 872,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1000,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 128,
+      "areaEffect": [
+        [
+          0,
+          16
+        ],
+        [
+          1,
+          4
+        ]
+      ],
+      "exEffect": [
+        6,
+        10
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 73,
+      "id": 73,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 473,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 500,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 64,
+      "areaEffect": [
+        [
+          0,
+          16
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "exEffect": [
+        11,
+        5
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 74,
+      "id": 74,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 974,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1100,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 144,
+      "areaEffect": [
+        [
+          0,
+          14
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "exEffect": [
+        6,
+        5
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 75,
+      "id": 75,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 675,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 700,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 96,
+      "areaEffect": [
+        [
+          0,
+          2
+        ]
+      ],
+      "exEffect": [
+        9,
+        15
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 76,
+      "id": 76,
+      "name": "寝室",
+      "explain": "",
+      "type": 4,
+      "category": 0,
+      "sortID": 1076,
+      "menuPos": 0,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 0,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 0,
+      "paramType": 0,
+      "paramValue": 160,
+      "areaEffect": [
+        [
+          0,
+          20
+        ],
+        [
+          2,
+          6
+        ]
+      ],
+      "exEffect": [
+        10,
+        10
+      ],
+      "getKnowTime": 0,
+      "getKnow": [],
+      "knowValueNow": null,
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 0,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          37,
+          -4,
+          0,
+          -1
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 0,
+      "firstGet": 0,
+      "isGetKnow": false,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": false,
+      "find": 1,
+      "owned": 0,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 77,
+      "id": 77,
+      "name": "桌游室",
+      "explain": "可以玩耍各种丰富桌游",
+      "type": 2,
+      "category": 1,
+      "sortID": 2077,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 2400,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 0,
+      "paramValue": 80,
+      "areaEffect": [
+        [
+          2,
+          34
+        ],
+        [
+          1,
+          12
+        ]
+      ],
+      "exEffect": [
+        10,
+        5
+      ],
+      "getKnowTime": 1000,
+      "getKnow": [
+        2,
+        85
+      ],
+      "knowValueNow": [
+        2,
+        85
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 70,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          14,
+          15,
+          0,
+          -8
+        ]
+      ],
+      "nodePoint": [
+        [
+          28,
+          24,
+          -9,
+          -9
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 6,
+      "lv": 1,
+      "exp": 0
+    },
+    {
+      "index": 78,
+      "id": 78,
+      "name": "投标盘",
+      "explain": "投标小游戏可以换换心情",
+      "type": 2,
+      "category": 1,
+      "sortID": 1678,
+      "menuPos": 1,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 1900,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 2,
+      "paramType": 0,
+      "paramValue": 64,
+      "areaEffect": [
+        [
+          1,
+          34
+        ],
+        [
+          2,
+          12
+        ]
+      ],
+      "exEffect": [
+        6,
+        5
+      ],
+      "getKnowTime": 900,
+      "getKnow": [
+        1,
+        80
+      ],
+      "knowValueNow": [
+        1,
+        99
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 60,
+      "healWorkPowFlag": 1,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          12,
+          19,
+          0,
+          -2
+        ],
+        [
+          24,
+          25,
+          0,
+          -2
+        ]
+      ],
+      "nodePoint": [
+        [
+          29,
+          24,
+          -4,
+          -4
+        ]
+      ],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 0,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 0,
+      "lv": 15,
+      "exp": 2131
+    },
+    {
+      "index": 79,
+      "id": 79,
+      "name": "花",
+      "explain": "具有治愈人心的效果",
+      "type": 2,
+      "category": 2,
+      "sortID": 279,
+      "menuPos": 2,
+      "sizeW": 1,
+      "sizeH": 1,
+      "widthNum": 1,
+      "heightNum": 1,
+      "bigChip": false,
+      "visitNone": 1,
+      "selectNone": 1,
+      "buildNone": 1,
+      "buildCost": 200,
+      "buildTime": 1000,
+      "costType": 0,
+      "useCost": 1,
+      "paramType": 0,
+      "paramValue": 8,
+      "areaEffect": [
+        [
+          0,
+          18
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "exEffect": [
+        10,
+        5
+      ],
+      "getKnowTime": 400,
+      "getKnow": [
+        3,
+        75
+      ],
+      "knowValueNow": [
+        3,
+        88
+      ],
+      "harvestTime": 0,
+      "harvestNum": [
+        0,
+        0
+      ],
+      "workPow": 40,
+      "healWorkPowFlag": 0,
+      "bedRoomType": -1,
+      "visitPoint": [
+        [
+          55,
+          15,
+          2,
+          -2
+        ]
+      ],
+      "nodePoint": [],
+      "optPoint": [],
+      "shopType": -1,
+      "workFlag": 1,
+      "noNumLimit": 1,
+      "firstGet": 2,
+      "isGetKnow": true,
+      "isParamUp": true,
+      "isHarvest": false,
+      "isVisit": true,
+      "isShop": false,
+      "canLevel": true,
+      "find": 0,
+      "owned": 4,
+      "lv": 11,
+      "exp": 1624
+    }
+  ]
+}
