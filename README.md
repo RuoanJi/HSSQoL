@@ -9,7 +9,10 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - **强化满级**：一键把角色的当前职业升到满级，并自动挑选消耗哪些食物。
 - **转职满级**：在转职页面一键转到下一个未通关的职业，并升到满级。
 - **批量出售**：在港口商店一键卖出多余的装备、食物和药。
+- **船舱布局设计器**：按 F9 导出船舱，在独立网页里规划设施摆放并计算知识加成。
 - **游戏加速**：按 F2 开关，倍率可自由设置。
+- **跳过迷宫结算**：按 F3 开关，迷宫通关后的横幅、宝箱展示、经验结算、俘虏选择和迷宫内对话一闪而过。
+- **连续探索**：在迷宫出发页面一键反复打同一个迷宫，直到体力用完。
 - **鼠标滚轮**：在列表中用滚轮上下移动。
 
 > ⚠️ 本 Mod 会直接修改存档里的道具和经验值，且存档由 Steam 云同步。首次使用前请先备份 `saves` 文件夹。本项目与 Kairosoft 无关。
@@ -104,6 +107,30 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `MinCap` | 100 | 持有上限低于这个值时不卖 |
 | `ExcludeIds` | （空） | 永远不卖的东西，逗号分隔：游戏里显示的名字，或 `e:<id>`（装备）/ `i:<id>`（道具） |
 | `ButtonX` / `ButtonY` | 260 / 199 | 按钮位置 |
+## 船舱布局设计器
+
+`designer/designer.html` 是一个独立的网页工具（直接用浏览器打开，不需要联网），用来规划两层船舱的设施摆放：
+
+1. 在游戏里按 **F9**，Mod 会把当前船只等级、两层船舱的布局、每种设施的等级、职业寝室和船员信息导出到 `BepInEx\hssqol-ship.json`。
+2. 打开 `designer.html`，把这个文件拖进去（或点「载入导出文件」）。之后浏览器会记住它。
+
+设计器里可以：
+
+- 从左侧列表把设施**拖到**格子上（或单击选中再点格子）；拖动已放置的设施可移动，右键删除。列表可以按知识类型、额外效果类型、分类、是否解锁/拥有筛选，并按知识、额外效果、区域效果、参数、拥有数量等排序，并显示你拥有的数量（船上 + 仓库）和设计中已放置的数量（超出只提示，不限制）。
+- 单击设施打开详情面板：逐项列出知识的计算过程（基础、等级、每个邻居给的额外加成、锻炼/10），参数值的每个邻居贡献，可直接调整该设施等级，还可选择一名船员计算他实际每次获得多少（賢さ、技能、喜欢的设施 ×1.5、每周/订阅加成）。悬停显示影响范围（距离 ≤ 3）。
+- 点寝室可以选择住在这里的船员职业，寝室类型和对邻居的加成随之改变；载入导出文件时会自动标出游戏里住在每间寝室的船员。
+- 切换船只等级 0–4（扩建后的格子大小、柱子和楼梯位置都按游戏规则计算），布局会像游戏一样跟着平移。
+- 随意修改每种设施的等级，或一键全部设为 0 / 300 / 恢复游戏等级。
+- 被围住（四周没有空地）的设施会标红；右侧汇总各知识类型的产出占比，并与「转职到所有职业所需知识」的比例对照。
+- 保存 / 载入设计文件。
+
+顶部的「模型校验」会用导出文件里游戏自己算出的数值检查设计器的计算，应显示全部一致。
+
+| 设置（`[Export]`） | 默认 | 说明 |
+|---|---|---|
+| `ShipExportKey` | F9 | 导出按键 |
+| `ExportOnLoad` | false | 读取存档后自动导出一次 |
+
 ## 游戏加速
 
 按 **F2** 开启或关闭加速。开启时右上角会显示 `▶▶ x5`。
@@ -120,6 +147,49 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 - 开关后需要几秒钟才会完全生效或恢复。
 - 开启期间游戏内的日期时间会走得比现实快，关闭后也不会倒退回去（与 Cheat Engine 相同），直到重新启动游戏。这期间保存的存档会带有略微超前的时间。
+
+## 跳过迷宫结算
+
+按 **F3** 开启或关闭（会记住上次的设置）。开启时右上角会显示 `⏭ 跳过结算`。开启后：
+
+- 迷宫通关的横幅、逐个宝箱的展示、队伍经验结算和"点击继续"都会自动快速走完。
+- 抓到的俘虏全部直接关进牢房（等同于游戏里的"全部收监"并选"是"），不弹列表和确认框。牢房满了时，多出的俘虏按游戏规则放到甲板上。
+- 迷宫里的对话（比如 Boss 战前的对话）自动跳过。迷宫外的对话不受影响。
+
+职业通关、怪物进化等弹出窗口仍需手动点击。
+
+这里没有跳过任何游戏逻辑：Mod 只是替你按确定键，并让这些画面每帧多运行几次，所以获得的道具、经验和俘虏与正常点完完全相同。
+
+可在 `[DungeonSkip]` 中设置：
+
+| 设置 | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | false | 是否开启（按 F3 切换） |
+| `ToggleKey` | F3 | 开关按键 |
+| `ExtraUpdates` | 10 | 这些画面每帧额外运行的次数，0–60 |
+| `Types` | 41,79 | 要快进的画面类型：41 通关、79 经验结算；加上 80 可连职业通关窗口一起跳过 |
+| `AutoImprison` | true | 俘虏全部直接收监 |
+| `SkipTalk` | true | 跳过迷宫内的对话 |
+| `ShowIndicator` | true | 是否显示右上角的标签 |
+
+## 连续探索
+
+在港口点迷宫入口、选好队伍后，"出发"页面左下角的空位会出现 **连续探索（约 N 次）** 按钮（N = 体力 ÷ 该迷宫消耗）。点一下后会出发，并在每次通关回港后自动再次出发同一个迷宫，直到体力不够为止。
+
+- 连续探索期间总是跳过结算（无论 F3 是否开启），俘虏和迷宫内对话按 `[DungeonSkip]` 的 `AutoImprison`、`SkipTalk` 处理；出发时队员走向迷宫的动画也会跳过。不使用连续探索时，是否跳过仍由 F3 决定。
+- 每次出发都走游戏自己的出发流程：体力扣除、队伍选择和检查与手动出发完全相同。
+- 停止方法：探索中点港口的迷宫入口，在"正在探险"窗口左下角点 **停止连续探索**；或点右上角的"⟳ 连续探索 第N次"标签。当前这一次会照常打完（仍然跳过结算），之后不再出发。
+- 以下情况也会自动停止：体力不足、没有通关（比如全灭）、只能通关一次的迷宫已通关、达到 `MaxRuns`。
+- 需要消耗勋章的迷宫不显示按钮。
+
+可在 `[ContinuousExplore]` 中设置：
+
+| 设置 | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | true | 是否显示按钮 |
+| `ButtonX2` / `ButtonY2` | 0.067 / 0.921 | 按钮中心位置（窗口宽、高的比例） |
+| `IdleFrames` | 30 | 回港后等待多少帧没有窗口才再次出发 |
+| `MaxRuns` | 0 | 最多连续几次，0 = 直到体力用完 |
 
 ## 其他
 
@@ -182,7 +252,10 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 - **Power up to max (强化满级)**: one click levels a character's current job to max, choosing which food to use automatically.
 - **Switch job and max (转职满级)**: on the job-change page, one click switches to the next unmastered job and levels it to max.
 - **Bulk sell (批量出售)**: in port shops, one click sells surplus equipment, food and potions.
+- **Ship layout designer**: press F9 to export your ship, then plan facility layouts and their knowledge bonuses in a standalone web page.
 - **Speed-up**: toggled with F2, at a multiplier you choose.
+- **Skip dungeon clear (跳过迷宫结算)**: toggled with F3. The clear banner, chest showcase, party EXP screen, prisoner list and in-dungeon dialogue go by in a moment.
+- **Continuous explore (连续探索)**: one click on the dungeon depart page re-runs the same dungeon until stamina runs out.
 - **Mouse wheel**: scrolls up and down in lists.
 
 > ⚠️ This mod changes items and EXP in your save, and saves sync through Steam Cloud. Back up your `saves` folder before first use. This project is not affiliated with Kairosoft.
@@ -277,6 +350,30 @@ Prices and stock changes are exactly what the game's own selling does.
 | `MinCap` | 100 | Don't sell while the holding cap is below this |
 | `ExcludeIds` | (empty) | Never sell these. Comma-separated: names as shown in game, or `e:<id>` (equipment) / `i:<id>` (items) |
 | `ButtonX` / `ButtonY` | 260 / 199 | Button position |
+## Ship layout designer
+
+`designer/designer.html` is a standalone web page (open it in any browser, works offline) for planning the facilities on both ship floors:
+
+1. In game, press **F9**. The mod writes your ship level, both floors, each facility type's level, job bedrooms and crew to `BepInEx\hssqol-ship.json`.
+2. Open `designer.html` and drop that file on it (or use “Load export…”). The browser remembers it afterwards.
+
+In the designer you can:
+
+- **Drag** facilities from the palette onto the floor (or click one, then a tile); drag placed pieces to move them, right-click to remove. The palette filters by knowledge type, extra-effect type, category and unlocked/owned, sorts by knowledge, extra effect, area effect, param value, owned count and more, and shows how many you own (on the ship + in storage) next to how many the design uses (going over only warns, it doesn't block).
+- Click a piece to open its panel: a step-by-step knowledge calculation (base, level, each neighbour's extra bonus, training ÷ 10), each neighbour's share of the param value, a level control for that facility type, and a crew picker that shows what a given crew member actually gets per visit (wisdom, skill, favourite ×1.5, weekly/subscription). Hovering shows its range (distance ≤ 3).
+- Click a bedroom to pick its resident's job; the bedroom type and its bonus to neighbours change with it. On load, each bedroom is labelled with the crew member who lives there in your save.
+- Switch ship level 0–4 (floor sizes, pillars and stairways follow the game's extension rule); your layout shifts the way the game shifts it.
+- Change any facility type's level freely, or set them all to 0 / 300 / back to the game's levels.
+- See boxed-in facilities (no empty tile on any side) flagged red, and a summary of knowledge output per type next to the share needed to switch into every job.
+- Save and load designs.
+
+The “Model check” in the header recomputes your real ship and compares it with the values the game itself computed (included in the export); it should report every piece as matching.
+
+| Setting (`[Export]`) | Default | What it does |
+|---|---|---|
+| `ShipExportKey` | F9 | Export key |
+| `ExportOnLoad` | false | Also export once after a save loads |
+
 ## Speed-up
 
 Press **F2** to turn the speed-up on or off. While it's on, `▶▶ x5` shows in the top-right corner.
@@ -293,6 +390,49 @@ It works the same way as Cheat Engine's speedhack: the game's clocks, including 
 
 - It takes a few seconds to fully kick in or wear off after each toggle.
 - While it's on, the in-game date and time run ahead of real time. They don't jump back when you turn it off (same as Cheat Engine), until you restart the game. Saves made in that time carry slightly-future timestamps.
+
+## Skip dungeon clear (跳过迷宫结算)
+
+Press **F3** to turn it on or off (the setting is remembered). While it's on, `⏭ 跳过结算` shows in the top-right corner. Then:
+
+- The dungeon clear banner, the chest-by-chest loot showcase, the party EXP screen and its "click to continue" waits all run through quickly by themselves.
+- Every prisoner goes straight to prison (the same as the game's "imprison all" and "yes"), with no list or prompt. If the prison is full, the rest go on deck, as the game normally does.
+- Dialogue inside dungeons (such as before a boss fight) is skipped. Dialogue outside dungeons isn't affected.
+
+Pop-ups such as the job-mastered window or a monster evolution still need a click.
+
+No game logic is skipped: the mod presses OK for you and runs those screens several extra times per frame, so the items, EXP and prisoners you get are exactly the same as clicking through.
+
+Settings, under `[DungeonSkip]`:
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `Enabled` | false | On or off (F3 toggles it) |
+| `ToggleKey` | F3 | Key that toggles it |
+| `ExtraUpdates` | 10 | Extra runs per frame for those screens, 0–60 |
+| `Types` | 41,79 | Screen types to fast-forward: 41 clear, 79 party EXP; add 80 to include the job-mastered window |
+| `AutoImprison` | true | Send all prisoners straight to prison |
+| `SkipTalk` | true | Skip dialogue inside dungeons |
+| `ShowIndicator` | true | Show the label in the top-right corner |
+
+## Continuous explore (连续探索)
+
+Tap a dungeon entrance at a port and pick your parties: the empty slot at the bottom left of the 出发 (depart) page shows a **连续探索 (约 N 次)** button, where N = stamina ÷ the dungeon's cost. One click departs, and after each clear the same dungeon is entered again from the port, until stamina runs out.
+
+- During continuous explore the clear screens are always skipped, whether or not F3 is on; prisoners and in-dungeon dialogue follow `AutoImprison` and `SkipTalk` under `[DungeonSkip]`. The party's walk-off animation when departing is skipped too. Outside continuous explore, F3 decides as before.
+- Every departure goes through the game's own start code, so stamina, party choice and checks are the same as departing by hand.
+- To stop: during a run, tap the dungeon entrance at the port and click **停止连续探索** at the bottom left of the 正在探险 (exploring) box, or click the "⟳ 连续探索 第N次" label at the top right. The current run finishes as normal (still skipped), and no new one starts.
+- It also stops by itself when stamina is too low, a run ends without a clear (for example a wipe), a one-time dungeon has been cleared, or `MaxRuns` is reached.
+- Dungeons that cost medals don't get the button.
+
+Settings, under `[ContinuousExplore]`:
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `Enabled` | true | Show the button |
+| `ButtonX2` / `ButtonY2` | 0.067 / 0.921 | Button centre, as a fraction of window width / height |
+| `IdleFrames` | 30 | Frames with no window open after returning before the next departure |
+| `MaxRuns` | 0 | Maximum runs in a row, 0 = until stamina runs out |
 
 ## Other
 

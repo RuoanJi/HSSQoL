@@ -11,3 +11,7 @@
 # README images
 !docs/
 !docs/*.png
+
+# Layout designer
+!designer/
+!designer/*.html

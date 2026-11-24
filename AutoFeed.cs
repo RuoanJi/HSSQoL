@@ -306,7 +306,7 @@ internal static class AutoFeed
     /// IsJobLvMax and not mastered → CreateJobMaster (its ProJobMaster grants the bonus on close);
     /// already mastered and all jobs mastered → CreateAllJobMaster (resets the mastered list).
     /// </summary>
-    private static string OpenJobClearWindow(Character c, SubForm menu)
+    internal static string OpenJobClearWindow(Character c, SubForm menu)
     {
         if (!c.IsJobLvMax()) return "";
         if (!c.IsMastedJob())

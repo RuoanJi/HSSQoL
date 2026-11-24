@@ -13,7 +13,7 @@ public class Plugin : BasePlugin
 {
     public const string Guid = "hssqol";
     public const string Name = "High Sea Saga QoL";
-    public const string Version = "0.2.0";
+    public const string Version = "0.3.0";
 
     internal static ManualLogSource L;
     internal static ConfigEntry<KeyCode> DebugOverlayKey;
@@ -35,6 +35,10 @@ public class Plugin : BasePlugin
         SpeedHack.Bind(Config);
         JobSwitch.Bind(Config);
         AutoSell.Bind(Config);
+        ShipExport.Bind(Config);
+        DataDump.Bind(Config);
+        DungeonSkip.Bind(Config);
+        ContinuousExplore.Bind(Config);
 
         // Registers the type with IL2CPP and attaches it to a persistent GameObject.
         AddComponent<QoLBehaviour>();
@@ -56,7 +60,7 @@ public class Plugin : BasePlugin
         if (main.AppData.GetInstance()?.player_ == null) return;
         _latePatched = true;
         // FeedButton first: the probe is optional and must never take the real feature down with it.
-        foreach (var t in new[] { typeof(FeedButton), typeof(AutoSell), typeof(MenuProbe), typeof(MenuProbe.Results) })
+        foreach (var t in new[] { typeof(FeedButton), typeof(AutoSell), typeof(DungeonSkip), typeof(ContinuousExplore), typeof(MenuProbe), typeof(MenuProbe.Results) })
         {
             // The menu probe hooks hot Graphics calls every frame; only patch it when asked for.
             if ((t == typeof(MenuProbe) || t == typeof(MenuProbe.Results)) && !MenuProbeEnabled.Value) continue;
@@ -83,7 +87,15 @@ public class QoLBehaviour : MonoBehaviour
         Plugin.PatchLate();
         if (Plugin.LateReady && Plugin.MenuProbeEnabled.Value) MenuProbe.Tick();
         SpeedHack.Tick();
+        DungeonSkip.Tick();
+        if (Plugin.LateReady)
+        {
+            try { ContinuousExplore.Tick(); }
+            catch (Exception e) { Plugin.L.LogError($"ContinuousExplore: {e}"); }
+        }
         if (Plugin.LateReady) GameFeed.Tick();
+        if (Plugin.LateReady) ShipExport.Tick();
+        DataDump.Tick();
         try { InputRemap.Tick(); }
         catch (Exception e) { Plugin.L.LogError($"InputRemap: {e}"); InputRemap.WheelScroll.Value = false; }
     }
@@ -91,6 +103,8 @@ public class QoLBehaviour : MonoBehaviour
     private void OnGUI()
     {
         SpeedHack.Draw();
+        DungeonSkip.Draw();
+        ContinuousExplore.Draw();
         if (!Plugin.DebugOverlay) return;
         GUI.Label(new Rect(10, 10, 600, 24), $"HSSQoL {Plugin.Version} debug ({Plugin.DebugOverlayKey.Value} to hide)");
         AutoFeed.Draw();

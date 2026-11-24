@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>船舱布局设计器</title>
+<style>
+:root {
+  --bg: #f4f1ea; --panel: #fffdf8; --ink: #23201b; --muted: #6d665b; --line: #d9d2c4;
+  --floor: #ece5d6; --fixed: #8f877a; --accent: #2f6fb3; --bad: #c8382f; --ok: #2f8a4a; --warn: #b7791f;
+  --hi: rgba(47,111,179,.16);
+  --k0: #d0604f; --k1: #d8903a; --k2: #3d8fc4; --k3: #7a5fc0; --k4: #4d9a5b; --k5: #c4528c; --k6: #8a7a32; --kx: #9a948a;
+  --shadow: 0 8px 30px rgba(0,0,0,.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1c1b19; --panel: #262420; --ink: #ece7dc; --muted: #a59d90; --line: #403c35;
+    --floor: #312e29; --fixed: #6b655c; --hi: rgba(110,160,220,.18); --shadow: 0 8px 30px rgba(0,0,0,.5);
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 system-ui, "Segoe UI", "Microsoft YaHei", sans-serif; }
+header { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 8px 16px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 5; }
+header h1 { font-size: 16px; margin: 0 8px 0 0; }
+button, select, input { font: inherit; color: inherit; }
+button { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+select, input[type=number], input[type=search] { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; }
+.muted { color: var(--muted); } .small { font-size: 12px; }
+.ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+main { display: grid; grid-template-columns: 300px 1fr 330px; gap: 12px; padding: 12px 16px; align-items: start; }
+@media (max-width: 1200px) { main { grid-template-columns: 300px 1fr; } main > .side { grid-column: 1 / -1; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+.panel h2 { font-size: 14px; margin: 0 0 8px; }
+/* palette */
+#palette { position: sticky; top: 58px; max-height: calc(100vh - 70px); display: flex; flex-direction: column; }
+#palList { overflow: auto; flex: 1; margin-top: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; font-size: 12px; cursor: pointer; background: var(--panel); }
+.chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.pal { display: grid; grid-template-columns: 14px 1fr auto; gap: 6px; align-items: center; padding: 4px 6px; border-radius: 6px; cursor: grab; border: 1px solid transparent; }
+.pal:hover { border-color: var(--line); background: var(--hi); }
+.pal.sel { border-color: var(--accent); background: var(--hi); }
+.pal .sw { width: 12px; height: 12px; border-radius: 3px; }
+.pal .meta { font-size: 11px; color: var(--muted); }
+.pal .cnt { font-size: 11px; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pal.locked .nm { opacity: .55; }
+.hint { font-size: 12px; color: var(--muted); background: var(--hi); border-radius: 6px; padding: 6px 8px; }
+/* floors */
+#floors { display: flex; flex-wrap: wrap; gap: 16px; }
+.grid { position: relative; background: var(--line); border: 1px solid var(--line); user-select: none; }
+.tile { position: absolute; background: var(--floor); }
+.tile.fixed { background: var(--fixed); color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; }
+.tile.hi { box-shadow: inset 0 0 0 999px var(--hi); }
+.tile.prev-ok { box-shadow: inset 0 0 0 999px rgba(47,138,74,.5); }
+.tile.prev-bad { box-shadow: inset 0 0 0 999px rgba(200,56,47,.5); }
+.piece { position: absolute; border-radius: 4px; color: #fff; font-size: 10px; line-height: 1.15; padding: 2px 3px; overflow: hidden; cursor: pointer; border: 2px solid rgba(0,0,0,.15); }
+.piece .v { position: absolute; right: 2px; bottom: 1px; font-weight: 700; font-size: 11px; }
+.piece.boxed { border: 2px dashed var(--bad); }
+.piece.selected { outline: 3px solid var(--ink); outline-offset: 1px; z-index: 2; }
+.piece.nb { outline: 2px solid var(--accent); outline-offset: -1px; }
+.piece.dragging { opacity: .35; }
+.band { position: absolute; border: 2px solid var(--accent); background: var(--hi); pointer-events: none; z-index: 3; }
+table { border-collapse: collapse; width: 100%; font-size: 12px; }
+th, td { text-align: left; padding: 3px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+#levels { max-height: 300px; overflow: auto; }
+#levels input { width: 64px; }
+#drop { border: 2px dashed var(--line); border-radius: 10px; padding: 40px; text-align: center; margin: 40px auto; max-width: 640px; background: var(--panel); }
+#drop.over { border-color: var(--accent); }
+code { font-size: 12px; }
+.row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin: 6px 0; }
+#check { font-size: 12px; }
+/* facility panel */
+#insp { position: fixed; right: 16px; top: 64px; width: 420px; max-height: calc(100vh - 80px); overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 12px 14px; z-index: 20; }
+#insp h2 { margin: 0; font-size: 16px; display: flex; gap: 8px; align-items: center; }
+#insp .x { margin-left: auto; }
+#insp h3 { font-size: 13px; margin: 14px 0 4px; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+.calc td:first-child { width: 62%; }
+.calc tr.total td { font-weight: 700; border-top: 2px solid var(--line); }
+.calc tr.sub td:first-child { padding-left: 16px; color: var(--muted); }
+.calc tr.zero td { color: var(--muted); }
+.calc tr.folded { display: none; }
+.calc tr.grp { cursor: pointer; }
+.calc tr.grp:hover td { background: var(--hi); }
+.calc .tw { display: inline-block; width: 14px; color: var(--muted); }
+.headline { font-size: 15px; margin: 8px 0 2px; } .headline b { font-size: 22px; }
+.lvrow { display: flex; gap: 8px; align-items: center; }
+.lvrow input[type=range] { flex: 1; }
+</style>
+</head>
+<body>
+<header>
+  <h1>HSSQoL 船舱布局设计器</h1>
+  <label class="row">船只等级 <select id="shipLevel"></select></label>
+  <button id="btnLoad">载入导出文件…</button><input type="file" id="file" accept=".json" hidden>
+  <button id="btnSaveDesign">保存设计</button>
+  <button id="btnLoadDesign">载入设计…</button><input type="file" id="fileDesign" accept=".json" hidden>
+  <button id="btnReset">恢复游戏布局</button>
+  <span id="check" class="muted"></span>
+  <span id="placingHint" class="hint" hidden></span>
+</header>
+
+<div id="drop">
+  <p><b>把 <code>hssqol-ship.json</code> 拖到这里，或点击「载入导出文件」。</b></p>
+  <p class="muted">在游戏里按 <b>F9</b>（需要安装 HSSQoL Mod）即可生成这个文件，位置是 <code>BepInEx\hssqol-ship.json</code>。</p>
+</div>
+
+<main id="app" hidden>
+  <section class="panel" id="palette">
+    <h2>设施</h2>
+    <div class="hint">把设施<b>拖到</b>船舱格子上；或单击选中后再点格子（按 Esc 或在空地上右键取消）。拖动已放置的设施可移动，右键设施删除，单击查看详情。选中后按 <b>Ctrl+C</b>（或详情里的「复制」）复制，再点格子放置副本；Ctrl+V 再次放置上次复制的设施。<b>多选</b>：在空地上拖框，或 Ctrl/Shift+单击；拖动选中的设施可整体移动，方向键逐格移动。</div>
+    <div class="row"><input type="search" id="palSearch" placeholder="搜索名称或职业" style="flex:1"></div>
+    <div class="row small">
+      <select id="palGroup"><option value="all">全部分类</option><option value="1">设施</option><option value="2">环境</option><option value="0">设备</option><option value="bed">寝室</option></select>
+      <select id="palSort">
+        <option value="game">游戏顺序</option>
+        <option value="know">知识基础 ↓</option>
+        <option value="ex">额外效果 ↓</option>
+        <option value="area">区域效果 ↓</option>
+        <option value="param">参数值 ↓</option>
+        <option value="owned">拥有数量 ↓</option>
+        <option value="size">尺寸</option>
+        <option value="name">名称</option>
+      </select>
+    </div>
+    <div class="small muted">知识类型</div>
+    <div class="chips" id="palKnow"></div>
+    <div class="small muted" style="margin-top:4px">额外效果（给邻居的加成）</div>
+    <div class="chips" id="palEx"></div>
+    <div class="small muted" style="margin-top:4px">参数类型</div>
+    <div class="chips" id="palParam"></div>
+    <div class="row small">
+      <label><input type="checkbox" id="palFound"> 只看已解锁</label>
+      <label><input type="checkbox" id="palOwned"> 只看已拥有</label>
+    </div>
+    <div id="palList"></div>
+  </section>
+  <section><div id="floors"></div></section>
+  <section class="side" style="display:grid; gap:12px">
+    <div class="panel"><h2>知识总览</h2><div id="summary"></div></div>
+    <div class="panel">
+      <h2>设施等级</h2>
+      <div class="row"><button id="lv0">全部设为 0</button><button id="lv300">全部设为 300</button><button id="lvGame">恢复游戏等级</button></div>
+      <div class="muted small">等级按设施种类计算（同种设施共用一个等级）。游戏里不能升级的设施保持不变。</div>
+      <div id="levels"></div>
+    </div>
+  </section>
+</main>
+<aside id="insp" hidden></aside>
+
+<!-- Game model: pure functions, no DOM. Verified against the game's own values (see the check in the header). -->
+<script id="model">
+const MODEL = (() => {
+  const LV_MAX = 300;
+  const EX_CAPS = [500, 500, 500, 500, 100, 100, 100, 100, 100, 100, 100, 50, 5];
+  const STAIR = 1, PILLAR = 2, BEDROOM = 4;
+  const NO_ROAD_CHECK_SKIP = [1, 12, 13, 14]; // model types: stairway, warehouse, huge warehouse, prison
+  const idiv = (a, b) => Math.trunc(a / b);
+
+  // Number of floor expansions from level 0 up to `level`: one per extension, two when the new level is even.
+  const expansions = level => { let n = 0; for (let l = 1; l <= level; l++) n += (l % 2 === 0) ? 2 : 1; return n; };
+
+  // Fixed pieces (stairways, pillars) and size of a floor at `level`, from its base (level 0) layout.
+  function floorAt(base, level) {
+    let rows = base.rows, cols = base.cols;
+    let pillars = base.cells.filter(c => c[2] === PILLAR).map(c => [c[0], c[1]]);
+    for (let l = 1; l <= level; l++) {
+      const times = (l % 2 === 0) ? 2 : 1;
+      for (let t = 0; t < times; t++) {
+        rows += 1; cols += 2;
+        pillars = pillars.map(([x, y]) => [x + 1, y]);
+        if (l === 1) pillars.push([idiv(cols, 2), rows - 1]);
+      }
+    }
+    const fixed = new Map();
+    for (const [x, y] of [[0, 0], [cols - 1, 0], [0, rows - 1], [cols - 1, rows - 1]]) fixed.set(x + "," + y, STAIR);
+    for (const [x, y] of pillars) fixed.set(x + "," + y, PILLAR);
+    return { rows, cols, fixed };
+  }
+
+  // Tiles of a piece; (x, y) is its anchor = bottom-right tile.
+  function footprint(m, x, y) {
+    const t = [];
+    for (let dy = 0; dy < m.h; dy++) for (let dx = 0; dx < m.w; dx++) t.push([x - dx, y - dy]);
+    return t;
+  }
+
+  // Every number the game computes for the pieces on one floor (ShipInMap.UpdataMapInfo + ColParam).
+  // floor = { rows, cols, fixed: Map("x,y" -> 1|2), pieces: [{x, y, id}] }, models: id -> model, lv: id -> level.
+  function compute(floor, models, lv) {
+    const key = (x, y) => x + "," + y;
+    const inside = (x, y) => x >= 0 && y >= 0 && x < floor.cols && y < floor.rows;
+    const owner = new Map();
+    const P = floor.pieces.map((p, i) => {
+      const m = models[p.id];
+      const tiles = footprint(m, p.x, p.y);
+      for (const [x, y] of tiles) owner.set(key(x, y), i);
+      return { i, p, m, tiles, lv: lv[p.id] ?? m.lv };
+    });
+    const empty = (x, y) => inside(x, y) && !floor.fixed.has(key(x, y)) && !owner.has(key(x, y));
+    // Boxed in: no empty tile directly up/down/left/right of any of its tiles. The flag sits on the anchor tile only.
+    // Only bedrooms and visited facilities are checked; stairways, warehouses and the prison never are.
+    for (const q of P) {
+      q.checked = q.m.type === BEDROOM || (q.m.visit && !NO_ROAD_CHECK_SKIP.includes(q.m.type));
+      q.boxed = q.checked && !q.tiles.some(([x, y]) => empty(x, y - 1) || empty(x + 1, y) || empty(x, y + 1) || empty(x - 1, y));
+    }
+    for (const T of P) {
+      T.paramAdd = 0; T.exAdd = new Array(13).fill(0); T.neighbours = [];
+      if (!T.m.selectable) continue;
+      const seen = new Set();
+      for (const [tx, ty] of T.tiles)
+        for (let dx = -3; dx <= 3; dx++) for (let dy = -3; dy <= 3; dy++) {
+          if (Math.abs(dx) + Math.abs(dy) > 3) continue;
+          const x = tx + dx, y = ty + dy, o = owner.get(key(x, y));
+          if (o === undefined || o === T.i || seen.has(o)) continue;
+          const B = P[o];
+          if (!B.m.selectable) continue;
+          if (B.boxed && B.p.x === x && B.p.y === y) continue; // that tile carries the no-road flag
+          seen.add(o); T.neighbours.push(o);
+        }
+      for (const o of T.neighbours) {
+        const B = P[o];
+        for (const e of (B.m.areaEffect || []))
+          if (e[0] === T.m.paramType) T.paramAdd = Math.max(0, T.paramAdd + e[1] + idiv(B.lv, 5));
+        const e = B.m.exEffect;
+        if (e && e.length === 2) T.exAdd[e[0]] = Math.min(EX_CAPS[e[0]], Math.max(0, T.exAdd[e[0]] + e[1]));
+      }
+    }
+    for (const q of P) {
+      q.paramValue = q.boxed ? 1 : Math.min(500, q.m.paramValue + idiv(q.lv, 2) + q.paramAdd);
+      const g = q.m.getKnow;
+      if (g && g.length === 2) {
+        const k = g[0], b = g[1];
+        q.knowType = k;
+        q.knowBase = q.boxed ? 1 : b + idiv(b * q.lv, 100) + idiv(q.lv, 2);
+        q.knowEx = q.boxed ? 0 : q.exAdd[k + 4];
+        q.knowTrain = q.m.paramType === 1 ? idiv(q.paramValue, 10) : 0;
+        q.know = q.knowBase + q.knowEx + q.knowTrain;
+      }
+    }
+    return P;
+  }
+
+  return { LV_MAX, EX_CAPS, STAIR, PILLAR, expansions, floorAt, footprint, compute };
+})();
+if (typeof module !== "undefined") module.exports = MODEL;
+</script>
+
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const KCOL = ["--k0", "--k1", "--k2", "--k3", "--k4", "--k5", "--k6"].map(v => `var(${v})`);
+const TILE = 34;
+const BED = 4;
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+
+let D = null, models = {}, levels = {}, shipLevel = 0, floors = [];
+let jobs = {};            // job id -> job
+let bedJob = {};          // bedroom model id -> first job using it
+let placing = null;       // model id chosen by click (click-to-place)
+let stamp = null;         // copies being placed: [{ id, job, ox, oy }] (top-left offsets from the cursor tile)
+let clip = null;          // last copied stamp, for Ctrl+V
+let selected = null;      // { f, i } — the piece shown in the facility panel
+let group = [];           // all selected piece indices on floor selected.f when more than one is selected
+const selList = () => !selected ? [] : group.length > 1 ? group : [selected.i];
+let hover = null;         // { f, i }
+let results = [];
+let gamePlaced = {};      // model id -> count on the ship in the export
+let visitor = store.get("hssqol-designer-visitor") || "";
+let weekly = false, subscription = false;
+const openGroups = new Set();  // unfolded breakdown items in the facility panel
+let lastInspected = null, lastInspectedId = 0;
+const pal = JSON.parse(store.get("hssqol-designer-pal") || "{}");
+pal.know = pal.know || []; pal.param = pal.param || [];
+// pal.exS holds exEffect slots (0-3 params, 4-10 knowledge, 11 购物加成, 12 收获加成); older saves kept knowledge indices in pal.ex.
+if (!pal.exS) pal.exS = (pal.ex || []).map(k => k + 4);
+delete pal.ex;
+
+// Always the Chinese names (the game's own tables are Japanese: 近接ﾊﾞﾄﾙ, 遠隔ﾊﾞﾄﾙ, ふなのり, 探究心, 働く心, 勇敢戦士, 秘伝).
+const KNOW_ZH = ["近战", "远程", "海员", "探究心", "工作心", "勇敢战士", "秘传"];
+const knowName = k => KNOW_ZH[k] ?? `#${k}`;
+// Always the Chinese names (the game's table is Japanese: 快適, 鍛錬, 解析, 収穫).
+const PARAM_ZH = ["舒适", "锻炼", "解析", "收获"];
+const paramName = t => PARAM_ZH[t] ?? `#${t}`;
+const PARAM_HINT = [
+  "舒适：使用后回复体力（舒适 / 10）；寝室的舒适决定休息时的回复速度",
+  "锻炼：每次获得知识 + 锻炼 / 10",
+  "解析：加快解析速度（解析 / 10）",
+  "收获：增加收获量（收获 / 10）",
+];
+const SLOT = s => s < 4 ? paramName(s) : s < 11 ? knowName(s - 4) + "知识" : (s === 11 ? "购物加成" : "收获加成");
+// Besides its own knowledge slot, a piece can use one more extra slot:
+// 购物加成 (11) for the bedroom of a crew who runs a shop on board (商人, 铁匠, 发明家, 经营者),
+// 收获加成 (12) for farms, tree farms and ranches (model types 8, 9, 10).
+const SHOP_JOBS = new Set([5, 6, 16, 38]);
+const HARVEST_TYPES = [8, 9, 10];
+const bonusSlot = (m, p) => m.type === BED && SHOP_JOBS.has(p.job) ? 11 : HARVEST_TYPES.includes(m.type) ? 12 : -1;
+const exApplies = (q, p, s) => s === (q.knowType ?? -9) + 4 || s === bonusSlot(q.m, p);
+const clean = s => (s || "").replace(/[\x00-\x1f]/g, "");
+const esc = s => clean(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const colorOf = m => m.getKnow && m.getKnow.length === 2 ? KCOL[m.getKnow[0]] : "var(--kx)";
+const shortName = m => clean(m.name).slice(0, m.w > 1 ? 6 : 3);
+const idiv = (a, b) => Math.trunc(a / b);
+const bedOf = jobId => { const j = jobs[jobId]; return j && j.bedRoom >= 0 ? j.bedRoom : D.baseRoom; };
+const jobsForBed = id => D.jobs.filter(j => bedOf(j.id) === id);
+
+// ---------- loading ----------
+function loadExport(obj) {
+  if (!obj || obj.format !== "hssqol-ship") { alert("这不是 hssqol-ship.json 导出文件。"); return; }
+  D = obj;
+  models = {}; for (const m of D.models) models[m.id] = m;
+  levels = {}; for (const m of D.models) levels[m.id] = m.lv;
+  jobs = {}; for (const j of D.jobs) jobs[j.id] = j;
+  bedJob = {}; for (const j of D.jobs) { const b = bedOf(j.id); if (bedJob[b] === undefined) bedJob[b] = j.id; }
+  gamePlaced = {};
+  for (const fl of D.floors) for (const p of fl.pieces) gamePlaced[p.id] = (gamePlaced[p.id] || 0) + 1;
+  const sel = $("#shipLevel"); sel.innerHTML = "";
+  const n = (D.shipLevels && D.shipLevels.maxCrew) ? D.shipLevels.maxCrew.length : 5;
+  for (let l = 0; l < n; l++) {
+    const o = document.createElement("option");
+    o.value = l; o.textContent = `${l}${l === D.shipLevel ? " （当前）" : ""}${D.shipLevels ? ` · 船员 ${D.shipLevels.maxCrew[l]}` : ""}`;
+    sel.append(o);
+  }
+  shipLevel = D.shipLevel; sel.value = shipLevel;
+  buildFromGame(shipLevel);
+  runCheck();
+  $("#drop").hidden = true; $("#app").hidden = false;
+  store.set("hssqol-designer-export", JSON.stringify(D));
+  renderAll();
+}
+
+// Bedroom residents from the export: crew.house = [floor, x, y].
+function residentAt(f, x, y) { return D.crew.find(c => c.house && c.house[0] === f && c.house[1] === x && c.house[2] === y); }
+
+// Current layout from the export, carried forward to `level` (pieces shift one column right per expansion).
+function buildFromGame(level) {
+  const shift = MODEL.expansions(level) - MODEL.expansions(D.shipLevel);
+  floors = D.baseFloors.map((base, f) => {
+    const fl = MODEL.floorAt(base, level);
+    fl.pieces = [];
+    const cur = D.floors[f];
+    if (cur && shift >= 0)
+      for (const p of cur.pieces) {
+        if (p.id === MODEL.STAIR || p.id === MODEL.PILLAR || !models[p.id]) continue;
+        const q = { x: p.x + shift, y: p.y, id: p.id };
+        if (models[p.id].type === BED) {
+          const r = residentAt(f, p.x, p.y);
+          q.job = r ? r.job : bedJob[p.id];
+          if (r) q.crew = clean(r.name);
+        }
+        fl.pieces.push(q);
+      }
+    return fl;
+  });
+  selected = null; group = [];
+}
+
+// Verify the model on the unmodified game layout and levels against the values the game computed.
+function runCheck() {
+  let n = 0, ok = 0;
+  const gameLv = {}; for (const m of D.models) gameLv[m.id] = m.lv;
+  D.floors.forEach((cur, f) => {
+    const fl = MODEL.floorAt(D.baseFloors[f], D.shipLevel);
+    fl.pieces = cur.pieces.filter(p => p.id !== MODEL.STAIR && p.id !== MODEL.PILLAR && !p.building);
+    MODEL.compute(fl, models, gameLv).forEach((q, i) => {
+      const g = fl.pieces[i].game; if (!g) return;
+      n++;
+      const know = q.knowType === undefined ? null : [q.knowType, q.knowBase, q.knowEx];
+      if (q.paramAdd === g.paramAdd && JSON.stringify(q.exAdd) === JSON.stringify(g.exAdd)
+        && q.paramValue === g.paramValue && JSON.stringify(know) === JSON.stringify(g.know || null)) ok++;
+      else console.warn("mismatch", f, fl.pieces[i], q, g);
+    });
+  });
+  const el = $("#check");
+  el.textContent = `模型校验：${ok}/${n} 个设施与游戏数值一致`;
+  el.className = ok === n ? "ok" : "bad";
+}
+
+// ---------- editing ----------
+function canPlace(f, m, x, y, ignore) {
+  const fl = floors[f];
+  const taken = new Set();
+  const ig = ignore instanceof Set ? ignore : new Set([ignore]);
+  fl.pieces.forEach((p, i) => { if (!ig.has(i)) MODEL.footprint(models[p.id], p.x, p.y).forEach(([a, b]) => taken.add(a + "," + b)); });
+  return MODEL.footprint(m, x, y).every(([a, b]) => a >= 0 && b >= 0 && a < fl.cols && b < fl.rows && !fl.fixed.has(a + "," + b) && !taken.has(a + "," + b));
+}
+function pieceAt(f, x, y) {
+  return floors[f].pieces.findIndex(p => MODEL.footprint(models[p.id], p.x, p.y).some(([a, b]) => a === x && b === y));
+}
+// The cursor tile is the piece's top-left; the game stores the bottom-right (anchor).
+const anchorOf = (m, x, y) => [x + m.w - 1, y + m.h - 1];
+function place(f, id, x, y) {
+  const m = models[id]; const [ax, ay] = anchorOf(m, x, y);
+  if (!canPlace(f, m, ax, ay)) return false;
+  const p = { x: ax, y: ay, id };
+  if (m.type === BED) p.job = bedJob[id];
+  floors[f].pieces.push(p);
+  selected = { f, i: floors[f].pieces.length - 1 }; group = [];
+  changed(); return true;
+}
+const isPlacing = () => placing !== null || stamp !== null;
+// Click-to-place mode for a palette item (id) or for copies of pieces (stamp); null ends it.
+function setPlacing(id) { placing = id; stamp = null; placingChanged(); }
+function setStamp(items) { placing = null; stamp = items; placingChanged(); }
+function placingChanged() { paintPreview(-1); renderPalette(); renderPlacingHint(); }
+function renderPlacingHint() {
+  const el = $("#placingHint");
+  if (!isPlacing()) { el.hidden = true; return; }
+  let what;
+  if (placing !== null) what = `<b>${esc(models[placing].name)}</b>`;
+  else if (stamp.length === 1) { const it = stamp[0]; what = `<b>${esc(models[it.id].name)}</b>${it.job !== undefined ? `（${esc(jobs[it.job]?.name)}）` : ""}`; }
+  else what = `<b>${stamp.length} 个设施</b>的副本`;
+  el.innerHTML = `放置中：${what} — 点格子放置，Esc 或右键空地结束`;
+  el.hidden = false;
+}
+const topLeft = p => { const m = models[p.id]; return [p.x - m.w + 1, p.y - m.h + 1]; };
+// Pieces idxs of floor f as offsets of their top-left tiles from (rx, ry).
+const itemsOf = (f, idxs, rx, ry) => idxs.map(i => { const p = floors[f].pieces[i], [x, y] = topLeft(p); return { i, id: p.id, job: p.job, ox: x - rx, oy: y - ry }; });
+// Where each item lands with the cursor on (x, y), and whether all of them fit.
+function layout(f, items, x, y, ignore) {
+  const at = items.map(it => { const m = models[it.id], [ax, ay] = anchorOf(m, x + it.ox, y + it.oy); return { it, m, ax, ay }; });
+  return { at, ok: at.every(a => canPlace(f, a.m, a.ax, a.ay, ignore)) };
+}
+function selectMany(f, idxs, primary) {
+  if (!idxs.length) { selected = null; group = []; return; }
+  selected = { f, i: idxs.includes(primary) ? primary : idxs[0] };
+  group = idxs.length > 1 ? [...idxs].sort((a, b) => a - b) : [];
+}
+// Move the pieces in items (from itemsOf on floor f0) so the cursor tile lands on (x, y) of floor f.
+function moveGroup(f0, items, f, x, y, primary) {
+  const idxs = items.map(it => it.i);
+  const L = layout(f, items, x, y, f === f0 ? new Set(idxs) : new Set());
+  if (!L.ok) return false;
+  const moved = L.at.map(a => ({ ...floors[f0].pieces[a.it.i], x: a.ax, y: a.ay }));
+  [...idxs].sort((a, b) => b - a).forEach(i => floors[f0].pieces.splice(i, 1));
+  const start = floors[f].pieces.length; floors[f].pieces.push(...moved);
+  const ni = moved.map((_, k) => start + k);
+  selectMany(f, ni, ni[Math.max(0, idxs.indexOf(primary))]);
+  changed(); return true;
+}
+function placeStamp(f, x, y) {
+  const L = layout(f, stamp, x, y);
+  if (!L.ok) return false;
+  const start = floors[f].pieces.length;
+  for (const a of L.at) {
+    const p = { x: a.ax, y: a.ay, id: a.it.id };
+    if (a.m.type === BED) p.job = a.it.job ?? bedJob[a.it.id];
+    floors[f].pieces.push(p);
+  }
+  selectMany(f, L.at.map((_, k) => start + k), start);
+  changed(); return true;
+}
+// Copy the selected pieces into placing mode (repeat clicks place more copies). Ctrl+V brings the last copy back.
+function duplicateSelected() {
+  const idxs = selList(); if (!idxs.length) return;
+  const f = selected.f, tl = idxs.map(i => topLeft(floors[f].pieces[i]));
+  const rx = Math.min(...tl.map(t => t[0])), ry = Math.min(...tl.map(t => t[1]));
+  clip = itemsOf(f, idxs, rx, ry).map(({ id, job, ox, oy }) => ({ id, job: models[id].type === BED ? job : undefined, ox, oy }));
+  setStamp(clip);
+}
+// Arrow keys: shift the selection one tile.
+function nudge(dx, dy) {
+  const idxs = selList(); if (!idxs.length) return;
+  const f = selected.f, [rx, ry] = topLeft(floors[f].pieces[selected.i]);
+  moveGroup(f, itemsOf(f, idxs, rx, ry), f, rx + dx, ry + dy, selected.i);
+}
+function removePiece(f, i) { floors[f].pieces.splice(i, 1); selected = null; group = []; changed(); }
+function removeMany(f, idxs) { [...idxs].sort((a, b) => b - a).forEach(i => floors[f].pieces.splice(i, 1)); selected = null; group = []; changed(); }
+function changed() { store.set("hssqol-designer-design", JSON.stringify(designJSON())); renderAll(); }
+// Lightweight redraw for the level slider: recompute and redraw floors, summary and the panel (minus the slider).
+let liveQueued = false;
+function liveUpdate() {
+  if (liveQueued) return;
+  liveQueued = true;
+  requestAnimationFrame(() => {
+    liveQueued = false;
+    results = floors.map(fl => MODEL.compute(fl, models, levels));
+    renderFloors(); renderSummary(); renderInspector(true);
+  });
+}
+
+// ---------- rendering ----------
+function renderAll() {
+  results = floors.map(fl => MODEL.compute(fl, models, levels));
+  renderFloors(); renderInspector(); renderSummary(); renderPalette(); renderLevels();
+}
+
+let dragInfo = null; // { kind: "new", id } | { kind: "move", f, items, primary } (items from itemsOf, relative to the grabbed tile)
+function previewFor(f, x, y) {
+  let items, ignore = new Set();
+  if (dragInfo && dragInfo.kind === "move") { items = dragInfo.items; if (f === dragInfo.f) ignore = new Set(items.map(it => it.i)); }
+  else if (dragInfo) items = [{ id: dragInfo.id, ox: 0, oy: 0 }];
+  else if (stamp) items = stamp;
+  else if (placing !== null) items = [{ id: placing, ox: 0, oy: 0 }];
+  if (!items) return null;
+  const L = layout(f, items, x, y, ignore), tiles = new Set();
+  for (const a of L.at) for (const [tx, ty] of MODEL.footprint(a.m, a.ax, a.ay)) tiles.add(tx + "," + ty);
+  return { tiles, ok: L.ok };
+}
+function paintPreview(f, x, y) {
+  document.querySelectorAll(".tile.prev-ok, .tile.prev-bad").forEach(t => t.classList.remove("prev-ok", "prev-bad"));
+  if (f < 0) return;
+  const pv = previewFor(f, x, y); if (!pv) return;
+  document.querySelectorAll(`.grid[data-f="${f}"] .tile`).forEach(t => { if (pv.tiles.has(t.dataset.k)) t.classList.add(pv.ok ? "prev-ok" : "prev-bad"); });
+}
+function paintRange() {
+  document.querySelectorAll(".tile.hi").forEach(t => t.classList.remove("hi"));
+  document.querySelectorAll(".piece.nb").forEach(t => t.classList.remove("nb"));
+  const focus = hover || selected;
+  if (!focus || !results[focus.f] || !results[focus.f][focus.i]) return;
+  const q = results[focus.f][focus.i], hi = new Set();
+  for (const [tx, ty] of q.tiles) for (let dx = -3; dx <= 3; dx++) for (let dy = -3; dy <= 3; dy++)
+    if (Math.abs(dx) + Math.abs(dy) <= 3) hi.add((tx + dx) + "," + (ty + dy));
+  document.querySelectorAll(`.grid[data-f="${focus.f}"] .tile`).forEach(t => { if (hi.has(t.dataset.k)) t.classList.add("hi"); });
+  for (const o of q.neighbours) document.querySelector(`.grid[data-f="${focus.f}"] .piece[data-i="${o}"]`)?.classList.add("nb");
+}
+
+function renderFloors() {
+  const host = $("#floors"); host.innerHTML = "";
+  floors.forEach((fl, f) => {
+    const wrap = document.createElement("div"); wrap.className = "panel floor";
+    const free = fl.cols * fl.rows - fl.fixed.size - results[f].reduce((s, q) => s + q.tiles.length, 0);
+    wrap.innerHTML = `<h2>第 ${f + 1} 层 <span class="muted" style="font-weight:400">${fl.cols}×${fl.rows} · 空地 ${free}</span></h2>`;
+    const g = document.createElement("div"); g.className = "grid"; g.dataset.f = f;
+    g.style.width = fl.cols * TILE + "px"; g.style.height = fl.rows * TILE + "px";
+    g.oncontextmenu = e => e.preventDefault();
+    const tileXY = e => { const r = g.getBoundingClientRect(); return [Math.floor((e.clientX - r.left) / TILE), Math.floor((e.clientY - r.top) / TILE)]; };
+    for (let y = 0; y < fl.rows; y++) for (let x = 0; x < fl.cols; x++) {
+      const t = document.createElement("div"); const k = x + "," + y;
+      t.className = "tile"; t.dataset.k = k;
+      t.style.left = x * TILE + 1 + "px"; t.style.top = y * TILE + 1 + "px"; t.style.width = t.style.height = TILE - 2 + "px";
+      const fx = fl.fixed.get(k);
+      if (fx) { t.classList.add("fixed"); t.textContent = fx === MODEL.STAIR ? "楼梯" : "柱"; }
+      g.append(t);
+    }
+    g.addEventListener("mousemove", e => { if (isPlacing()) { const [x, y] = tileXY(e); paintPreview(f, x, y); } });
+    g.addEventListener("mouseleave", () => paintPreview(-1));
+    g.addEventListener("mousedown", e => {
+      if (e.target !== g && !e.target.classList.contains("tile")) return;
+      const [x, y] = tileXY(e);
+      if (isPlacing() && e.button === 0) { if (stamp) placeStamp(f, x, y); else place(f, placing, x, y); return; }
+      // Right-click on an empty tile (or a pillar/stairway) cancels placing mode; on a piece it removes that piece.
+      if (isPlacing() && e.button === 2) { setPlacing(null); return; }
+      if (e.button === 0) startBand(e, f, g, tileXY);
+    });
+    g.addEventListener("dragover", e => { e.preventDefault(); const [x, y] = tileXY(e); paintPreview(f, x, y); });
+    g.addEventListener("drop", e => {
+      e.preventDefault(); const [x, y] = tileXY(e); const info = dragInfo; dragInfo = null; paintPreview(-1);
+      if (!info) return;
+      if (info.kind === "new") place(f, info.id, x, y); else moveGroup(info.f, info.items, f, x, y, info.primary);
+    });
+    results[f].forEach((q, i) => {
+      const m = q.m, el = document.createElement("div"), p = floors[f].pieces[i];
+      el.className = "piece" + (q.boxed ? " boxed" : "") + (selected && selected.f === f && selList().includes(i) ? " selected" : "");
+      el.dataset.i = i; el.draggable = true;
+      el.style.left = (q.p.x - m.w + 1) * TILE + 1 + "px"; el.style.top = (q.p.y - m.h + 1) * TILE + 1 + "px";
+      el.style.width = m.w * TILE - 2 + "px"; el.style.height = m.h * TILE - 2 + "px";
+      el.style.background = colorOf(m);
+      const label = m.type === BED && p.job !== undefined ? clean(jobs[p.job]?.name).slice(0, 3) : shortName(m);
+      el.title = `${clean(m.name)}（等级 ${q.lv}）` + (p.crew ? ` · ${p.crew}` : "") + (q.know !== undefined ? ` — ${q.know} 知识/次` : "") + (q.boxed ? " — 被围住！" : "");
+      el.innerHTML = `${esc(label)}${q.know !== undefined ? `<span class="v">${q.know}</span>` : ""}`;
+      el.addEventListener("mousedown", e => {
+        e.stopPropagation();
+        if (e.button === 2) { removePiece(f, i); return; }
+        // Clicking a placed piece while a palette item is chosen means "look at this one": leave placing mode.
+        if (isPlacing()) setPlacing(null);
+        const inSel = selected && selected.f === f && selList().includes(i);
+        // Ctrl/Shift+click adds or removes the piece from the selection (one floor at a time).
+        if ((e.ctrlKey || e.shiftKey || e.metaKey) && selected && selected.f === f)
+          selectMany(f, inSel ? selList().filter(j => j !== i) : [...selList(), i], inSel ? selected.i : i);
+        // Clicking inside a multi-selection keeps it, so the whole group can be dragged.
+        else if (inSel && group.length > 1) selected = { f, i };
+        else { selected = { f, i }; group = []; }
+        renderInspector(); renderFloorsSel(); paintRange();
+      });
+      // A plain click (no drag) on a member of a multi-selection narrows it to that piece.
+      el.addEventListener("click", e => {
+        if (e.ctrlKey || e.shiftKey || e.metaKey || group.length < 2) return;
+        selected = { f, i }; group = []; renderInspector(); renderFloorsSel(); paintRange();
+      });
+      el.addEventListener("dragstart", e => {
+        const idxs = selected && selected.f === f && selList().includes(i) ? selList() : [i];
+        const [gx, gy] = tileXY(e); // keep the grabbed tile under the cursor
+        dragInfo = { kind: "move", f, items: itemsOf(f, idxs, gx, gy), primary: i };
+        e.dataTransfer.setData("text/plain", "move"); e.dataTransfer.effectAllowed = "move";
+        for (const j of idxs) g.querySelector(`.piece[data-i="${j}"]`)?.classList.add("dragging");
+      });
+      el.addEventListener("dragend", () => { g.querySelectorAll(".piece.dragging").forEach(x => x.classList.remove("dragging")); dragInfo = null; paintPreview(-1); });
+      el.addEventListener("dragover", e => { e.preventDefault(); const [x, y] = tileXY(e); paintPreview(f, x, y); });
+      el.addEventListener("drop", e => { e.preventDefault(); e.stopPropagation(); g.dispatchEvent(new DragEvent("drop", { clientX: e.clientX, clientY: e.clientY, dataTransfer: e.dataTransfer })); });
+      el.oncontextmenu = e => e.preventDefault();
+      el.addEventListener("mouseenter", () => { hover = { f, i }; paintRange(); });
+      el.addEventListener("mouseleave", () => { hover = null; paintRange(); });
+      g.append(el);
+    });
+    wrap.append(g); host.append(wrap);
+  });
+  paintRange();
+}
+// Drag on empty floor to select every piece touching the box; a plain click clears the selection.
+// With Ctrl/Shift held the box adds to the current selection on that floor.
+function startBand(e, f, g, tileXY) {
+  const add = (e.ctrlKey || e.shiftKey || e.metaKey) && selected && selected.f === f;
+  const [x0, y0] = tileXY(e), cx0 = e.clientX, cy0 = e.clientY;
+  const band = document.createElement("div"); band.className = "band"; band.hidden = true; g.append(band);
+  let rect = null;
+  const move = ev => {
+    if (!rect && Math.abs(ev.clientX - cx0) + Math.abs(ev.clientY - cy0) < 5) return;
+    const [x1, y1] = tileXY(ev);
+    rect = [Math.min(x0, x1), Math.min(y0, y1), Math.max(x0, x1), Math.max(y0, y1)];
+    band.hidden = false;
+    band.style.left = rect[0] * TILE + "px"; band.style.top = rect[1] * TILE + "px";
+    band.style.width = (rect[2] - rect[0] + 1) * TILE + "px"; band.style.height = (rect[3] - rect[1] + 1) * TILE + "px";
+  };
+  const up = () => {
+    document.removeEventListener("mousemove", move); document.removeEventListener("mouseup", up); band.remove();
+    if (!rect) { if (!add) { selected = null; group = []; } }
+    else {
+      const hit = floors[f].pieces.map((p, i) => [p, i]).filter(([p]) => MODEL.footprint(models[p.id], p.x, p.y)
+        .some(([a, b]) => a >= rect[0] && a <= rect[2] && b >= rect[1] && b <= rect[3])).map(([, i]) => i);
+      const idxs = add ? [...new Set([...selList(), ...hit])] : hit;
+      selectMany(f, idxs, add ? selected.i : hit[0]);
+    }
+    renderInspector(); renderFloorsSel(); paintRange();
+  };
+  document.addEventListener("mousemove", move); document.addEventListener("mouseup", up);
+}
+function renderFloorsSel() {
+  document.querySelectorAll(".piece.selected").forEach(e => e.classList.remove("selected"));
+  if (selected) for (const i of selList()) document.querySelector(`.grid[data-f="${selected.f}"] .piece[data-i="${i}"]`)?.classList.add("selected");
+}
+
+// ---------- facility panel ----------
+function renderInspector(keepLevel = false) {
+  const el = $("#insp");
+  if (!selected || !results[selected.f] || !results[selected.f][selected.i]) { el.hidden = true; return; }
+  if (selList().length > 1) { renderGroupPanel(el); return; }
+  const f = selected.f, q = results[f][selected.i], m = q.m, p = floors[f].pieces[selected.i];
+  // A different piece opens folded again; re-rendering the same piece keeps what the user unfolded.
+  if (p !== lastInspected) { openGroups.clear(); lastInspected = p; lastInspectedId++; }
+  const nb = q.neighbours.map(o => results[f][o]);
+  const rows = [];
+  const tr = (label, val, cls = "", g = "") => rows.push(`<tr class="${cls}${g && !openGroups.has(g) ? " folded" : ""}"${g ? ` data-g="${g}"` : ""}><td>${label}</td><td class="n">${val}</td></tr>`);
+  // A foldable item: click the header to show or hide its detail rows (folded by default).
+  const hdr = (g, label, val) => rows.push(`<tr class="grp" data-key="${g}"><td><span class="tw">${openGroups.has(g) ? "▾" : "▸"}</span>${label}</td><td class="n">${val}</td></tr>`);
+
+  let top = `<h2><span style="width:14px;height:14px;border-radius:3px;background:${colorOf(m)};display:inline-block"></span>${esc(m.name)}
+    <span class="muted small" style="font-weight:400">#${m.id} · ${m.w}×${m.h} · 第 ${f + 1} 层 (${p.x},${p.y})</span><button class="x" id="inspClose">✕</button></h2>`;
+  if (q.know !== undefined) top += `<div class="headline">每次获得 <span style="color:${KCOL[q.knowType]}">${knowName(q.knowType)}</span> 知识 <b>${q.know}</b> <span class="muted small">（设施部分，不含船员加成）</span></div>`;
+  else top += `<div class="headline muted">这个设施不给知识 · ${paramName(m.paramType)}参数 <b>${q.paramValue}</b></div>`;
+  if (q.boxed) top += `<p class="bad small">被围住：上下左右都没有空地 → 知识基础变 1、额外 0、参数 1，也不给邻居任何效果。</p>`;
+  if (!m.selectable) top += `<p class="muted small">不可选中的物件：既不给也不接受任何效果。</p>`;
+
+  // Level (kept as-is while the slider is being dragged, so the drag isn't interrupted)
+  const levelHtml = `<h3>等级${m.canLevel ? "" : "（游戏中不能升级）"}</h3>
+    <div class="lvrow"><input type="range" min="0" max="${MODEL.LV_MAX}" value="${q.lv}" id="inspLvR" ${m.canLevel ? "" : "disabled"}>
+    <input type="number" min="0" max="${MODEL.LV_MAX}" value="${q.lv}" id="inspLv" style="width:70px" ${m.canLevel ? "" : "disabled"}></div>
+    <div class="muted small">游戏中：${m.lv} · 所有${esc(m.name)}共用这个等级</div>`;
+  let html = "";
+
+  // Bedroom job
+  if (m.type === BED) {
+    const opts = D.jobs.map(j => {
+      const bm = models[bedOf(j.id)], e = bm && bm.exEffect;
+      const ex = e && e.length === 2 ? ` · ${SLOT(e[0])} +${e[1]}` : "";
+      return `<option value="${j.id}" ${p.job === j.id ? "selected" : ""}>${esc(j.name)} → #${bedOf(j.id)}${ex}</option>`;
+    }).join("");
+    html += `<h3>住在这里的船员职业</h3>
+      <select id="inspJob" style="width:100%">${opts}</select>
+      <div class="muted small">${p.crew ? `游戏里住这里的是 ${esc(p.crew)}。` : ""}寝室类型随船员当前职业变化。</div>`;
+  }
+
+  // Param value rows (base + level / 2 + each neighbour's matching area effect, cap 500), shared by ③ and the param section.
+  const paramRows = (cls, g = "") => {
+    const own = m.paramValue + idiv(q.lv, 2);
+    tr(`设施本身：${m.paramValue} + 等级 ${q.lv} / 2`, own, cls, g);
+    const paRows = nb.filter(B => (B.m.areaEffect || []).some(e => e[0] === m.paramType));
+    for (const B of paRows) {
+      const e = B.m.areaEffect.find(e => e[0] === m.paramType);
+      tr(`+ 邻居 ${esc(B.m.name)}：${e[1]} + 等级 ${B.lv} / 5`, "+" + (e[1] + idiv(B.lv, 5)), cls, g);
+    }
+    if (!paRows.length) tr("没有邻居提供这种区域效果", 0, cls + " zero", g);
+    const raw = own + q.paramAdd;
+    if (q.boxed) tr("被围住 → 参数值变 1", 1, cls, g);
+    else if (raw > 500) tr(`合计 ${raw}，超过上限 500，取 500`, 500, cls, g);
+  };
+
+  // Knowledge breakdown
+  if (q.know !== undefined) {
+    const b = m.getKnow[1];
+    html += `<h3>每次获得知识：<span style="color:${KCOL[q.knowType]}">${knowName(q.knowType)}</span></h3><table class="calc">`;
+    hdr("k1", "<b>① 设施基础</b>", q.knowBase);
+    tr(`数据值 ${b} + ${b} × 等级 ${q.lv} / 100 + 等级 ${q.lv} / 2`, b + idiv(b * q.lv, 100) + idiv(q.lv, 2), "sub", "k1");
+    if (q.boxed) tr("被围住 → 变 1", 1, "sub", "k1");
+    hdr("k2", "<b>② 额外加成</b>", q.knowEx);
+    const slot = q.knowType + 4, exRows = nb.filter(B => B.m.exEffect && B.m.exEffect.length === 2 && B.m.exEffect[0] === slot);
+    for (const B of exRows) tr(`+ 邻居 ${esc(B.m.name)}${B.p.job !== undefined && B.m.type === BED ? `（${esc(jobs[B.p.job]?.name)}）` : ""}`, "+" + B.m.exEffect[1], "sub", "k2");
+    if (!exRows.length) tr(`没有邻居提供${knowName(q.knowType)}知识`, 0, "sub zero", "k2");
+    if (q.boxed) tr("被围住 → 变 0", 0, "sub", "k2");
+    else if (exRows.reduce((s, B) => s + B.m.exEffect[1], 0) > 100) tr("超过上限 100，取 100", 100, "sub", "k2");
+    else tr("上限 100", "", "sub zero", "k2");
+    if (m.paramType === 1) {
+      hdr("k3", "<b>③ 锻炼参数 / 10</b>", q.knowTrain);
+      tr(`锻炼参数 ${q.paramValue} / 10（参数上限 500）`, q.knowTrain, "sub", "k3");
+      paramRows("sub", "k3");
+    } else tr(`<b>③ 锻炼参数 / 10</b> <span class="muted">（${paramName(m.paramType)}类设施没有这一项）</span>`, 0, "zero");
+    tr("设施合计 ① + ② + ③（不含船员加成）", q.know, "total");
+    // Visitor
+    const crewOpts = D.crew.map((c, i) => `<option value="${i}" ${String(i) === visitor ? "selected" : ""}>${esc(c.name)} · ${esc(jobs[c.job]?.name)} · 賢さ ${c.wisdom}${c.skill26 ? ` · 技能 +${c.skill26}%` : ""}</option>`).join("");
+    html += rows.splice(0).join("") + `</table>
+      <h3>船员实际获得</h3>
+      <select id="inspVisitor" style="width:100%"><option value="">— 选择船员 —</option>${crewOpts}</select>
+      <div class="row small"><label><input type="checkbox" id="inspWeekly" ${weekly ? "checked" : ""}> 每周加成 ×2</label>
+      <label><input type="checkbox" id="inspSub" ${subscription ? "checked" : ""}> 订阅 ×1.2</label></div>`;
+    if (visitor !== "" && D.crew[+visitor]) {
+      const c = D.crew[+visitor], j = jobs[c.job];
+      let k = q.know; const t = [];
+      t.push(["设施合计", k]);
+      const w = idiv(c.wisdom, 10); k += w; t.push([`+ 賢さ / 10 = ${c.wisdom} / 10`, "+" + w]);
+      if (c.skill26) { const s = idiv(k * c.skill26, 100); k += s; t.push([`+ 技能 ${c.skill26}%`, "+" + s]); }
+      const fav = j && j.goodChips && j.goodChips.includes(m.id);
+      if (fav) { k = idiv(k * 150, 100); t.push([`× 1.5 ${esc(j.name)}喜欢的设施`, k]); }
+      if (weekly) { k *= 2; t.push(["× 2 每周加成", k]); }
+      if (subscription) { k = idiv(k * 120, 100); t.push(["× 1.2 订阅", k]); }
+      html += `<table class="calc">${t.map(([a, v]) => `<tr class="sub"><td>${a}</td><td class="n">${v}</td></tr>`).join("")}
+        <tr class="total"><td>${esc(c.name)} 每次获得</td><td class="n">${k}</td></tr></table>
+        ${fav ? "" : `<div class="muted small">${esc(j?.name)} 不喜欢这个设施，没有 ×1.5。</div>`}`;
+    }
+  }
+
+  // Param value (training facilities already show it under ③)
+  if (q.know === undefined || m.paramType !== 1) {
+    html += `<h3>${paramName(m.paramType)}参数值</h3><table class="calc">`;
+    hdr("p", `<b>${paramName(m.paramType)}参数</b>（上限 500）`, q.paramValue);
+    paramRows("sub", "p");
+    html += rows.splice(0).join("") + `</table>`;
+  }
+
+  // 购物加成 / 收获加成 received from neighbours' extra effects
+  const bs = bonusSlot(m, p);
+  if (bs >= 0) {
+    const cap = MODEL.EX_CAPS[bs], bRows = nb.filter(B => B.m.exEffect && B.m.exEffect.length === 2 && B.m.exEffect[0] === bs);
+    const sum = bRows.reduce((s, B) => s + B.m.exEffect[1], 0);
+    html += `<h3>${SLOT(bs)}</h3><table class="calc">`;
+    hdr("b", `<b>${SLOT(bs)}</b>（上限 ${cap}）`, q.boxed ? 0 : q.exAdd[bs]);
+    for (const B of bRows) tr(`+ 邻居 ${esc(B.m.name)}${B.p.job !== undefined && B.m.type === BED ? `（${esc(jobs[B.p.job]?.name)}）` : ""}`, "+" + B.m.exEffect[1], "sub", "b");
+    if (!bRows.length) tr(`没有邻居提供${SLOT(bs)}`, 0, "sub zero", "b");
+    if (q.boxed) tr("被围住 → 变 0", 0, "sub", "b");
+    else if (sum > cap) tr(`合计 ${sum}，超过上限 ${cap}，取 ${cap}`, cap, "sub", "b");
+    html += rows.splice(0).join("") + `</table><div class="muted small">${bs === 11
+      ? `${esc(jobs[p.job]?.name)}能在船内开店，寝室周围的购物加成作用于店铺。`
+      : "农田、植树厂、牧场周围的收获加成作用于收获。"}</div>`;
+  }
+
+  // What it gives to others
+  const ae = (m.areaEffect || []).map(e => `${paramName(e[0])} +${e[1] + idiv(q.lv, 5)}`).join("，") || "—";
+  // Knowledge slots (4–10) take that knowledge type's colour, like the headline does.
+  const exSlot = m.exEffect && m.exEffect.length === 2 ? m.exEffect[0] : -1;
+  const ex = exSlot < 0 ? "—" : exSlot >= 4 && exSlot <= 10
+    ? `<span style="color:${KCOL[exSlot - 4]}">${SLOT(exSlot)} +${m.exEffect[1]}</span>`
+    : `${SLOT(exSlot)} +${m.exEffect[1]}`;
+  const given = results[f].filter(T => T.neighbours.includes(q.i)).length;
+  html += `<h3>给邻居的效果</h3><div class="small">区域效果：${ae}<br>额外效果：${ex}<br>
+    ${q.boxed ? `<span class="bad">被围住，什么也不给。</span>` : `范围内 ${given} 个设施受益`}</div>`;
+
+  // All neighbours
+  html += `<h3>距离 3 以内的邻居（${nb.length}）</h3><table><tr><th>设施</th><th>给这里的效果</th></tr>
+    ${nb.map(B => {
+      const parts = [];
+      for (const e of (B.m.areaEffect || [])) if (e[0] === m.paramType) parts.push(`${paramName(e[0])} +${e[1] + idiv(B.lv, 5)}`);
+      const e = B.m.exEffect;
+      if (e && e.length === 2) parts.push(exApplies(q, p, e[0]) ? `<b>${SLOT(e[0])} +${e[1]}</b>` : `<span class="muted">${SLOT(e[0])} +${e[1]} （不适用）</span>`);
+      return `<tr><td>${esc(B.m.name)}${B.m.type === BED && B.p.job !== undefined ? ` <span class="muted">(${esc(jobs[B.p.job]?.name)})</span>` : ""}</td><td>${parts.join("，") || '<span class="muted">—</span>'}</td></tr>`;
+    }).join("")}</table>
+    <div class="row"><button id="inspDup" title="复制这个设施（含寝室职业），然后点格子放置副本">复制 (Ctrl+C)</button><button id="inspDel">删除</button></div>`;
+
+  const sameBox = keepLevel && el.dataset.piece === String(lastInspectedId) && el.querySelector("#inspLevelBox");
+  if (sameBox) {
+    el.querySelector("#inspTop").innerHTML = top;
+    el.querySelector("#inspBody").innerHTML = html;
+  } else {
+    el.innerHTML = `<div id="inspTop">${top}</div><div id="inspLevelBox">${levelHtml}</div><div id="inspBody">${html}</div>`;
+    el.dataset.piece = String(lastInspectedId);
+  }
+  el.hidden = false;
+  el.querySelectorAll("tr.grp").forEach(r => r.onclick = () => {
+    const g = r.dataset.key, open = !openGroups.has(g);
+    if (open) openGroups.add(g); else openGroups.delete(g);
+    r.querySelector(".tw").textContent = open ? "▾" : "▸";
+    el.querySelectorAll(`tr[data-g="${g}"]`).forEach(x => x.classList.toggle("folded", !open));
+  });
+  $("#inspClose").onclick = () => { selected = null; group = []; el.hidden = true; renderFloorsSel(); paintRange(); };
+  $("#inspDel").onclick = () => removePiece(f, selected.i);
+  $("#inspDup").onclick = () => duplicateSelected();
+  if (m.canLevel && !sameBox) {
+    const clamp = v => Math.max(0, Math.min(MODEL.LV_MAX, parseInt(v, 10) || 0));
+    // While dragging: update the level and redraw everything except the slider itself (once per frame).
+    $("#inspLvR").oninput = e => { levels[m.id] = clamp(e.target.value); $("#inspLv").value = levels[m.id]; liveUpdate(); };
+    // On release, or when typing a number: save and do the full redraw.
+    $("#inspLvR").onchange = e => { levels[m.id] = clamp(e.target.value); changed(); };
+    $("#inspLv").onchange = e => { levels[m.id] = clamp(e.target.value); changed(); };
+  }
+  if ($("#inspJob")) $("#inspJob").onchange = e => { const jid = +e.target.value; p.job = jid; p.id = bedOf(jid); changed(); };
+  if ($("#inspVisitor")) $("#inspVisitor").onchange = e => { visitor = e.target.value; store.set("hssqol-designer-visitor", visitor); renderInspector(); };
+  if ($("#inspWeekly")) $("#inspWeekly").onchange = e => { weekly = e.target.checked; renderInspector(); };
+  if ($("#inspSub")) $("#inspSub").onchange = e => { subscription = e.target.checked; renderInspector(); };
+}
+
+function renderGroupPanel(el) {
+  const f = selected.f, idxs = selList(), qs = idxs.map(i => results[f][i]);
+  const byName = new Map();
+  for (const q of qs) {
+    const p = floors[f].pieces[q.i];
+    const k = clean(q.m.name) + (q.m.type === BED && p.job !== undefined ? `（${clean(jobs[p.job]?.name)}）` : "");
+    byName.set(k, (byName.get(k) || 0) + 1);
+  }
+  const know = qs.filter(q => q.know !== undefined).reduce((s, q) => s + q.know, 0);
+  const boxed = qs.filter(q => q.boxed).length;
+  el.innerHTML = `<h2>已选 ${idxs.length} 个设施 <span class="muted small" style="font-weight:400">第 ${f + 1} 层</span><button class="x" id="inspClose">✕</button></h2>
+    <p class="small muted">拖动任一选中的设施可整体移动；方向键逐格移动。Ctrl/Shift+单击 增减选择，在空地上拖框选择，Ctrl+A 全选本层。</p>
+    <div class="row"><button id="grpDup">复制 (Ctrl+C)</button><button id="grpDel">删除 (Delete)</button><button id="grpNone">取消选择</button></div>
+    <h3>选中的设施</h3><table>${[...byName].map(([k, n]) => `<tr><td>${esc(k)}</td><td class="n">×${n}</td></tr>`).join("")}</table>
+    <div class="small" style="margin-top:6px">每次知识合计（设施部分）：<b>${know}</b>${boxed ? ` · <span class="bad">${boxed} 个被围住</span>` : ""}</div>`;
+  el.dataset.piece = "";
+  el.hidden = false;
+  const none = () => { selected = null; group = []; el.hidden = true; renderFloorsSel(); paintRange(); };
+  $("#inspClose").onclick = none; $("#grpNone").onclick = none;
+  $("#grpDup").onclick = () => duplicateSelected();
+  $("#grpDel").onclick = () => removeMany(f, idxs);
+}
+
+function renderSummary() {
+  const need = new Array(7).fill(0);
+  for (const j of D.jobs) for (const r of (j.require || [])) need[r[0]] += 1000 * r[1] * (r[1] + 1) / 2;
+  const have = new Array(7).fill(0), count = new Array(7).fill(0), fill = new Array(7).fill(0);
+  let boxed = 0;
+  results.forEach(res => res.forEach(q => {
+    if (q.boxed) boxed++;
+    if (q.knowType !== undefined) { have[q.knowType] += q.know; count[q.knowType]++; fill[q.knowType] += q.knowEx; }
+  }));
+  const sh = a => { const s = a.reduce((x, y) => x + y, 0) || 1; return a.map(v => v / s); };
+  const needS = sh(need), haveS = sh(have);
+  $("#summary").innerHTML = `
+    <table><tr><th>知识</th><th class="n">设施</th><th class="n">每次合计</th><th class="n">产出</th><th class="n">需求</th><th class="n">额外</th></tr>
+    ${have.map((v, k) => `<tr><td><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${KCOL[k]}"></span> ${knowName(k)}</td>
+      <td class="n">${count[k]}</td><td class="n">${v}</td>
+      <td class="n">${(haveS[k] * 100).toFixed(1)}%</td><td class="n">${(needS[k] * 100).toFixed(1)}%</td>
+      <td class="n">${count[k] ? Math.round(fill[k] / count[k]) : "—"}</td></tr>`).join("")}
+    </table>
+    <p class="muted small">每次合计：该类型所有设施每次给的知识之和（设施部分，不含船员加成）。产出：占总产出的比例。需求：所有职业各转职一次所需知识经验中该类型的比例。额外：额外加成的平均值（上限 100）。</p>
+    ${boxed ? `<p class="bad">${boxed} 个设施被围住。</p>` : `<p class="ok small">没有被围住的设施。</p>`}`;
+}
+
+// ---------- palette ----------
+function designCount() { const c = {}; for (const fl of floors) for (const p of fl.pieces) c[p.id] = (c[p.id] || 0) + 1; return c; }
+function bestArea(m) { return Math.max(0, ...(m.areaEffect || []).map(e => e[1])); }
+function exVal(m) { return m.exEffect && m.exEffect.length === 2 ? m.exEffect[1] : 0; }
+
+function setupPalette() {
+  $("#palKnow").innerHTML = [0, 1, 2, 3, 4, 5, 6].map(k => `<span class="chip" data-k="${k}">${knowName(k)}</span>`).join("");
+  // Only offer slots some facility actually boosts; knowledge first, then params, then 购物/资源.
+  const exSlots = new Set(D.models.filter(m => m.exEffect && m.exEffect.length === 2).map(m => m.exEffect[0]));
+  $("#palEx").innerHTML = [4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 11, 12].filter(s => exSlots.has(s))
+    .map(s => `<span class="chip" data-k="${s}">${s >= 4 && s < 11 ? knowName(s - 4) : SLOT(s)}</span>`).join("");
+  const toggle = (arr, k) => { const i = arr.indexOf(k); if (i >= 0) arr.splice(i, 1); else arr.push(k); };
+  $("#palKnow").onclick = e => { const k = e.target.dataset.k; if (k === undefined) return; toggle(pal.know, +k); savePal(); };
+  $("#palEx").onclick = e => { const k = e.target.dataset.k; if (k === undefined) return; toggle(pal.exS, +k); savePal(); };
+  // 舒适 facilities refund work power after a visit (舒适 / 10); 锻炼 ones add 锻炼 / 10 to knowledge.
+  $("#palParam").innerHTML = [0, 1, 2, 3].map(k => `<span class="chip" data-k="${k}" title="${PARAM_HINT[k]}">${paramName(k)}</span>`).join("");
+  $("#palParam").onclick = e => { const k = e.target.dataset.k; if (k === undefined) return; toggle(pal.param, +k); savePal(); };
+  $("#palSearch").value = pal.q || ""; $("#palGroup").value = pal.group || "all"; $("#palSort").value = pal.sort || "game";
+  $("#palFound").checked = !!pal.found; $("#palOwned").checked = !!pal.owned;
+  $("#palSearch").oninput = e => { pal.q = e.target.value; savePal(); };
+  $("#palGroup").onchange = e => { pal.group = e.target.value; savePal(); };
+  $("#palSort").onchange = e => { pal.sort = e.target.value; savePal(); };
+  $("#palFound").onchange = e => { pal.found = e.target.checked; savePal(); };
+  $("#palOwned").onchange = e => { pal.owned = e.target.checked; savePal(); };
+}
+function savePal() { store.set("hssqol-designer-pal", JSON.stringify(pal)); renderPalette(); }
+
+function renderPalette() {
+  document.querySelectorAll("#palKnow .chip").forEach(c => c.classList.toggle("on", pal.know.includes(+c.dataset.k)));
+  document.querySelectorAll("#palEx .chip").forEach(c => c.classList.toggle("on", pal.exS.includes(+c.dataset.k)));
+  document.querySelectorAll("#palParam .chip").forEach(c => c.classList.toggle("on", pal.param.includes(+c.dataset.k)));
+  const used = designCount();
+  const q = (pal.q || "").trim();
+  let items = D.models.filter(m => m.selectable && m.type !== 0 && m.type !== 1 && m.id !== MODEL.PILLAR);
+  if (pal.group === "bed") items = items.filter(m => m.type === BED);
+  else if (pal.group && pal.group !== "all") items = items.filter(m => m.type !== BED && String(m.category) === pal.group);
+  if (pal.know.length) items = items.filter(m => m.getKnow && m.getKnow.length === 2 && pal.know.includes(m.getKnow[0]));
+  if (pal.exS.length) items = items.filter(m => m.exEffect && m.exEffect.length === 2 && pal.exS.includes(m.exEffect[0]));
+  if (pal.param.length) items = items.filter(m => pal.param.includes(m.paramType));
+  if (pal.found) items = items.filter(m => m.found);
+  const owned = m => (gamePlaced[m.id] || 0) + (m.type === BED ? 0 : (m.owned || 0));
+  if (pal.owned) items = items.filter(m => owned(m) > 0);
+  if (q) items = items.filter(m => clean(m.name).includes(q) || jobsForBed(m.id).some(j => clean(j.name).includes(q)));
+  const by = {
+    game: (a, b) => a.sortID - b.sortID,
+    know: (a, b) => ((b.getKnow?.[1]) || 0) - ((a.getKnow?.[1]) || 0),
+    ex: (a, b) => exVal(b) - exVal(a),
+    area: (a, b) => bestArea(b) - bestArea(a),
+    param: (a, b) => b.paramValue - a.paramValue,
+    owned: (a, b) => owned(b) - owned(a),
+    size: (a, b) => a.w * a.h - b.w * b.h || a.sortID - b.sortID,
+    name: (a, b) => clean(a.name).localeCompare(clean(b.name), "zh"),
+  }[pal.sort || "game"];
+  items.sort(by);
+  const list = $("#palList"); list.innerHTML = "";
+  if (!items.length) { list.innerHTML = `<p class="muted small">没有符合条件的设施。</p>`; return; }
+  for (const m of items) {
+    const d = document.createElement("div");
+    d.className = "pal" + (placing === m.id ? " sel" : "") + (m.found ? "" : " locked");
+    d.draggable = true;
+    const k = m.getKnow && m.getKnow.length === 2 ? `${knowName(m.getKnow[0])} ${m.getKnow[1]}` : "不给知识";
+    const ex = m.exEffect && m.exEffect.length === 2 ? ` · 额外 ${SLOT(m.exEffect[0])}+${m.exEffect[1]}` : "";
+    const area = (m.areaEffect || []).map(e => `${paramName(e[0])}+${e[1]}`).join(" ");
+    const bj = m.type === BED ? jobsForBed(m.id).map(j => clean(j.name)) : [];
+    const own = owned(m), u = used[m.id] || 0;
+    const cnt = m.type === BED
+      ? `<span class="muted" title="当前设计里放了几间这种寝室（寝室随船员职业变化，没有拥有数量）">已放置 ${u}</span>`
+      : `<span class="${u > own ? "warn" : ""}" title="已放置：当前设计里放了几个&#10;拥有：船上 ${gamePlaced[m.id] || 0} + 仓库 ${m.owned || 0}${u > own ? "&#10;已放置超过拥有数量" : ""}">已放置 ${u} / 拥有 ${own}</span>`;
+    d.innerHTML = `<span class="sw" style="background:${colorOf(m)}"></span>
+      <span><span class="nm">${esc(m.name)}${m.type === BED ? ` #${m.id}` : ""}</span>${m.found ? "" : ' <span class="meta">未解锁</span>'}<br>
+      <span class="meta">${m.w}×${m.h} · ${k}${ex}<br>${paramName(m.paramType)} ${m.paramValue}${area ? " · 区域 " + area : ""}${bj.length ? "<br>职业 " + bj.slice(0, 4).join("、") + (bj.length > 4 ? "…" : "") : ""}</span></span>
+      <span class="cnt">${cnt}</span>`;
+    d.onclick = () => setPlacing(placing === m.id ? null : m.id);
+    d.addEventListener("dragstart", e => { dragInfo = { kind: "new", id: m.id }; e.dataTransfer.setData("text/plain", "new"); e.dataTransfer.effectAllowed = "copy"; });
+    d.addEventListener("dragend", () => { dragInfo = null; paintPreview(-1); });
+    list.append(d);
+  }
+}
+
+function renderLevels() {
+  const el = $("#levels");
+  const rows = D.models.filter(m => m.canLevel && m.selectable && m.id !== MODEL.PILLAR).sort((a, b) => a.sortID - b.sortID);
+  el.innerHTML = `<table><tr><th>设施</th><th class="n">游戏中</th><th class="n">设计</th></tr>
+    ${rows.map(m => `<tr><td>${esc(m.name)}</td><td class="n muted">${m.lv}</td><td class="n"><input type="number" min="0" max="${MODEL.LV_MAX}" data-id="${m.id}" value="${levels[m.id]}"></td></tr>`).join("")}</table>`;
+  el.querySelectorAll("input").forEach(inp => inp.onchange = () => {
+    levels[+inp.dataset.id] = Math.max(0, Math.min(MODEL.LV_MAX, parseInt(inp.value, 10) || 0)); changed();
+  });
+}
+function setAllLevels(fn) { for (const m of D.models) if (m.canLevel) levels[m.id] = fn(m); changed(); }
+
+// ---------- design files ----------
+function designJSON() {
+  return { format: "hssqol-design", version: 2, shipLevel, levels, floors: floors.map(fl => fl.pieces.map(p => [p.x, p.y, p.id, p.job ?? null, p.crew ?? null])) };
+}
+function loadDesign(obj) {
+  if (!obj || obj.format !== "hssqol-design") { alert("这不是设计器保存的文件。"); return; }
+  shipLevel = obj.shipLevel; $("#shipLevel").value = shipLevel;
+  floors = D.baseFloors.map((base, f) => {
+    const fl = MODEL.floorAt(base, shipLevel);
+    fl.pieces = (obj.floors[f] || []).filter(p => models[p[2]]).map(([x, y, id, job, crew]) => {
+      const p = { x, y, id }; if (job !== null && job !== undefined) p.job = job; if (crew) p.crew = crew; return p;
+    });
+    return fl;
+  });
+  Object.assign(levels, obj.levels || {});
+  selected = null; group = []; renderAll();
+}
+
+
+// ---------- wiring ----------
+const readJSON = (file, cb) => { const r = new FileReader(); r.onload = () => { try { cb(JSON.parse(r.result)); } catch (e) { alert("无法读取 JSON：" + e.message); } }; r.readAsText(file); };
+$("#btnLoad").onclick = () => $("#file").click();
+$("#file").onchange = e => e.target.files[0] && readJSON(e.target.files[0], loadExport);
+$("#btnLoadDesign").onclick = () => D ? $("#fileDesign").click() : alert("请先载入导出文件。");
+$("#fileDesign").onchange = e => e.target.files[0] && readJSON(e.target.files[0], loadDesign);
+$("#btnSaveDesign").onclick = () => {
+  if (!D) return;
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(designJSON(), null, 1)], { type: "application/json" }));
+  a.download = `hssqol-design-L${shipLevel}.json`; a.click();
+};
+$("#btnReset").onclick = () => { if (!D) return; for (const m of D.models) levels[m.id] = m.lv; buildFromGame(shipLevel); changed(); };
+// Carry the design to another ship level the way the game does: pieces shift one column right per floor expansion.
+$("#shipLevel").onchange = e => {
+  const nl = +e.target.value;
+  const dx = MODEL.expansions(nl) - MODEL.expansions(shipLevel);
+  let dropped = 0;
+  const next = D.baseFloors.map((base, f) => {
+    const fl = MODEL.floorAt(base, nl); fl.pieces = [];
+    for (const p of floors[f].pieces) {
+      const q = { ...p, x: p.x + dx };
+      const fits = MODEL.footprint(models[q.id], q.x, q.y).every(([a, b]) => a >= 0 && b >= 0 && a < fl.cols && b < fl.rows && !fl.fixed.has(a + "," + b));
+      if (fits) fl.pieces.push(q); else dropped++;
+    }
+    return fl;
+  });
+  if (dropped && !confirm(`有 ${dropped} 个设施在等级 ${nl} 的船舱里放不下，将被移除。继续吗？`)) { e.target.value = shipLevel; return; }
+  shipLevel = nl; floors = next; selected = null; group = []; changed();
+};
+$("#lv0").onclick = () => setAllLevels(() => 0);
+$("#lv300").onclick = () => setAllLevels(() => MODEL.LV_MAX);
+$("#lvGame").onclick = () => setAllLevels(m => m.lv);
+document.addEventListener("keydown", e => {
+  const typing = /INPUT|SELECT|TEXTAREA/.test(e.target.tagName);
+  if (e.key === "Escape") { placing = null; stamp = null; selected = null; group = []; renderAll(); renderPlacingHint(); }
+  if ((e.ctrlKey || e.metaKey) && !typing && D) {
+    const k = e.key.toLowerCase();
+    if ((k === "c" || k === "d") && selected && !String(window.getSelection())) { e.preventDefault(); duplicateSelected(); }
+    if (k === "v" && clip) { e.preventDefault(); setStamp(clip); }
+    if (k === "a" && selected) { e.preventDefault(); selectMany(selected.f, floors[selected.f].pieces.map((_, i) => i), selected.i); renderInspector(); renderFloorsSel(); }
+  }
+  if ((e.key === "Delete" || e.key === "Backspace") && selected && !typing) removeMany(selected.f, selList());
+  const arrows = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
+  if (arrows[e.key] && selected && !typing && !isPlacing()) { e.preventDefault(); nudge(...arrows[e.key]); }
+});
+const drop = $("#drop");
+document.body.addEventListener("dragover", e => { if (!dragInfo) { e.preventDefault(); drop.classList.add("over"); } });
+document.body.addEventListener("dragleave", () => drop.classList.remove("over"));
+document.body.addEventListener("drop", e => {
+  if (dragInfo) return;
+  e.preventDefault(); drop.classList.remove("over");
+  const f = e.dataTransfer.files[0]; if (!f) return;
+  readJSON(f, obj => obj.format === "hssqol-design" ? (D ? loadDesign(obj) : alert("请先载入导出文件。")) : loadExport(obj));
+});
+
+let paletteReady = false;
+const _load = loadExport;
+loadExport = obj => { _load(obj); if (!paletteReady && D) { setupPalette(); paletteReady = true; renderPalette(); } };
+
+try {
+  const last = store.get("hssqol-designer-export");
+  if (last) {
+    loadExport(JSON.parse(last));
+    const d = store.get("hssqol-designer-design");
+    if (d) loadDesign(JSON.parse(d));
+  }
+} catch (e) { console.warn(e); }
+})();
+</script>
+</body>
+</html>
