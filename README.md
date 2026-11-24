@@ -226,15 +226,15 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 ## 参考资料
 
-[`docs/`](docs/) 里是从游戏自身数据表导出的资料，用来理解和验证 Mod 的计算。`.md` 可以直接在 GitHub 上看；同名的 `.html` 是可排序、可筛选的独立网页，下载后用浏览器打开。
+[`docs/`](docs/) 里是从游戏自身数据表导出的资料，用来理解和验证 Mod 的计算。下面的链接直接打开在线网页（可排序、可筛选）；同名的 `.md` 版本也在 `docs/` 里。
 
 | 资料 | 内容 |
 |---|---|
-| [职业](docs/jobs.md)（[网页](docs/jobs.html)） | 全部 49 个职业：各等级属性、转职所需知识、通关奖励、对应寝室 |
-| [设施](docs/facilities.md)（[网页](docs/facilities.html)） | 全部 80 种设施：知识、额外效果、区域效果和参数的计算规则 |
-| [解析](docs/analyze.md)（[网页](docs/analyze.html)） | 每种解析道具在各等级能变成什么，以及实际概率 |
-| [掉落](docs/loot.md)（[网页](docs/loot.html)） | 每片海域和每个迷宫的敌人掉落与宝箱 |
-| [港口](docs/ports.md)（[网页](docs/ports.html)） | 各港口的空地、固定建筑和迷宫入口，以及迷宫体力消耗 |
+| [职业](https://ruoanji.github.io/HSSQoL/docs/jobs.html) | 全部 49 个职业：各等级属性、转职所需知识、通关奖励、对应寝室 |
+| [设施](https://ruoanji.github.io/HSSQoL/docs/facilities.html) | 全部 80 种设施：知识、额外效果、区域效果和参数的计算规则 |
+| [解析](https://ruoanji.github.io/HSSQoL/docs/analyze.html) | 每种解析道具在各等级能变成什么，以及实际概率 |
+| [掉落](https://ruoanji.github.io/HSSQoL/docs/loot.html) | 每片海域和每个迷宫的敌人掉落与宝箱 |
+| [港口](https://ruoanji.github.io/HSSQoL/docs/ports.html) | 各港口的空地、固定建筑和迷宫入口，以及迷宫体力消耗 |
 | [布局设计器数据](docs/layout-data.md) | 船舱布局设计器用到的数据和规则；原始数据在 [`docs/data/`](docs/data/) |
 
 重新生成：在游戏里按 **F10**（`DataDump`）导出 `BepInEx\hssqol-data.json`，然后在 `docs` 文件夹运行 `python make_loot.py`、`python make_ports.py`、`python make_jobs_html.py` 或 `python make_facilities_html.py`。脚本按 `HSS_GAME_DIR` 环境变量找游戏目录，也可以把 JSON 路径作为第一个参数传入。
@@ -489,15 +489,15 @@ Settings, under `[ContinuousExplore]`:
 
 ## Reference docs
 
-[`docs/`](docs/) holds reference data exported from the game's own data tables, used to understand and check the mod's calculations. The `.md` files read directly on GitHub. Each `.html` file of the same name is a standalone, sortable and filterable page: download it and open it in a browser.
+[`docs/`](docs/) holds reference data exported from the game's own data tables, used to understand and check the mod's calculations. The links below open the sortable, filterable pages online; a `.md` version of each sits next to it in `docs/`.
 
 | Doc | What's in it |
 |---|---|
-| [Jobs](docs/jobs.md) ([page](docs/jobs.html)) | All 49 jobs: stats by level, knowledge needed to switch, mastery bonuses, bedrooms |
-| [Facilities](docs/facilities.md) ([page](docs/facilities.html)) | All 80 facility types and how knowledge, extra effects, area effects and params are calculated |
-| [Analyze](docs/analyze.md) ([page](docs/analyze.html)) | What each analyze item turns into at each level, with real odds |
-| [Loot](docs/loot.md) ([page](docs/loot.html)) | Enemy drops and chests for every sea area and dungeon |
-| [Ports](docs/ports.md) ([page](docs/ports.html)) | Each port's empty lots, fixed buildings and dungeon entrances, plus dungeon stamina cost |
+| [Jobs](https://ruoanji.github.io/HSSQoL/docs/jobs.html) | All 49 jobs: stats by level, knowledge needed to switch, mastery bonuses, bedrooms |
+| [Facilities](https://ruoanji.github.io/HSSQoL/docs/facilities.html) | All 80 facility types and how knowledge, extra effects, area effects and params are calculated |
+| [Analyze](https://ruoanji.github.io/HSSQoL/docs/analyze.html) | What each analyze item turns into at each level, with real odds |
+| [Loot](https://ruoanji.github.io/HSSQoL/docs/loot.html) | Enemy drops and chests for every sea area and dungeon |
+| [Ports](https://ruoanji.github.io/HSSQoL/docs/ports.html) | Each port's empty lots, fixed buildings and dungeon entrances, plus dungeon stamina cost |
 | [Layout designer data](docs/layout-data.md) | The data and rules the ship layout designer uses; raw data in [`docs/data/`](docs/data/) |
 
 To regenerate: press **F10** in game (`DataDump`) to write `BepInEx\hssqol-data.json`, then run `python make_loot.py`, `python make_ports.py`, `python make_jobs_html.py` or `python make_facilities_html.py` from the `docs` folder. The scripts find the game folder through the `HSS_GAME_DIR` environment variable, or take the JSON path as their first argument.
