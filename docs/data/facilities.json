@@ -52,7 +52,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -73,11 +72,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 1,
@@ -111,7 +106,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -132,11 +126,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 2,
@@ -170,7 +160,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -191,11 +180,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 3,
@@ -229,7 +214,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -250,11 +234,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": false,
-      "find": 0,
-      "owned": 1,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 4,
@@ -288,7 +268,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -316,11 +295,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 0,
-      "owned": 1,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 5,
@@ -354,7 +329,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -382,11 +356,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": true,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 6,
@@ -426,10 +396,6 @@
         3,
         80
       ],
-      "knowValueNow": [
-        3,
-        104
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -457,11 +423,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 19,
-      "exp": 2724
+      "canLevel": true
     },
     {
       "index": 7,
@@ -495,7 +457,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -523,11 +484,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": true,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 8,
@@ -561,7 +518,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -589,11 +545,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": true,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 9,
@@ -627,7 +579,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -655,11 +606,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": true,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 10,
@@ -700,7 +647,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -728,11 +674,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 11,
@@ -773,7 +715,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -801,11 +742,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 12,
@@ -846,7 +783,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -867,11 +803,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": false,
-      "find": 0,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 13,
@@ -912,7 +844,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -933,11 +864,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": false,
-      "find": 0,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 14,
@@ -980,10 +907,6 @@
       "getKnow": [
         4,
         80
-      ],
-      "knowValueNow": [
-        4,
-        93
       ],
       "harvestTime": 0,
       "harvestNum": [
@@ -1085,11 +1008,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 11,
-      "exp": 1563
+      "canLevel": true
     },
     {
       "index": 15,
@@ -1132,10 +1051,6 @@
       "getKnow": [
         3,
         60
-      ],
-      "knowValueNow": [
-        3,
-        84
       ],
       "harvestTime": 0,
       "harvestNum": [
@@ -1200,11 +1115,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 22,
-      "exp": 3232
+      "canLevel": true
     },
     {
       "index": 16,
@@ -1241,10 +1152,6 @@
         6,
         85
       ],
-      "knowValueNow": [
-        6,
-        85
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -1265,11 +1172,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 17,
@@ -1312,10 +1215,6 @@
       "getKnow": [
         5,
         90
-      ],
-      "knowValueNow": [
-        5,
-        113
       ],
       "harvestTime": 0,
       "harvestNum": [
@@ -1381,11 +1280,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 3,
-      "lv": 17,
-      "exp": 2485
+      "canLevel": true
     },
     {
       "index": 18,
@@ -1425,10 +1320,6 @@
       "getKnow": [
         2,
         105
-      ],
-      "knowValueNow": [
-        2,
-        137
       ],
       "harvestTime": 0,
       "harvestNum": [
@@ -1494,11 +1385,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 3,
-      "lv": 21,
-      "exp": 3001
+      "canLevel": true
     },
     {
       "index": 19,
@@ -1541,10 +1428,6 @@
       "getKnow": [
         6,
         85
-      ],
-      "knowValueNow": [
-        6,
-        101
       ],
       "harvestTime": 0,
       "harvestNum": [
@@ -1610,11 +1493,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 12,
-      "exp": 1787
+      "canLevel": true
     },
     {
       "index": 20,
@@ -1654,10 +1533,6 @@
       "getKnow": [
         4,
         80
-      ],
-      "knowValueNow": [
-        4,
-        98
       ],
       "harvestTime": 0,
       "harvestNum": [
@@ -1711,11 +1586,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 14,
-      "exp": 2089
+      "canLevel": true
     },
     {
       "index": 21,
@@ -1759,10 +1630,6 @@
         1,
         90
       ],
-      "knowValueNow": [
-        1,
-        109
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -1790,11 +1657,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 14,
-      "exp": 2017
+      "canLevel": true
     },
     {
       "index": 22,
@@ -1838,10 +1701,6 @@
         5,
         85
       ],
-      "knowValueNow": [
-        5,
-        98
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -1869,11 +1728,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 10,
-      "exp": 1412
+      "canLevel": true
     },
     {
       "index": 23,
@@ -1917,10 +1772,6 @@
         6,
         85
       ],
-      "knowValueNow": [
-        6,
-        95
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -1967,11 +1818,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 8,
-      "exp": 1166
+      "canLevel": true
     },
     {
       "index": 24,
@@ -2015,10 +1862,6 @@
         3,
         95
       ],
-      "knowValueNow": [
-        3,
-        113
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2046,11 +1889,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 4,
-      "lv": 13,
-      "exp": 1919
+      "canLevel": true
     },
     {
       "index": 25,
@@ -2094,10 +1933,6 @@
         2,
         85
       ],
-      "knowValueNow": [
-        2,
-        98
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2132,11 +1967,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 10,
-      "exp": 1412
+      "canLevel": true
     },
     {
       "index": 26,
@@ -2177,10 +2008,6 @@
         4,
         75
       ],
-      "knowValueNow": [
-        4,
-        97
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2208,11 +2035,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 7,
-      "lv": 18,
-      "exp": 2651
+      "canLevel": true
     },
     {
       "index": 27,
@@ -2256,10 +2079,6 @@
         3,
         100
       ],
-      "knowValueNow": [
-        3,
-        127
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2287,11 +2106,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 18,
-      "exp": 2635
+      "canLevel": true
     },
     {
       "index": 28,
@@ -2335,10 +2150,6 @@
         2,
         100
       ],
-      "knowValueNow": [
-        2,
-        109
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2373,11 +2184,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 6,
-      "exp": 862
+      "canLevel": true
     },
     {
       "index": 29,
@@ -2421,10 +2228,6 @@
         3,
         90
       ],
-      "knowValueNow": [
-        3,
-        90
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2459,11 +2262,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 30,
@@ -2507,10 +2306,6 @@
         3,
         95
       ],
-      "knowValueNow": [
-        3,
-        124
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2545,11 +2340,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 20,
-      "exp": 2882
+      "canLevel": true
     },
     {
       "index": 31,
@@ -2593,10 +2384,6 @@
         3,
         100
       ],
-      "knowValueNow": [
-        3,
-        124
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2631,11 +2418,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 1,
-      "lv": 16,
-      "exp": 2393
+      "canLevel": true
     },
     {
       "index": 32,
@@ -2679,10 +2462,6 @@
         1,
         80
       ],
-      "knowValueNow": [
-        1,
-        114
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2717,11 +2496,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 27,
-      "exp": 3984
+      "canLevel": true
     },
     {
       "index": 33,
@@ -2765,10 +2540,6 @@
         0,
         70
       ],
-      "knowValueNow": [
-        0,
-        79
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2796,11 +2567,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 8,
-      "exp": 1162
+      "canLevel": true
     },
     {
       "index": 34,
@@ -2841,10 +2608,6 @@
         4,
         80
       ],
-      "knowValueNow": [
-        4,
-        122
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2879,11 +2642,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 33,
-      "exp": 4835
+      "canLevel": true
     },
     {
       "index": 35,
@@ -2927,10 +2686,6 @@
         2,
         80
       ],
-      "knowValueNow": [
-        2,
-        87
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -2965,11 +2720,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 6,
-      "exp": 776
+      "canLevel": true
     },
     {
       "index": 36,
@@ -3013,10 +2764,6 @@
         4,
         80
       ],
-      "knowValueNow": [
-        4,
-        93
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -3057,11 +2804,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 3,
-      "lv": 11,
-      "exp": 1582
+      "canLevel": true
     },
     {
       "index": 37,
@@ -3105,10 +2848,6 @@
         0,
         80
       ],
-      "knowValueNow": [
-        0,
-        106
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -3136,11 +2875,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 21,
-      "exp": 3140
+      "canLevel": true
     },
     {
       "index": 38,
@@ -3181,7 +2916,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -3209,11 +2943,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 0,
-      "owned": 1,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 39,
@@ -3253,10 +2983,6 @@
         4,
         75
       ],
-      "knowValueNow": [
-        4,
-        163
-      ],
       "harvestTime": 2000,
       "harvestNum": [
         1,
@@ -3284,11 +3010,7 @@
       "isHarvest": true,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 1,
-      "lv": 71,
-      "exp": 10545
+      "canLevel": true
     },
     {
       "index": 40,
@@ -3325,10 +3047,6 @@
         4,
         100
       ],
-      "knowValueNow": [
-        4,
-        113
-      ],
       "harvestTime": 2000,
       "harvestNum": [
         2,
@@ -3356,11 +3074,7 @@
       "isHarvest": true,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 9,
-      "exp": 1304
+      "canLevel": true
     },
     {
       "index": 41,
@@ -3397,10 +3111,6 @@
         2,
         70
       ],
-      "knowValueNow": [
-        2,
-        84
-      ],
       "harvestTime": 3000,
       "harvestNum": [
         2,
@@ -3435,11 +3145,7 @@
       "isHarvest": true,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 12,
-      "exp": 1704
+      "canLevel": true
     },
     {
       "index": 42,
@@ -3479,10 +3185,6 @@
         2,
         85
       ],
-      "knowValueNow": [
-        2,
-        85
-      ],
       "harvestTime": 3000,
       "harvestNum": [
         4,
@@ -3517,11 +3219,7 @@
       "isHarvest": true,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 43,
@@ -3561,10 +3259,6 @@
         2,
         95
       ],
-      "knowValueNow": [
-        2,
-        95
-      ],
       "harvestTime": 4000,
       "harvestNum": [
         5,
@@ -3599,11 +3293,7 @@
       "isHarvest": true,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 44,
@@ -3647,10 +3337,6 @@
         2,
         55
       ],
-      "knowValueNow": [
-        2,
-        70
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -3685,11 +3371,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 9,
-      "lv": 15,
-      "exp": 2219
+      "canLevel": true
     },
     {
       "index": 45,
@@ -3732,10 +3414,6 @@
       "getKnow": [
         3,
         55
-      ],
-      "knowValueNow": [
-        3,
-        71
       ],
       "harvestTime": 0,
       "harvestNum": [
@@ -3783,11 +3461,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 13,
-      "lv": 16,
-      "exp": 2266
+      "canLevel": true
     },
     {
       "index": 46,
@@ -3831,10 +3505,6 @@
         2,
         55
       ],
-      "knowValueNow": [
-        2,
-        71
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -3869,11 +3539,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 5,
-      "lv": 16,
-      "exp": 2258
+      "canLevel": true
     },
     {
       "index": 47,
@@ -3917,10 +3583,6 @@
         2,
         85
       ],
-      "knowValueNow": [
-        2,
-        107
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -3955,11 +3617,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 3,
-      "lv": 17,
-      "exp": 2510
+      "canLevel": true
     },
     {
       "index": 48,
@@ -4003,10 +3661,6 @@
         5,
         100
       ],
-      "knowValueNow": [
-        5,
-        101
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4047,11 +3701,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 49,
@@ -4095,10 +3745,6 @@
         6,
         95
       ],
-      "knowValueNow": [
-        6,
-        98
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4133,11 +3779,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 3,
-      "exp": 406
+      "canLevel": true
     },
     {
       "index": 50,
@@ -4181,10 +3823,6 @@
         5,
         95
       ],
-      "knowValueNow": [
-        5,
-        101
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4225,11 +3863,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 5,
-      "exp": 716
+      "canLevel": true
     },
     {
       "index": 51,
@@ -4273,10 +3907,6 @@
         5,
         90
       ],
-      "knowValueNow": [
-        5,
-        109
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4317,11 +3947,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 1,
-      "lv": 14,
-      "exp": 2058
+      "canLevel": true
     },
     {
       "index": 52,
@@ -4365,10 +3991,6 @@
         5,
         80
       ],
-      "knowValueNow": [
-        5,
-        80
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4403,11 +4025,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 53,
@@ -4451,10 +4069,6 @@
         2,
         80
       ],
-      "knowValueNow": [
-        2,
-        93
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4489,11 +4103,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 3,
-      "lv": 11,
-      "exp": 1594
+      "canLevel": true
     },
     {
       "index": 54,
@@ -4537,10 +4147,6 @@
         2,
         105
       ],
-      "knowValueNow": [
-        2,
-        106
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4581,11 +4187,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 55,
@@ -4629,10 +4231,6 @@
         4,
         90
       ],
-      "knowValueNow": [
-        4,
-        110
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4666,11 +4264,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 2,
-      "lv": 15,
-      "exp": 2115
+      "canLevel": true
     },
     {
       "index": 56,
@@ -4714,10 +4308,6 @@
         1,
         95
       ],
-      "knowValueNow": [
-        1,
-        95
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4751,11 +4341,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 57,
@@ -4793,7 +4379,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4814,11 +4399,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": false,
-      "find": 0,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 58,
@@ -4856,7 +4437,6 @@
       "exEffect": [],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4877,11 +4457,7 @@
       "isHarvest": false,
       "isVisit": false,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 59,
@@ -4918,7 +4494,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -4946,11 +4521,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 60,
@@ -4991,7 +4562,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5019,11 +4589,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 61,
@@ -5064,7 +4630,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5092,11 +4657,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 62,
@@ -5133,7 +4694,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5161,11 +4721,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 63,
@@ -5206,7 +4762,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5234,11 +4789,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 64,
@@ -5279,7 +4830,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5307,11 +4857,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 65,
@@ -5352,7 +4898,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5380,11 +4925,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 66,
@@ -5425,7 +4966,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5453,11 +4993,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 67,
@@ -5498,7 +5034,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5526,11 +5061,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 68,
@@ -5567,7 +5098,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5595,11 +5125,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 69,
@@ -5640,7 +5166,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5668,11 +5193,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 70,
@@ -5713,7 +5234,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5741,11 +5261,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 71,
@@ -5786,7 +5302,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5814,11 +5329,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 72,
@@ -5859,7 +5370,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5887,11 +5397,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 73,
@@ -5932,7 +5438,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -5960,11 +5465,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 74,
@@ -6005,7 +5506,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -6033,11 +5533,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 75,
@@ -6074,7 +5570,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -6102,11 +5597,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 76,
@@ -6147,7 +5638,6 @@
       ],
       "getKnowTime": 0,
       "getKnow": [],
-      "knowValueNow": null,
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -6175,11 +5665,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": false,
-      "find": 1,
-      "owned": 0,
-      "lv": 1,
-      "exp": 0
+      "canLevel": false
     },
     {
       "index": 77,
@@ -6223,10 +5709,6 @@
         2,
         85
       ],
-      "knowValueNow": [
-        2,
-        85
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -6261,11 +5743,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 6,
-      "lv": 1,
-      "exp": 0
+      "canLevel": true
     },
     {
       "index": 78,
@@ -6309,10 +5787,6 @@
         1,
         80
       ],
-      "knowValueNow": [
-        1,
-        99
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -6353,11 +5827,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 0,
-      "lv": 15,
-      "exp": 2131
+      "canLevel": true
     },
     {
       "index": 79,
@@ -6401,10 +5871,6 @@
         3,
         75
       ],
-      "knowValueNow": [
-        3,
-        88
-      ],
       "harvestTime": 0,
       "harvestNum": [
         0,
@@ -6432,11 +5898,7 @@
       "isHarvest": false,
       "isVisit": true,
       "isShop": false,
-      "canLevel": true,
-      "find": 0,
-      "owned": 4,
-      "lv": 11,
-      "exp": 1624
+      "canLevel": true
     }
   ]
 }

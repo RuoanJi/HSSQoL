@@ -24,7 +24,6 @@ COST_TYPE = {0: "资源", 1: "金币"}
 
 def row(m, cats):
     gk = m.get("getKnow") or []
-    kn = m.get("knowValueNow") or []
     return {
         "id": m["id"],
         "name": m["name"],
@@ -34,7 +33,6 @@ def row(m, cats):
         "w": m["widthNum"], "h": m["heightNum"],
         "know": KNOW_ZH[gk[0]] if len(gk) >= 2 else "",
         "knowBase": gk[1] if len(gk) >= 2 else None,
-        "knowNow": kn[1] if len(kn) >= 2 else None,
         "knowTime": m.get("getKnowTime") or None,
         "param": PARAM_ZH[m["paramType"]],
         "paramValue": m["paramValue"],
@@ -47,8 +45,6 @@ def row(m, cats):
         "buildCost": m["buildCost"], "buildTime": m["buildTime"],
         "harvest": [m["harvestTime"], m["harvestNum"][0], m["harvestNum"][1]] if m.get("isHarvest") else None,
         "canLevel": bool(m.get("canLevel")),
-        "owned": m.get("owned", 0),
-        "lv": m.get("lv"), "exp": m.get("exp"),
     }
 
 
@@ -126,7 +122,6 @@ td.name .ex { display: block; color: var(--muted); font-size: 12px; max-width: 2
   <input type="search" id="q" placeholder="Search name / description…">
   <div class="seg" id="cat"></div>
   <label class="tog"><input type="checkbox" id="hideRooms" checked> Hide floors, stairways & bedrooms</label>
-  <label class="tog"><input type="checkbox" id="ownedOnly"> Owned only</label>
   <span class="count" id="count"></span>
 </div>
 <div class="wrap"><table>
@@ -134,7 +129,7 @@ td.name .ex { display: block; color: var(--muted); font-size: 12px; max-width: 2
   <tbody id="body"></tbody>
 </table></div>
 <ul class="notes">
-  <li><b>Knowledge</b>: type and base gain per visit; "now" is your current per-visit value with level included. "Know time" is the game's raw <code>getKnowTime</code> value.</li>
+  <li><b>Knowledge</b>: type and base gain per visit (before facility level and crew bonuses). "Know time" is the game's raw <code>getKnowTime</code> value.</li>
   <li><b>Param</b>: base value of the facility's own param. Actual value = base + lv/2 + matching area effects from neighbours (max 500).</li>
   <li><b>Area effect</b>: added to neighbours (Manhattan distance ≤ 3) whose param type matches, + lv/5 of this facility.</li>
   <li><b>Extra effect</b>: flat bonus to a neighbour's slot (no level scaling).</li>
@@ -154,7 +149,6 @@ const COLS = [
   {k:"cat", t:"Category"},
   {k:"size", t:"Size", sort: r => r.w * r.h, html: r => `${r.w}×${r.h}`},
   {k:"know", t:"Knowledge", sort: r => r.know ? r.know : "~", html: r => r.know ? `${r.know} <b>${r.knowBase}</b>` : `<span class="dim">—</span>`},
-  {k:"knowNow", t:"Know now", num:true},
   {k:"knowTime", t:"Know time", num:true},
   {k:"param", t:"Param", sort: r => r.param + String(r.paramValue).padStart(4, "0"), html: r => `${r.param} <b>${r.paramValue}</b>`},
   {k:"area", t:"Area effect", sort: r => r.area.length ? r.area[0][1] : -1,
@@ -168,9 +162,6 @@ const COLS = [
   {k:"buildCost", t:"Build cost", num:true},
   {k:"buildTime", t:"Build time", num:true},
   {k:"canLevel", t:"Levels", html: r => r.canLevel ? "yes" : `<span class="dim">no</span>`},
-  {k:"owned", t:"Owned", num:true, html: r => r.owned ? fmt(r.owned) : `<span class="dim">0</span>`},
-  {k:"lv", t:"Your lv", num:true, html: r => r.canLevel ? fmt(r.lv) : ""},
-  {k:"exp", t:"EXP", num:true, html: r => r.canLevel ? fmt(r.exp) : ""},
 ];
 let sortKey = "id", sortDir = 1, cat = "All";
 const cats = ["All", ...new Set(DATA.map(r => r.cat))];
@@ -186,14 +177,14 @@ COLS.forEach(c => {
   th.onclick = () => { if (sortKey === c.k) sortDir = -sortDir; else { sortKey = c.k; sortDir = c.num ? -1 : 1; } render(); };
   head.appendChild(th);
 });
-["q", "hideRooms", "ownedOnly"].forEach(id => document.getElementById(id).addEventListener("input", render));
+["q", "hideRooms"].forEach(id => document.getElementById(id).addEventListener("input", render));
 function val(c, r) { const v = c.sort ? c.sort(r) : r[c.k]; return v == null || v === "" ? null : v; }
 function render() {
   const q = document.getElementById("q").value.trim().toLowerCase();
-  const hide = document.getElementById("hideRooms").checked, own = document.getElementById("ownedOnly").checked;
+  const hide = document.getElementById("hideRooms").checked;
   const col = COLS.find(c => c.k === sortKey);
   const rows = DATA.filter(r =>
-    (cat === "All" || r.cat === cat) && (!hide || !ROOM_KINDS.has(r.kind)) && (!own || r.owned > 0) &&
+    (cat === "All" || r.cat === cat) && (!hide || !ROOM_KINDS.has(r.kind)) &&
     (!q || (r.name + " " + r.explain + " " + r.kind + " " + r.know + " " + r.param).toLowerCase().includes(q))
   ).sort((a, b) => {
     const x = val(col, a), y = val(col, b);
