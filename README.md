@@ -12,6 +12,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - **[船舱布局设计器](https://ruoanji.github.io/HSSQoL/designer/designer.html)**：按 F9 导出船舱数据和布局供网页版的规划工具加载。
 - **游戏加速**：按 F2 开关，倍率可自由设置。
 - **跳过迷宫结算**：按 F3 开关，迷宫通关后的横幅、宝箱展示、经验结算、俘虏选择和迷宫内对话一闪而过。
+- **跳过职业通关动画**：按 F4 开关，职业升到满级时弹出的职业通关窗口一闪而过，连续转职满级时不用一个个点。
 - **连续探索**：在迷宫出发页面一键反复打同一个迷宫，直到体力用完。
 - **鼠标滚轮**：在列表中用滚轮上下移动。
 
@@ -179,7 +180,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - 抓到的俘虏全部直接关进牢房（等同于游戏里的"全部收监"并选"是"），不弹列表和确认框。牢房满了时，多出的俘虏按游戏规则放到甲板上。
 - 迷宫里的对话（比如 Boss 战前的对话）自动跳过。迷宫外的对话不受影响。
 
-职业通关、怪物进化等弹出窗口仍需手动点击。
+怪物进化等弹出窗口仍需手动点击。职业通关窗口由 F4（见下一节）控制。
 
 这里没有跳过任何游戏逻辑：Mod 只是替你按确定键，并让这些画面每帧多运行几次，所以获得的道具、经验和俘虏与正常点完完全相同。
 
@@ -190,9 +191,28 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `Enabled` | false | 是否开启（按 F3 切换） |
 | `ToggleKey` | F3 | 开关按键 |
 | `ExtraUpdates` | 10 | 这些画面每帧额外运行的次数，0–60 |
-| `Types` | 41,79 | 要快进的画面类型：41 通关、79 经验结算；加上 80 可连职业通关窗口一起跳过 |
+| `Types` | 41,79 | 要快进的画面类型：41 通关、79 经验结算（职业通关窗口请用 F4） |
 | `AutoImprison` | true | 俘虏全部直接收监 |
 | `SkipTalk` | true | 跳过迷宫内的对话 |
+| `ShowIndicator` | true | 是否显示右上角的标签 |
+
+## 跳过职业通关动画
+
+按 **F4** 开启或关闭（会记住上次的设置）。开启时右上角会显示 `⏭ 跳过满级动画`。
+
+职业升到满级时（强化满级、转职满级或游戏自己的强化都一样）会弹出职业通关窗口：窗口滑入、加成数字逐渐增加，还要点两次才能关闭。开启后这个窗口会自动快速走完并关闭，一个角色要连续通关十几个职业时只需反复点 **转职满级**。
+
+和跳过迷宫结算一样，这里没有跳过任何游戏逻辑：职业通关加成仍由游戏自己的窗口在关闭时发放，结果与手动点完完全相同。迷宫经验结算中弹出的职业通关窗口也会一起快进。
+
+可在 `[JobMasterSkip]` 中设置：
+
+| 设置 | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | false | 是否开启（按 F4 切换） |
+| `ToggleKey` | F4 | 开关按键 |
+| `ExtraUpdates` | 10 | 窗口每帧额外运行的次数，0–60（动画约 20 帧） |
+| `AutoConfirm` | true | 自动按确定关闭窗口；关闭此项则只加快动画，仍需自己点击关闭 |
+| `Types` | 80 | 要快进的画面类型：80 职业通关窗口。39 是"所有职业都已通关"的提示，但其他提示窗口也用这个类型，所以默认不包含 |
 | `ShowIndicator` | true | 是否显示右上角的标签 |
 
 ## 连续探索
@@ -275,6 +295,7 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 - **[Ship layout designer](https://ruoanji.github.io/HSSQoL/designer/designer.html)**: press F9 to export your ship's data and layout for the web-based planner to load.
 - **Speed-up**: toggled with F2, at a multiplier you choose.
 - **Skip dungeon clear (跳过迷宫结算)**: toggled with F3. The clear banner, chest showcase, party EXP screen, prisoner list and in-dungeon dialogue go by in a moment.
+- **Skip job-mastered animation (跳过职业通关动画)**: toggled with F4. The window shown when a job reaches max level goes by in a moment, so chaining 转职满级 needs no clicking through.
 - **Continuous explore (连续探索)**: one click on the dungeon depart page re-runs the same dungeon until stamina runs out.
 - **Mouse wheel**: scrolls up and down in lists.
 
@@ -442,7 +463,7 @@ Press **F3** to turn it on or off (the setting is remembered). While it's on, `�
 - Every prisoner goes straight to prison (the same as the game's "imprison all" and "yes"), with no list or prompt. If the prison is full, the rest go on deck, as the game normally does.
 - Dialogue inside dungeons (such as before a boss fight) is skipped. Dialogue outside dungeons isn't affected.
 
-Pop-ups such as the job-mastered window or a monster evolution still need a click.
+Pop-ups such as a monster evolution still need a click. The job-mastered window is handled by F4 (next section).
 
 No game logic is skipped: the mod presses OK for you and runs those screens several extra times per frame, so the items, EXP and prisoners you get are exactly the same as clicking through.
 
@@ -453,9 +474,28 @@ Settings, under `[DungeonSkip]`:
 | `Enabled` | false | On or off (F3 toggles it) |
 | `ToggleKey` | F3 | Key that toggles it |
 | `ExtraUpdates` | 10 | Extra runs per frame for those screens, 0–60 |
-| `Types` | 41,79 | Screen types to fast-forward: 41 clear, 79 party EXP; add 80 to include the job-mastered window |
+| `Types` | 41,79 | Screen types to fast-forward: 41 clear, 79 party EXP (for the job-mastered window, use F4) |
 | `AutoImprison` | true | Send all prisoners straight to prison |
 | `SkipTalk` | true | Skip dialogue inside dungeons |
+| `ShowIndicator` | true | Show the label in the top-right corner |
+
+## Skip job-mastered animation (跳过职业通关动画)
+
+Press **F4** to turn it on or off (the setting is remembered). While it's on, `⏭ 跳过满级动画` shows in the top-right corner.
+
+When a job reaches max level (through 强化满级, 转职满级 or the game's own power-up), the game opens its job-mastered window: it slides in, counts the bonus numbers up and needs two clicks to close. With this on, the window runs through and closes by itself, so mastering a dozen jobs on one character is just pressing **转职满级** repeatedly.
+
+As with skipping the dungeon clear, no game logic is skipped: the job-clear bonus is still granted by the game's own window when it closes, exactly as if you'd clicked through. Job-mastered windows that pop up during the dungeon party EXP screen are fast-forwarded too.
+
+Settings, under `[JobMasterSkip]`:
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `Enabled` | false | On or off (F4 toggles it) |
+| `ToggleKey` | F4 | Key that toggles it |
+| `ExtraUpdates` | 10 | Extra runs per frame for the window, 0–60 (the animation is about 20 frames) |
+| `AutoConfirm` | true | Press OK for you so the window closes by itself; off: only the animation is sped up and you click to close |
+| `Types` | 80 | Screen types to fast-forward: 80 job-mastered window. 39 is the "all jobs mastered" message, but other message windows share that type, so it's left out by default |
 | `ShowIndicator` | true | Show the label in the top-right corner |
 
 ## Continuous explore (连续探索)

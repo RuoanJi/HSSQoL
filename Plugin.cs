@@ -38,6 +38,7 @@ public class Plugin : BasePlugin
         ShipExport.Bind(Config);
         DataDump.Bind(Config);
         DungeonSkip.Bind(Config);
+        JobMasterSkip.Bind(Config);
         ContinuousExplore.Bind(Config);
 
         // Registers the type with IL2CPP and attaches it to a persistent GameObject.
@@ -88,6 +89,7 @@ public class QoLBehaviour : MonoBehaviour
         if (Plugin.LateReady && Plugin.MenuProbeEnabled.Value) MenuProbe.Tick();
         SpeedHack.Tick();
         DungeonSkip.Tick();
+        JobMasterSkip.Tick();
         if (Plugin.LateReady)
         {
             try { ContinuousExplore.Tick(); }
@@ -104,6 +106,7 @@ public class QoLBehaviour : MonoBehaviour
     {
         SpeedHack.Draw();
         DungeonSkip.Draw();
+        JobMasterSkip.Draw();
         ContinuousExplore.Draw();
         if (!Plugin.DebugOverlay) return;
         GUI.Label(new Rect(10, 10, 600, 24), $"HSSQoL {Plugin.Version} debug ({Plugin.DebugOverlayKey.Value} to hide)");

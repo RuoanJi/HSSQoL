@@ -28,7 +28,7 @@ namespace HSSQoL;
 /// So nothing is skipped: the game's own logic runs, just faster. While one of these forms is updating, OK
 /// (key bit 0x100000) reads as held and pressed, and SubForm.Update is run ExtraUpdates more times per frame
 /// while the form is still alive and on top. Windows those screens push (job master, evolution) stay manual
-/// unless their types are added to Types.
+/// unless their types are added to Types. JobMasterSkip (F4) reuses these patches for the Job Master window.
 /// </summary>
 [HarmonyPatch]
 internal static class DungeonSkip
@@ -40,7 +40,8 @@ internal static class DungeonSkip
 
     private const int KeyOk = 0x100000;
     private static HashSet<int> _types = new();
-    private static int _forcing;        // >0 while an eligible SubForm.Update is running
+    private static int _depth;          // >0 while a fast-forwarded SubForm.Update is running
+    private static int _forcing;        // >0 while one that forces OK is running
     private static int _updates;        // eligible Update calls so far; OK presses only on even ones
     private static bool _looping;
     private static int _lastType = -1;
@@ -80,10 +81,12 @@ internal static class DungeonSkip
         Plugin.L.LogInfo($"[dungeonskip] {(Enabled.Value ? "on" : "off")}");
     }
 
+    /// <summary>The top-right label is showing (labels below it shift down).</summary>
+    internal static bool LabelShown => Time.unscaledTime < _toastUntil || (Enabled.Value && ShowIndicator.Value);
+
     internal static void Draw()
     {
-        bool toast = Time.unscaledTime < _toastUntil;
-        if (!toast && !(Enabled.Value && ShowIndicator.Value)) return;
+        if (!LabelShown) return;
         var style = new GUIStyle(GUI.skin.label) { fontSize = 16, fontStyle = FontStyle.Bold };
         string text = Enabled.Value ? "⏭ 跳过结算" : "跳过结算 关";
         float y = SpeedHack.Active && SpeedHack.ShowIndicator.Value ? 30 : 8;
@@ -134,15 +137,15 @@ internal static class DungeonSkip
 
     [HarmonyPatch(typeof(SubForm), nameof(SubForm.Update), typeof(bool))]
     [HarmonyPrefix]
-    private static void UpdatePre(SubForm __instance, out bool __state)
+    private static void UpdatePre(SubForm __instance, out int __state)
     {
         if (On && AutoImprison.Value && !_looping)
         {
             try { ImprisonAll(__instance); }
             catch (Exception e) { Plugin.L.LogError($"[dungeonskip] imprison: {e}"); AutoImprison.Value = false; }
         }
-        __state = Eligible(__instance);
-        if (!__state)
+        __state = ModeOf(__instance);
+        if (__state == 0)
         {
             // Lists other windows seen in dungeons, to find any dialogue that still needs handling.
             if (On && !_looping && __instance.type_ != _lastType && InDungeon())
@@ -152,39 +155,57 @@ internal static class DungeonSkip
             }
             return;
         }
-        _forcing++;
-        _updates++;
+        _depth++;
+        if (ForcesOk(__state))
+        {
+            _forcing++;
+            _updates++;
+        }
         if (__instance.type_ != _lastType && !_looping)
         {
             _lastType = __instance.type_;
-            Plugin.L.LogInfo($"[dungeonskip] fast-forwarding SubForm type {_lastType} (step {__instance.processStep_})");
+            Plugin.L.LogInfo($"[{(__state == ModeDungeon ? "dungeonskip" : "jobmasterskip")}] fast-forwarding SubForm type {_lastType} (step {__instance.processStep_})");
         }
     }
 
+    // ModeOf results. JobMasterSkip.Mode returns 0 / ModeFast / ModeForceOk.
+    internal const int ModeFast = 1, ModeForceOk = 2, ModeDungeon = 3;
+
+    /// <summary>
+    /// How to treat this form's Update: dungeon clear screens (DungeonSkip), else the Job Master window (JobMasterSkip).
+    /// ModeFast = extra updates only; ModeForceOk / ModeDungeon = extra updates with OK forced.
+    /// </summary>
+    private static int ModeOf(SubForm f) => Eligible(f) ? ModeDungeon : JobMasterSkip.Mode(f);
+
+    private static bool ForcesOk(int mode) => mode >= ModeForceOk;
+
     [HarmonyPatch(typeof(SubForm), nameof(SubForm.Update), typeof(bool))]
     [HarmonyPostfix]
-    private static void UpdatePost(SubForm __instance, bool flag, ref bool __result, bool __state)
+    private static void UpdatePost(SubForm __instance, bool flag, ref bool __result, int __state)
     {
-        if (!__state) return;
+        if (__state == 0) return;
         try
         {
             if (_looping || !__result) return;
             _looping = true;
-            for (int i = 0; i < ExtraUpdates.Value; i++)
+            int extra = __state == ModeDungeon ? ExtraUpdates.Value : JobMasterSkip.ExtraUpdates.Value;
+            for (int i = 0; i < extra; i++)
             {
-                if (!__instance.IsAlive() || !IsTop(__instance) || !Eligible(__instance)) break;
+                if (!__instance.IsAlive() || !IsTop(__instance) || ModeOf(__instance) != __state) break;
                 if (!__instance.Update(flag)) { __result = false; break; }
             }
         }
         catch (Exception e)
         {
             Plugin.L.LogError($"[dungeonskip] {e}");
-            Enabled.Value = false;
+            if (__state == ModeDungeon) Enabled.Value = false;
+            else JobMasterSkip.Enabled.Value = false;
         }
         finally
         {
-            if (_looping && _forcing == 1) _looping = false;
-            _forcing--;
+            if (_looping && _depth == 1) _looping = false;
+            _depth--;
+            if (ForcesOk(__state)) _forcing--;
         }
     }
 
