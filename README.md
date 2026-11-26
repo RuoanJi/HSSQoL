@@ -325,6 +325,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | [装备与道具](https://ruoanji.github.io/HSSQoL/docs/gear.html) | 全部 138 件装备：各难度的锻造满级、满级属性、锻造 EXP、价格和素材 EXP 规则；全部 125 种道具：强化道具的 EXP 范围、属性提升、上限和买卖价（另有 `equipment.md`、`items.md`） |
 | [海上遇敌与海域 Boss](docs/encounters.md) | 海上、港口停泊和海域调查时上船的怪物来自哪张敌人表，以及海域 Boss 何时出现 |
 | [迷宫战斗](docs/dungeon-fights.md) | 迷宫里一场随机战斗由几组敌人组成、敌人从哪张表来、各游戏模式下的敌人等级，以及 BOSS 何时只出现一次 |
+| [自由对战对手](https://ruoanji.github.io/HSSQoL/docs/freebattle.html) | 游戏自带的 142 支自由对战舰队：按 Net 海贼等级分档、每支舰队的船员和怪物阵容，以及对手的抽选规则和对手船出现的位置 |
 | [布局设计器数据](docs/layout-data.md) | 船舱布局设计器用到的数据和规则；原始数据在 [`docs/data/`](docs/data/) |
 
 重新生成：在游戏里按 **F10**（`DataDump`）导出 `BepInEx\hssqol-data.json`，然后在 `docs` 文件夹运行 `python make_loot.py`、`python make_ports.py`、`python make_jobs_html.py` 或 `python make_facilities_html.py`。脚本按 `HSS_GAME_DIR` 环境变量找游戏目录，也可以把 JSON 路径作为第一个参数传入。
@@ -678,6 +679,7 @@ Settings, under `[FormationFit]` (take effect after restarting the game):
 | [Gear & items](https://ruoanji.github.io/HSSQoL/docs/gear.html) | All 138 equipment pieces: max reforge level, max stats, reforge EXP and prices for each difficulty, plus the material EXP rules; all 125 items: power-up EXP ranges, stat gains, caps, buy and sell prices (also as `equipment.md`, `items.md`) |
 | [Sea encounters and bosses](docs/encounters.md) | Which enemy table monsters that board at sea, in port and during a sea investigation come from, and when the sea-area boss appears |
 | [Dungeon fights](docs/dungeon-fights.md) | How many enemy groups make up a random dungeon fight, which table they come from, enemy level in each game mode, and when a boss only appears once |
+| [Free-battle opponents](https://ruoanji.github.io/HSSQoL/docs/freebattle.html) | The 142 bundled 自由对战 fleets: their tiers by Net pirate rank, every fleet's crew and monsters, how opponents are picked, and where the opponent ship appears |
 | [Layout designer data](docs/layout-data.md) | The data and rules the ship layout designer uses; raw data in [`docs/data/`](docs/data/) |
 
 To regenerate: press **F10** in game (`DataDump`) to write `BepInEx\hssqol-data.json`, then run `python make_loot.py`, `python make_ports.py`, `python make_jobs_html.py` or `python make_facilities_html.py` from the `docs` folder. The scripts find the game folder through the `HSS_GAME_DIR` environment variable, or take the JSON path as their first argument.

@@ -67,6 +67,7 @@ internal static class DataDump
             T(extra, "courseNightmare", () => { var r = new List<bool>(); foreach (var c in app.courseDataList_) r.Add(Try(() => c.IsNightmare())); return r; });
             T(extra, "itemElementLength", () => { var r = new List<int>(); foreach (var c in app.itemElementList_) r.Add(c.GetLength()); return r; });
             root["extra"] = extra;
+            root["freeBattle"] = FreeBattle(app);
             var path = Path.Combine(Paths.BepInExRootPath, "hssqol-data.json");
             File.WriteAllText(path, JsonSerializer.Serialize(root,
                 new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
@@ -74,6 +75,124 @@ internal static class DataDump
             Plugin.L.LogInfo($"[dump] wrote {path}");
         }
         catch (Exception e) { Plugin.L.LogError($"[dump] failed: {e}"); }
+    }
+
+    /// <summary>
+    /// 自由对战 (Net対戦) opponent pool: the bundled fleet table loaded at boot (file / rank tier / name),
+    /// the shuffled queue of pool indexes still to fight, the last-fought index (save_.ints[27]),
+    /// the player's Net pirate rank, and the currently loaded opponent's force.
+    /// </summary>
+    private static Dictionary<string, object> FreeBattle(main.AppData app)
+    {
+        var d = new Dictionary<string, object>();
+        T(d, "fileName", () => Conv(app.freeBattleDataFileName_, 0));
+        T(d, "rank", () => Conv(app.freeBattleDataRank_, 0));
+        T(d, "userName", () => Conv(app.freeBattleDataUserName_, 0));
+        T(d, "queue", () =>
+        {
+            var q = app.freeBattleList_; var r = new List<int>();
+            if (q != null) for (int i = 0; i < q.Size(); i++) r.Add(q.ElementAt(i));
+            return r;
+        });
+        T(d, "lastIndex", () => app.save_.ints[27]);
+        T(d, "netManager", () =>
+        {
+            var m = app.player_?.netManager_;
+            if (m == null) return null;
+            return new Dictionary<string, object>
+            {
+                ["netBattleRank_"] = m.netBattleRank_, ["netBattlePrevRank_"] = m.netBattlePrevRank_,
+                ["netBattleExp_"] = m.netBattleExp_, ["netBattleState_"] = m.netBattleState_,
+                ["netBattleStep_"] = m.netBattleStep_, ["localBattleWin_"] = m.localBattleWin_,
+                ["localBattleLose_"] = m.localBattleLose_, ["freeRankTier"] = game.NetBattleManager.GetFreeBattleRank(m.netBattleRank_),
+            };
+        });
+        T(d, "netShipChips", () =>
+        {
+            var v = app.player_?.landMap_?.netBattlePos_; var r = new List<object>();
+            if (v != null) for (int i = 0; i < v.Size(); i++) { var c = v.ElementAt(i); r.Add(new[] { c.GetAX(), c.GetAY() }); }
+            return r;
+        });
+        T(d, "current", () =>
+        {
+            var nb = app.netBattleData_;
+            if (nb == null) return null;
+            return new Dictionary<string, object>
+            {
+                ["name_"] = Try(() => (string)nb.name_), ["rank_"] = nb.rank_,
+                ["effective"] = Try(() => nb.IsEffectiveData()),
+            };
+        });
+        T(d, "fleets", () => Fleets(app));
+        return d;
+    }
+
+    /// <summary>
+    /// Every bundled fleet, read the way SubForm.NetBattleThreadProcess does: resource record 33 is a jar;
+    /// entry (prefix + fileName) = 1 unsigned byte, then a length-prefixed block that NetBattleData.Decompress
+    /// turns into forceData_; CreateNetForce builds the crew and monsters.
+    /// </summary>
+    private static List<object> Fleets(main.AppData app)
+    {
+        var jar = new kairo.unity.util.JarInflater(kairo.unity.io.RecordStore.ReadRecord(1, 33));
+        var entries = new List<string>();
+        foreach (var s in jar.GetFiles()) entries.Add(s);
+        var fleets = new List<object>();
+        for (int i = 0; i < app.freeBattleDataFileName_.Length; i++)
+        {
+            string file = app.freeBattleDataFileName_[i];
+            var r = new Dictionary<string, object>
+            {
+                ["index"] = i, ["file"] = file, ["rank"] = app.freeBattleDataRank_[i], ["userName"] = (string)app.freeBattleDataUserName_[i],
+            };
+            try
+            {
+                string entry = entries.Find(e => e == file || e.EndsWith("/" + file) || e.EndsWith(file))
+                               ?? entries.Find(e => e.Contains(file));
+                if (entry == null) { r["error"] = "no jar entry"; fleets.Add(r); continue; }
+                r["entry"] = entry;
+                var s = new java.io.ByteArrayInputStream(jar.GetData(entry));
+                r["header"] = (int)kairo.unity.util.StreamUtil.ReadUnsignedByte(s);
+                var nb = new game.NetBattleData();
+                nb.forceData_ = nb.Decompress(kairo.unity.util.StreamUtil.Read(s));
+                var f = nb.CreateNetForce();
+                r["cannonID"] = f.cannonID_;
+                r["lineIDs"] = Conv(f.freeForceLineIDs_, 0);
+                var hs = new List<object>(); var ms = new List<object>();
+                if (f.human_ != null) for (int k = 0; k < f.human_.Size(); k++) hs.Add(Member(f.human_.ElementAt(k)));
+                if (f.monster_ != null) for (int k = 0; k < f.monster_.Size(); k++) ms.Add(Member(f.monster_.ElementAt(k)));
+                r["humans"] = hs; r["monsters"] = ms;
+            }
+            catch (Exception e) { r["error"] = e.GetType().Name + ": " + e.Message; }
+            fleets.Add(r);
+        }
+        return fleets;
+    }
+
+    private static Dictionary<string, object> Member(game.Crew c)
+    {
+        var m = new Dictionary<string, object>
+        {
+            ["name"] = Try(() => c.GetName()), ["modelID"] = c.modelID_, ["lv"] = c.lv_, ["racialLv"] = c.racialLv_,
+            ["hpMax"] = Try(() => c.GetHPMax(), -1), ["spMax"] = Try(() => c.GetMPMax(), -1),
+            ["param"] = Try(() => { var p = new List<int>(); for (int t = 0; t < 6; t++) p.Add(c.GetParam(t)); return p; }),
+            ["addParam"] = Conv(c.addParam_, 0), ["netAddParam"] = Conv(c.netBattleAddParam_, 0),
+        };
+        var ch = c.TryCast<game.Character>();
+        if (ch != null)
+        {
+            m["jobID"] = ch.jobID_; m["birthJobID"] = ch.birthJobID_; m["gender"] = ch.gender_;
+            m["jobName"] = Try(() => ch.GetJobName()); m["readerLv"] = Try(() => ch.GetReaderLv(), -1);
+            m["jobMasterAllCount"] = ch.jobMasterAllCount_; m["equip"] = Conv(ch.equip_, 0);
+            m["skills"] = Try(() => { var r = new List<int>(); for (int k = 0; k < ch.GetSkillSize(); k++) r.Add(ch.GetSkill(k)?.id_ ?? -1); return r; });
+        }
+        var mo = c.TryCast<game.Monster>();
+        if (mo != null)
+        {
+            m["evolutionCount"] = mo.evolutionCount_; m["finalEvo"] = mo.finalEvoFlag_; m["nightmare"] = mo.nightmareFlag_;
+            m["skills"] = Try(() => { var r = new List<int>(); foreach (var s in mo.GetSkillList()) r.Add(s?.id_ ?? -1); return r; });
+        }
+        return m;
     }
 
     private static void T(Dictionary<string, object> d, string k, Func<object> f)
