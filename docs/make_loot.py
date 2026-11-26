@@ -7,7 +7,11 @@ Game rules used (from ISIL of the game code, see the notes at the top of each ou
     (+30 when a 渔师 lands the killing blow: ex-skill #31, current job only). First hit drops; else 50% a small deck item (DropItem table by enemy tier).
   * Drop level: rank = CourseData.GetRank(enemyLv) = 10*t+u; lv = (4t+u)//2 + rand(-1..1), clamped 0..13.
   * CourseData.GetCasketInfo: pick a uniform random row, accept if Random(0..100) <= w  => P ~ (w+1).
-  * Player.GetChoiceEnemyGroup: groups with upperID_ == listID; uniform pick, accept if Random(0..100) <= upperRatio_.
+  * Player.GetChoiceEnemyGroup: Player.GetEnemyGroup(listID) = every group with upperID_ == listID, whatever its
+    upperType_ (sea areas pass LandArea.enemyListID_, dungeons CourseData.battleGroupID_; both share one ID space).
+    A group with a campaign_ tag is only included at stamina rank (GetStaminaRank) >= 40.
+    Uniform pick, accept if Random(0..100) <= upperRatio_  => P ~ (upperRatio_+1).
+  * Bosses: one fixed group (LandArea.bossGroup_ / a fixEvent script [4, groupId]); every member of it is fought.
 """
 import json, os, sys
 from functools import lru_cache
@@ -178,25 +182,77 @@ def drop_chances(rows, bonus=0):
     return list(merged.items()), fail
 
 
-def enemy_table(group_weights, enemy_lv, title_boss=None):
-    """group_weights: [(gid, weight)] ; returns markdown lines listing each enemy's drops."""
-    lo, hi = drop_lv_range(enemy_lv)
+def group_pool(list_id):
+    """Player.GetEnemyGroup: every group with upperID_ == list_id (any upperType_). Returns [(gid, weight, campaign)]."""
+    return [(g['id_'], min(g['upperRatio_'] + 1, 101), g['campaign_'] >= 0)
+            for g in d['enemyGroupList_'] if g['upperID_'] == list_id]
+
+
+def shares(pool):
     seen = {}
-    tot = sum(w for _, w in group_weights) or 1
-    for gid, w in group_weights:
-        for kind, mid in set(members(gid)):
-            seen.setdefault((kind, mid), 0.0)
-            seen[(kind, mid)] += w / tot
+    tot = sum(w for _, w, _ in pool) or 1
+    for gid, w, _ in pool:
+        for km in set(members(gid)):
+            seen[km] = seen.get(km, 0.0) + w / tot
+    return seen
+
+
+def enemy_rows(list_id):
+    """[(kind, mid, share, rank40_only)] for random fights. Shares are for stamina rank < 40; enemies that only come
+    from campaign-tagged groups (rank >= 40) are added with their share in the rank >= 40 pool."""
+    pool = group_pool(list_id)
+    base = shares([p for p in pool if not p[2]])
+    full = shares(pool)
+    out = [(k, m, s, False) for (k, m), s in base.items()]
+    out += [(k, m, s, True) for (k, m), s in full.items() if (k, m) not in base]
+    return sorted(out, key=lambda r: (r[3], -r[2]))
+
+
+def rank40(flag):
+    return ' (体力等级 ≥ 40)' if flag else ''
+
+
+def enemy_table(list_id, enemy_lv):
+    """Markdown lines listing each random-fight enemy's drops."""
+    lo, hi = drop_lv_range(enemy_lv)
     L = [f'Analyze-item drop level here: **Lv.{lo}–{hi}** (enemy Lv {enemy_lv}, rank {rank_str(get_rank(enemy_lv))}).\n',
          '| enemy | appears in | drops (chance per kill) | if a 渔师 lands the kill |', '|---|---:|---|---|']
-    for (kind, mid), share in sorted(seen.items(), key=lambda kv: -kv[1]):
+    for kind, mid, share, r40 in enemy_rows(list_id):
         name, rows = enemy_drops(kind, mid)
         ch, _ = drop_chances(rows)
         dl = ', '.join(f'{ELEM[el]["name_"]} {pct(p)}' for el, p in ch) or '—'
         chf, _ = drop_chances(rows, 30)
         dlf = ', '.join(f'{ELEM[el]["name_"]} {pct(p)}' for el, p in chf) or '—'
-        L.append(f'| {name} | {pct(share)} of fights | {dl} | {dlf} |')
+        L.append(f'| {name}{rank40(r40)} | {pct(share)} of fights | {dl} | {dlf} |')
     return L
+
+
+def wave_names(gid):
+    return [[enemy_drops(m[0], m[1])[0] for m in wave] for wave in GROUP[gid]['data_'] if wave]
+
+
+def boss_lines(gids):
+    """Markdown for the boss fight(s): each group is one fixed fight against all its members."""
+    L = []
+    for gid in gids:
+        waves = wave_names(gid)
+        if len(waves) > 1:
+            L.append('\nBoss fight (fixed, every enemy below is fought): ' + ' · '.join(f'wave {i + 1}: {", ".join(w)}' for i, w in enumerate(waves)) + '.')
+        else:
+            L.append('\nBoss fight (fixed, every enemy below is fought): ' + ', '.join(waves[0] if waves else []) + '.')
+        for k, m in sorted(set(members(gid))):
+            name, rows = enemy_drops(k, m)
+            ch, _ = drop_chances(rows)
+            L.append(f'- {name}: ' + (', '.join(f'{ELEM[el]["name_"]} {pct(p)}' for el, p in ch) or 'no analyze drop'))
+    return L
+
+
+def boss_groups(c):
+    out = []
+    for pos, evid in (c['fixEvent_'] or []):
+        for s in SE.get(evid, {}).get('script_', []):
+            if s and s[0] == 4 and len(s) > 1 and s[1] in GROUP: out.append(s[1])
+    return out
 
 
 B = []
@@ -207,7 +263,8 @@ B.append('''## Rules
 - **Enemy drops.** Each defeated enemy checks its drop list top to bottom; the first row that hits drops that analyze item (if the killing blow comes from a crew member whose current job is 渔师, every row's chance gets +30 points, e.g. 7% → 37%). Monsters use their own list; human enemies use their job's list.
   If nothing drops, there is a 50% chance of a small deck pickup instead (money / 资源 / items, table by enemy tier, see the end).
 - **Drop level.** The analyze item's level comes from the enemy's level: rank (F, F+, … S+++) → base level, then ±1 at random, clamped to 0–13.
-- **Which enemies.** A sea area picks one of its enemy groups at random, weighted by the group's ratio; "appears in" is the share of fights that include that enemy.
+- **Which enemies.** Every sea area and dungeon has an enemy-list ID, and a random fight picks one of the enemy groups with that ID, weighted by the group's ratio. Sea areas and dungeons share the same ID numbers, so a dungeon also draws from the sea groups with its ID and vice versa. "appears in" is the share of fights that include that enemy. Groups tied to a campaign only join once your stamina rank (体力等级) is 40 or higher; their enemies are marked "(体力等级 ≥ 40)".
+- **Bosses.** The boss is not a roll: it is one fixed group, and you fight every enemy in it (some groups come in two waves).
 - **Dungeon layout.** The number of events is fixed per dungeon. The fixed events (usually a chest at 99% and the boss at 100%) are always there. The rest alternate: one random slot, then one guaranteed fight, and so on. Only the random slots vary; "nothing" slots show nothing on screen.
 - **Repeatable dungeons.** 可重复 dungeons can be run again after clearing; 一次性 (one-time) ones can't be entered again once cleared (the game's `infinity_` flag; all BOSS迷宫 are one-time).
 - **Dungeon chests (宝箱).** Each chest picks one row of the dungeon's chest table (chance ∝ weight). Dungeons also have random fights (same enemy-drop rules) and a fixed final boss.
@@ -222,15 +279,9 @@ for a in sorted(d['landAreaList_'], key=lambda a: (min([i for i, l in enumerate(
     aid = a['id_']
     land = area_land.get(aid, '?')
     B.append(f'\n## {land} · Lv.{a["enemyLv_"]} 海域 (area #{aid})\n')
-    groups = [(g['id_'], g['upperRatio_'] + 1) for g in d['enemyGroupList_'] if g['upperType_'] == 0 and g['upperID_'] == a['enemyListID_']]
-    B += enemy_table(groups, a['enemyLv_'])
+    B += enemy_table(a['enemyListID_'], a['enemyLv_'])
     if a['bossGroup_'] in GROUP:
-        bn = ', '.join(sorted({enemy_drops(k, m)[0] for k, m in members(a['bossGroup_'])}))
-        B.append(f'\nBoss: {bn}.')
-        for k, m in sorted(set(members(a['bossGroup_']))):
-            name, rows = enemy_drops(k, m)
-            ch, _ = drop_chances(rows)
-            if ch: B.append(f'- {name}: ' + ', '.join(f'{ELEM[el]["name_"]} {pct(p)}' for el, p in ch))
+        B += boss_lines([a['bossGroup_']])
 
 # --- Dungeons
 B.append('\n# Dungeons (迷宫)\n')
@@ -316,18 +367,11 @@ for i, c in enumerate(d['courseDataList_']):
             B.append(f'| {nm} | {pct((r[0] + 1) / tot)} |')
     L = layout(c)
     B.append(f'\nLayout: {layout_text(L)}. Average chests per run: {L["exp"].get("宝箱", 0):.2f}.')
-    groups = [(g['id_'], g['upperRatio_'] + 1) for g in d['enemyGroupList_'] if g['upperType_'] == 1 and g['upperID_'] == c['battleGroupID_']]
     lvl = c['lv_']
-    if groups:
+    if group_pool(c['battleGroupID_']):
         B.append('')
-        B += enemy_table(groups, lvl)
-    for pos, evid in (c['fixEvent_'] or []):
-        for s in SE.get(evid, {}).get('script_', []):
-            if s and s[0] == 4 and len(s) > 1:
-                for k, m in sorted(set(members(s[1]))):
-                    name, rows = enemy_drops(k, m)
-                    ch, _ = drop_chances(rows)
-                    B.append(f'- Boss {name}: ' + (', '.join(f'{ELEM[el]["name_"]} {pct(p)}' for el, p in ch) or 'no analyze drop'))
+        B += enemy_table(c['battleGroupID_'], lvl)
+    B += boss_lines(boss_groups(c))
 
 # --- deck pickups
 B.append('\n# Small deck pickups (when an enemy drops no analyze item: 50%)\n')
@@ -347,35 +391,35 @@ print('ok', len(A), len(B))
 
 
 # ---------------------------------------------------------------- loot.html (same data, structured)
-def enemy_data(group_weights):
-    seen = {}
-    tot = sum(w for _, w in group_weights) or 1
-    for gid, w in group_weights:
-        for kind, mid in set(members(gid)):
-            seen[(kind, mid)] = seen.get((kind, mid), 0.0) + w / tot
+def enemy_data(list_id):
     out = []
-    for (kind, mid), share in sorted(seen.items(), key=lambda kv: -kv[1]):
+    for kind, mid, share, r40 in enemy_rows(list_id):
         name, rows = enemy_drops(kind, mid)
         ch, _ = drop_chances(rows)
-        out.append({'n': name, 's': round(share, 4), 'd': [[el, round(p, 5)] for el, p in ch], 'f': [[el, round(p, 5)] for el, p in drop_chances(rows, 30)[0]]})
+        e = {'n': name, 's': round(share, 4), 'd': [[el, round(p, 5)] for el, p in ch], 'f': [[el, round(p, 5)] for el, p in drop_chances(rows, 30)[0]]}
+        if r40: e['r40'] = 1
+        out.append(e)
     return out
 
 
-def boss_data(gid):
-    out = []
-    for k, m in sorted(set(members(gid))):
-        name, rows = enemy_drops(k, m)
-        ch, _ = drop_chances(rows)
-        out.append({'n': name, 'd': [[el, round(p, 5)] for el, p in ch], 'f': [[el, round(p, 5)] for el, p in drop_chances(rows, 30)[0]]})
-    return out
+def boss_data(gids):
+    """{'w': [[names per wave] per fight], 'm': [distinct members with drops]}"""
+    seen, out = set(), []
+    for gid in gids:
+        for k, m in sorted(set(members(gid))):
+            if (k, m) in seen: continue
+            seen.add((k, m))
+            name, rows = enemy_drops(k, m)
+            ch, _ = drop_chances(rows)
+            out.append({'n': name, 'd': [[el, round(p, 5)] for el, p in ch], 'f': [[el, round(p, 5)] for el, p in drop_chances(rows, 30)[0]]})
+    return {'w': [wave_names(g) for g in gids], 'm': out}
 
 
 H = {'elements': [e['name_'] for e in ELEM], 'seas': [], 'dungeons': [], 'pickups': []}
 for a in sorted(d['landAreaList_'], key=lambda a: (min([i for i, l in enumerate(d['landList_']) if a['id_'] in l['area_']] or [99]), a['enemyLv_'])):
-    groups = [(g['id_'], g['upperRatio_'] + 1) for g in d['enemyGroupList_'] if g['upperType_'] == 0 and g['upperID_'] == a['enemyListID_']]
     H['seas'].append({'id': a['id_'], 'land': area_land.get(a['id_'], '?'), 'lv': a['enemyLv_'],
                       'rank': rank_str(get_rank(a['enemyLv_'])), 'dl': list(drop_lv_range(a['enemyLv_'])),
-                      'enemies': enemy_data(groups), 'boss': boss_data(a['bossGroup_']) if a['bossGroup_'] in GROUP else []})
+                      'enemies': enemy_data(a['enemyListID_']), 'boss': boss_data([a['bossGroup_']] if a['bossGroup_'] in GROUP else [])})
 kinds = {0: '战斗', 1: '宝箱', 2: '无事件'}
 for i, c in enumerate(d['courseDataList_']):
     cas = c['getCasket_'] or []
@@ -388,16 +432,12 @@ for i, c in enumerate(d['courseDataList_']):
         chests.append([nm, round((r[0] + 1) / tot, 4)])
     ev = c['randomEvent_'] or []
     et = sum(w for w, _ in ev) or 1
-    groups = [(g['id_'], g['upperRatio_'] + 1) for g in d['enemyGroupList_'] if g['upperType_'] == 1 and g['upperID_'] == c['battleGroupID_']]
-    boss = []
-    for pos, evid in (c['fixEvent_'] or []):
-        for s in SE.get(evid, {}).get('script_', []):
-            if s and s[0] == 4 and len(s) > 1: boss += boss_data(s[1])
+    boss = boss_data(boss_groups(c))
     pn, ln = port_of(c)
     H['dungeons'].append({'id': c['id_'], 'name': c['name_'], 'port': pn, 'land': ln, 'cost': stamina(c), 'needRank': c['costRank_'], 'repeat': c['infinity_'] == 0, 'lv': c['lv_'], 'rank': rank_str(ranks[i]),
                           'dl': list(drop_lv_range(c['lv_'])), 'chests': chests,
                           'layout': layout(c),
-                          'enemies': enemy_data(groups), 'boss': boss})
+                          'enemies': enemy_data(c['battleGroupID_']), 'boss': boss})
 for t in d['dropItemList_']:
     rows = []
     for r in t['script_']:

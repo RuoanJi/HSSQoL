@@ -108,30 +108,33 @@ function dropChips(drops, el) {
 }
 const FISH = () => $('#fish').checked;
 const dr = en => FISH() ? en.f : en.d;
-function perFight(place, el) { // expected analyze drops of element el per fight (approx: one of each enemy present)
-  return place.enemies.reduce((s, en) => s + en.s * dr(en).filter(d => d[0] === el).reduce((a, d) => a + d[1], 0), 0);
+function perFight(place, el) { // expected analyze drops of element el per fight (approx: one of each enemy present; stamina rank < 40)
+  return place.enemies.filter(en => !en.r40).reduce((s, en) => s + en.s * dr(en).filter(d => d[0] === el).reduce((a, d) => a + d[1], 0), 0);
 }
 function bossHas(place, el) {
-  return place.boss.reduce((m, b) => Math.max(m, ...dr(b).filter(d => d[0] === el).map(d => d[1]), 0), 0);
+  return place.boss.m.reduce((m, b) => Math.max(m, ...dr(b).filter(d => d[0] === el).map(d => d[1]), 0), 0);
 }
+const R40 = '<span class="m" title="该组敌人与活动相关，体力等级达到 40 后才会出现"> (体力等级 ≥ 40)</span>';
 function enemyTable(list, el) {
   if (!list.length) return '';
   return `<table><tr><th>敌人</th><th class="n">出现率</th><th>掉落（每次击败）</th></tr>` +
-    list.map(en => `<tr><td>${esc(en.n)}</td><td class="n">${pct(en.s)}</td><td>${dropChips(dr(en), el)}</td></tr>`).join('') + '</table>';
+    list.map(en => `<tr><td>${esc(en.n)}${en.r40 ? R40 : ''}</td><td class="n">${pct(en.s)}</td><td>${dropChips(dr(en), el)}</td></tr>`).join('') + '</table>';
 }
-function bossTable(list, el) {
-  if (!list.length) return '';
-  return `<h3>BOSS</h3><table>` + list.map(b => `<tr><td>${esc(b.n)}</td><td>${dropChips(dr(b), el)}</td></tr>`).join('') + '</table>';
+function bossTable(boss, el) {
+  if (!boss.m.length) return '';
+  const fights = boss.w.map(w => w.length > 1 ? w.map((names, i) => `第 ${i + 1} 波：${names.map(esc).join('、')}`).join('；') : (w[0] || []).map(esc).join('、'));
+  return `<h3>BOSS</h3><p class="note">固定战斗（不是随机抽一个）：以下敌人全部都要打。<br>${fights.join('<br>')}</p><table>` +
+    boss.m.map(b => `<tr><td>${esc(b.n)}</td><td>${dropChips(dr(b), el)}</td></tr>`).join('') + '</table>';
 }
 function placeText(p) {
-  return [p.land, p.name, p.port, ...p.enemies.map(e => e.n), ...p.boss.map(b => b.n),
+  return [p.land, p.name, p.port, ...p.enemies.map(e => e.n), ...p.boss.m.map(b => b.n),
     ...p.enemies.flatMap(e => e.d.map(d => E[d[0]])), ...(p.chests || []).map(c => c[0])].filter(Boolean).join(' ').toLowerCase();
 }
 
 function renderSeas(q, el) {
   const rows = D.seas.filter(s => (el < 0 || perFight(s, el) > 0 || bossHas(s, el) > 0) && (!q || placeText(s).includes(q)));
   $('#count').textContent = `${rows.length} / ${D.seas.length} 个海域`;
-  return `<p class="note">战斗时随机抽取该海域的一组敌人；“出现率”为包含该敌人的战斗比例。解析道具等级由敌人等级决定（±1 随机）。</p>` +
+  return `<p class="note">战斗时按敌人列表编号随机抽取一组敌人（权重为该组的比率）；海域和迷宫共用同一套编号，所以迷宫也会出现同编号的海域敌人，反之亦然。“出现率”为包含该敌人的战斗比例（体力等级低于 40 时）；标有“体力等级 ≥ 40”的敌人来自活动相关的组，体力等级达到 40 后才会出现。解析道具等级由敌人等级决定（±1 随机）。</p>` +
     (rows.map(s => `<details${q || el >= 0 ? ' open' : ''}><summary><span class="t">${hl(s.land, q)} · Lv.${s.lv} 海域</span>
       <span class="m">等级 ${s.rank} · 解析道具 Lv.${s.dl[0]}–${s.dl[1]} · #${s.id}</span></summary>
       <div class="body">${enemyTable(s.enemies, el)}${bossTable(s.boss, el)}</div></details>`).join('') || '<p class="empty">没有匹配的海域。</p>');
