@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using data;
 using form;
 using game;
+using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 namespace HSSQoL;
@@ -29,7 +30,7 @@ namespace HSSQoL;
 /// </summary>
 internal static class JobSwitch
 {
-    internal static ConfigEntry<bool> Enabled, AllowMedalJobs;
+    internal static ConfigEntry<bool> Enabled, AllowMedalJobs, RestoreSkill;
     private const int SkillTypeShield = 28;   // a skill of this type lets the character keep a shield
     private const int EquipShield = 1;        // Character.GetEquip / Equip slot 1
 
@@ -39,6 +40,8 @@ internal static class JobSwitch
             "Show the 转职满级 button on the job-change page (next to 强化满级).");
         AllowMedalJobs = cfg.Bind("JobSwitch", "AllowMedalJobs", false,
             "Also pick jobs that cost medals to switch to (the medals are spent, like the game's own switch). Off: those jobs are skipped.");
+        RestoreSkill = cfg.Bind("JobSwitch", "RestoreSkill", true,
+            "After any job change (the game's own or 转职满级), re-equip the skill the game took off when the character switched into that skill's job. The game only does this when the new job's skill isn't learned yet, so it never happens when re-mastering jobs. Uses the game's own saved field; the mod stores nothing.");
     }
 
     private static void Log(string s) => Plugin.L.LogInfo($"[jobswitch] {s}");
@@ -185,6 +188,50 @@ internal static class JobSwitch
                 }
         }
 
+        RestoreAssistSkill(c, "转职满级");
+
         if (c.GetSetSkill(SkillTypeShield) == null) c.Equip(EquipShield, null);
+    }
+
+    /// <summary>
+    /// Re-equips the skill remembered in <c>assistSkillID_</c>. On a job change the game unequips the new
+    /// job's own skill (the job gives it anyway) and remembers it there, but it only puts it back when the
+    /// next job's skill isn't learned yet (<c>!CheckLearnSKill()</c>). When re-mastering jobs every job's
+    /// skill is learned, so the remembered skill never came back. This does the same re-add on every job
+    /// change; <c>CheckSkill == 0</c> already rules out the current job's own skill, an already equipped
+    /// skill and a full set of slots. Nothing new is saved: <c>assistSkillID_</c> is the game's own field.
+    /// </summary>
+    internal static void RestoreAssistSkill(Character c, string where)
+    {
+        if (!RestoreSkill.Value || c == null) return;
+        var skills = main.AppData.GetInstance()?.skillList_;
+        int a = c.assistSkillID_;
+        if (skills == null || a < 0 || a >= skills.Length) return;
+        var s = skills[a];
+        if (s == null || c.skill_ == null) return;
+        int check = c.CheckSkill(s);
+        if (check == 0)
+        {
+            var entry = new Il2CppStructArray<int>(1);
+            entry[0] = s.id_;
+            c.skill_.AddElement(new Il2CppSystem.Object(entry.Pointer));
+            Log($"{where}: {c.GetName()} re-equipped {s.name_} (id {s.id_})");
+        }
+        else if (check == 2)
+            Log($"{where}: {c.GetName()} couldn't re-equip {s.name_} (id {s.id_}): no free skill slot");
+    }
+
+    /// <summary>
+    /// The game's own job change: SubForm.ProJobChange calls CreateJobChange(crew, oldJobID) for its result
+    /// window right after the skill and shield handling. Nothing else calls this overload.
+    /// </summary>
+    [HarmonyPatch(typeof(SubForm), nameof(SubForm.CreateJobChange), typeof(Crew), typeof(int))]
+    internal static class GameSwitchPatch
+    {
+        private static void Prefix(Crew crew)
+        {
+            try { RestoreAssistSkill(crew?.TryCast<Character>(), "转职"); }
+            catch (Exception e) { Plugin.L.LogError($"[jobswitch] RestoreAssistSkill: {e}"); }
+        }
     }
 }

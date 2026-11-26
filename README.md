@@ -8,6 +8,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 - **强化满级**：自动挑选食物，一键将角色的当前职业升到满级。
 - **转职满级**：在转职页面一键转到下一个未通关的职业，并升到满级。
+- **转职后装回技能**：修正游戏的一个问题：装备的其他职业技能（比如忍者的技能）在转职后不再丢失。游戏自己的转职和转职满级都有效。
 - **批量出售**：在港口商店一键卖出多余的装备、食物和药。
 - **投入所有相性相符**：在锻造页面一键用所有契合（同种类、同重量，经验 150%）的装备把装备锻造到满级。
 - **[船舱布局设计器](https://ruoanji.github.io/HSSQoL/designer/designer.html)**：按 F9 导出船舱数据和布局供网页版的规划工具加载。
@@ -107,11 +108,29 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - 需要消耗勋章的职业默认会跳过，不会偷偷花掉勋章。想包含它们，把 `[JobSwitch]` 的 `AllowMedalJobs` 设为 true。
 - 当前职业没到满级时不做任何事。如果已经满级但还没领取职业通关奖励，会先弹出职业通关窗口，关闭后再按一次即可。
 - 不显示游戏的转职确认框和「转职完成」画面。
+- 转职后会自动装回之前被游戏卸下的职业技能，见下文「转职后装回技能」。
 
 | 设置（`[JobSwitch]`） | 默认 | 说明 |
 |---|---|---|
 | `Enabled` | true | 是否显示转职满级按钮 |
 | `AllowMedalJobs` | false | 是否也选择需要勋章的职业（会消耗勋章） |
+| `RestoreSkill` | true | 每次转职后装回游戏卸下的那个职业技能 |
+
+## 转职后装回技能
+
+当前职业自带的技能不能再装进技能栏（当这个职业时本来就有）。所以转到某个职业时，如果技能栏里装着这个职业的技能，游戏会把它卸下并记住，等转到下一个职业时再装回去。
+
+问题是游戏只在**下一个职业的技能还没学会**时才装回。职业通关后它的技能就算学会了，反复通关职业时几乎每个职业都已学会，于是技能一转走就再也装不回来。例如：装着忍者的技能转成忍者，通关后转到别的职业，忍者的技能就没了。
+
+Mod 在**每次转职后**都把游戏记住的那个技能装回去：
+
+- **两种转职都有效**：游戏自己在转职页面选职业并确认的转职，以及「转职满级」按钮。
+- **不限职业**：装回的是游戏为每个角色各自记住的技能，任何职业的技能都一样，不只是忍者。
+- **按游戏规则检查**：技能已经装着、是新职业自带的技能、或者技能栏放不下时不装（放不下时会写进日志）。
+- **只记一个技能**：和游戏一样，每个角色只记最近被卸下的一个。如果自己卸下了这个技能，下次转职时它也会被装回去。
+- **不另存数据**：用的是游戏存档里本来就有的数据，Mod 不在存档或配置里另存任何东西。
+
+设置：`[JobSwitch]` 的 `RestoreSkill`（默认 true），关闭后恢复游戏原本的行为。
 
 ## 批量出售
 
@@ -362,6 +381,7 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 
 - **Power up to max (强化满级)**: picks the food automatically and levels a character's current job to max in one click.
 - **Switch job and max (转职满级)**: on the job-change page, one click switches to the next unmastered job and levels it to max.
+- **Re-equip job skill after switching (转职后装回技能)**: fixes a game issue where an equipped job skill (e.g. 忍者's) is lost after changing jobs. Works for the game's own job change and for 转职满级.
 - **Bulk sell (批量出售)**: in port shops, one click sells surplus equipment, food and potions.
 - **Add all compatible (投入所有相性相符)**: at the smith, one click reforges the item to max level with every compatible piece (same type and weight, 150% EXP).
 - **[Ship layout designer](https://ruoanji.github.io/HSSQoL/designer/designer.html)**: press F9 to export your ship's data and layout for the web-based planner to load.
@@ -461,11 +481,29 @@ Notes:
 - Jobs that cost medals are skipped by default, so medals are never spent behind your back. Set `AllowMedalJobs` under `[JobSwitch]` to true to include them.
 - Nothing happens if the current job isn't at max level. If it's at max but the job-clear bonus hasn't been granted yet, the Job Master window opens first; press again after closing it.
 - The game's confirm dialog and "job changed" screen aren't shown.
+- After the switch, the job skill the game took off earlier is equipped again; see "Re-equip job skill after switching" below.
 
 | Setting (`[JobSwitch]`) | Default | What it does |
 |---|---|---|
 | `Enabled` | true | Show the 转职满级 button |
 | `AllowMedalJobs` | false | Also pick jobs that cost medals (the medals are spent) |
+| `RestoreSkill` | true | After every job change, re-equip the job skill the game took off |
+
+## Re-equip job skill after switching (转职后装回技能)
+
+A job's own skill can't go in a skill slot while you're on that job (the job gives it anyway). So when you switch into a job whose skill you have equipped, the game takes it off, remembers it, and is meant to put it back on the next job change.
+
+The catch: the game only puts it back if **the next job's skill isn't learned yet**. Mastering a job counts as learning its skill, so when re-mastering jobs almost every job's skill is learned and the skill never comes back. For example: equip 忍者's skill, switch to 忍者, master it, switch to another job, and 忍者's skill is gone.
+
+The mod puts the remembered skill back **after every job change**:
+
+- **Both kinds of job change**: the game's own (picking a job on the job-change page and confirming) and the 转职满级 button.
+- **Any job**: it restores whichever skill the game remembered for that character, so it isn't specific to 忍者.
+- **Game rules apply**: nothing is equipped if the skill is already equipped, is the new job's own skill, or doesn't fit in the skill slots (that last case is logged).
+- **One skill**: like the game, each character remembers only the most recently removed skill. If you take that skill off yourself, the next job change equips it again.
+- **Nothing extra saved**: it uses data the game already keeps in its save; the mod stores nothing in the save or the config.
+
+Setting: `RestoreSkill` under `[JobSwitch]` (default true). Turn it off for the game's original behaviour.
 
 ## Bulk sell (批量出售)
 
