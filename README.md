@@ -14,6 +14,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - **跳过迷宫结算**：按 F3 开关，迷宫通关后的横幅、宝箱展示、经验结算、俘虏选择和迷宫内对话一闪而过。
 - **跳过职业通关动画**：按 F4 开关，职业升到满级时弹出的职业通关窗口一闪而过，连续转职满级时不用一个个点。
 - **连续探索**：在迷宫出发页面一键反复打同一个迷宫，直到体力用完。
+- **资金流水**：按 F7 查看钱从哪里来、花到哪里去，按来源（商店、战斗、各个设施的使用费等）统计。
 - **鼠标滚轮**：在列表中用滚轮上下移动。
 
 ## 安装
@@ -239,6 +240,23 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `IdleFrames` | 30 | 回港后等待多少帧没有窗口才再次出发 |
 | `MaxRuns` | 0 | 最多连续几次，0 = 直到体力用完 |
 
+## 资金流水
+
+按 **F7** 显示或隐藏资金流水面板，查看本次启动以来每一笔钱的来源和去向：
+
+- 按来源统计收入、支出、净额、占总支出的比例和次数，以及每小时的净收支。带 `·` 的来源（如 `设施使用·澡堂`、`港口商店·蛋`）归在同一组下，点组名可展开或收起。
+- **设施使用**：船员每次使用船上设施时，游戏会从你的钱里扣除该设施的使用费（钱不够时不扣）。面板按设施细分，最近记录里会显示是谁使用的。金额与使用费不符的记为"其他"。
+- 下方列出最近 300 笔变动。**重置**清空统计，从现在重新开始。
+- 只保存在内存中，不写入任何文件，关闭游戏后清空。内存占用固定，不会随游戏时间增长。
+- 来源名称是根据游戏代码推测的。如果钱的变化没有经过游戏的加钱函数，会记为"未归类"。
+
+可在 `[MoneyLog]` 中设置：
+
+| 设置 | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | true | 是否记录 |
+| `PanelKey` | F7 | 显示或隐藏面板的按键 |
+
 ## 其他
 
 - **鼠标滚轮**：在列表中用滚轮代替上下方向键（`[Input]`：`WheelScroll`、`WheelInvert`、`WheelStepsPerNotch`）。右键保持游戏原本的功能。
@@ -297,6 +315,7 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 - **Skip dungeon clear (跳过迷宫结算)**: toggled with F3. The clear banner, chest showcase, party EXP screen, prisoner list and in-dungeon dialogue go by in a moment.
 - **Skip job-mastered animation (跳过职业通关动画)**: toggled with F4. The window shown when a job reaches max level goes by in a moment, so chaining 转职满级 needs no clicking through.
 - **Continuous explore (连续探索)**: one click on the dungeon depart page re-runs the same dungeon until stamina runs out.
+- **Money flow (资金流水)**: press F7 to see where your money comes from and goes, totalled by source (shops, battles, each facility's usage fee and so on).
 - **Mouse wheel**: scrolls up and down in lists.
 
 ## Install
@@ -521,6 +540,23 @@ Settings, under `[ContinuousExplore]`:
 | `ButtonX2` / `ButtonY2` | 0.067 / 0.921 | Button centre, as a fraction of window width / height |
 | `IdleFrames` | 30 | Frames with no window open after returning before the next departure |
 | `MaxRuns` | 0 | Maximum runs in a row, 0 = until stamina runs out |
+
+## Money flow (资金流水)
+
+Press **F7** to show or hide the money flow panel. It shows where every coin came from and went since the game started:
+
+- Income, spending, net, share of total spending and count per source, plus the net per hour. Sources with a `·` (such as `设施使用·澡堂` or `港口商店·蛋`) fold under one group; click the group name to expand or collapse it.
+- **Facility use (设施使用)**: each time a crew member uses a facility on your ship, the game takes that facility's usage fee from your money (only if you can afford it). The panel splits this per facility, and the recent list shows who used it. Amounts that don't match the fee are marked 其他.
+- Below, the latest 300 changes. **重置** clears the totals and starts again from now.
+- Kept in memory only: nothing is written to disk, and it's cleared when the game closes. Memory use is fixed and doesn't grow with play time.
+- Source names are inferred from the game's code. Money that changes without going through the game's add-money function shows as 未归类.
+
+Settings, under `[MoneyLog]`:
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `Enabled` | true | Record money changes |
+| `PanelKey` | F7 | Key that shows or hides the panel |
 
 ## Other
 

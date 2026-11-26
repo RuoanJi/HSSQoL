@@ -40,6 +40,7 @@ public class Plugin : BasePlugin
         DungeonSkip.Bind(Config);
         JobMasterSkip.Bind(Config);
         ContinuousExplore.Bind(Config);
+        MoneyLog.Bind(Config);
 
         // Registers the type with IL2CPP and attaches it to a persistent GameObject.
         AddComponent<QoLBehaviour>();
@@ -68,6 +69,8 @@ public class Plugin : BasePlugin
             try { Harmony.PatchAll(t); }
             catch (Exception e) { L.LogError($"Late patching {t.Name} failed: {e}"); }
         }
+        try { MoneyLog.Patch(Harmony); }
+        catch (Exception e) { L.LogError($"Late patching MoneyLog failed: {e}"); }
         // Listing patched methods makes it easy to spot a target that vanished after a game update.
         foreach (var m in Harmony.GetPatchedMethods())
             L.LogInfo($"Patched {m.DeclaringType?.FullName}.{m.Name}({m.GetParameters().Length} args)");
@@ -98,6 +101,8 @@ public class QoLBehaviour : MonoBehaviour
         if (Plugin.LateReady) GameFeed.Tick();
         if (Plugin.LateReady) ShipExport.Tick();
         DataDump.Tick();
+        try { MoneyLog.Tick(); }
+        catch (Exception e) { Plugin.L.LogError($"MoneyLog: {e}"); }
         try { InputRemap.Tick(); }
         catch (Exception e) { Plugin.L.LogError($"InputRemap: {e}"); InputRemap.WheelScroll.Value = false; }
     }
@@ -108,6 +113,7 @@ public class QoLBehaviour : MonoBehaviour
         DungeonSkip.Draw();
         JobMasterSkip.Draw();
         ContinuousExplore.Draw();
+        MoneyLog.Draw();
         if (!Plugin.DebugOverlay) return;
         GUI.Label(new Rect(10, 10, 600, 24), $"HSSQoL {Plugin.Version} debug ({Plugin.DebugOverlayKey.Value} to hide)");
         AutoFeed.Draw();
