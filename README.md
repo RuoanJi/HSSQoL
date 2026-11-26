@@ -18,7 +18,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - **跳过迷宫结算**：按 F3 开关，迷宫通关后的横幅、宝箱展示、经验结算、俘虏选择和迷宫内对话一闪而过。
 - **跳过职业通关动画**：按 F4 开关，职业升到满级时弹出的职业通关窗口一闪而过，连续转职满级时不用一个个点。
 - **连续探索**：在迷宫出发页面一键反复打同一个迷宫，直到体力用完。
-- **道具快捷键**：在迷宫探索中按 3 / 4 / 5 直接对全队使用回复药，SP 药、光环之药、速度之药也可设键。
+- **道具快捷键**：探索队伍战斗中按 3 / 4 / 5 直接使用回复药，SP 药、光环之药、速度之药也可设键。
 - **资金流水**：按 F7 查看钱从哪里来、花到哪里去，按来源（商店、战斗、各个设施的使用费等）统计。
 - **迷宫战斗阵型显示**：每排 4 人时，每排最下面一人不再被画面截掉。
 - **船员只做勾选的活动**：船员只做活动设置里勾选的活动（默认关闭，在配置文件里打开）。
@@ -313,7 +313,7 @@ Mod 在**每次转职后**都把游戏记住的那个技能装回去：
 
 ## 道具快捷键
 
-队伍在迷宫探索时（没有打开任何窗口），按一个键就对全队使用一个药品，不用打开道具菜单再确认。效果和消耗与游戏自己的"使用"完全一样（直接调用游戏的使用窗口并自动确认）。
+探索队伍（迷宫或海上探索）战斗中，在没有打开任何窗口时按一个键就使用一个药品，不用打开道具菜单再确认。默认只在战斗中生效，不在战斗时按键不会消耗道具（右上角提示"不在战斗中"）；船上的甲板战不算。效果和消耗与游戏自己的"使用"完全一样（直接调用游戏的使用窗口并自动确认）。
 
 只有不需要指定船员的药品才能这样用：迷你回复药、回复药剂、回复秘药、SP回复水、SP回复药、SP能量饮料、光环之药、速度之药（才能提升药和知识之书要选船员，不支持）。
 
@@ -327,6 +327,7 @@ Mod 在**每次转职后**都把游戏记住的那个技能装回去：
 | `SpSmall` / `SpMedium` / `SpLarge` | None | SP回复水 / SP回复药 / SP能量饮料 |
 | `Aura` / `Speed` | None | 光环之药 / 速度之药 |
 | `Enabled` | true | 是否启用 |
+| `BattleOnly` | true | 只在探索队伍战斗中使用；false = 探索中任何时候都可使用 |
 | `ShowToast` | true | 使用后在右上角显示道具名和剩余数量 |
 
 ## 资金流水
@@ -472,7 +473,7 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 - **Skip dungeon clear (跳过迷宫结算)**: toggled with F3. The clear banner, chest showcase, party EXP screen, prisoner list and in-dungeon dialogue go by in a moment.
 - **Skip job-mastered animation (跳过职业通关动画)**: toggled with F4. The window shown when a job reaches max level goes by in a moment, so chaining 转职满级 needs no clicking through.
 - **Continuous explore (连续探索)**: one click on the dungeon depart page re-runs the same dungeon until stamina runs out.
-- **Item hotkeys (道具快捷键)**: while exploring a dungeon, press 3 / 4 / 5 to use an HP drug on the whole party; SP, aura and speed drugs can get keys too.
+- **Item hotkeys (道具快捷键)**: during an exploring party's fight, press 3 / 4 / 5 to use an HP drug; SP, aura and speed drugs can get keys too.
 - **Money flow (资金流水)**: press F7 to see where your money comes from and goes, totalled by source (shops, battles, each facility's usage fee and so on).
 - **Dungeon formation fit**: with 4 crew per row, the bottom crew member of each row is no longer cut off in dungeon battles.
 - **Crew only do checked activities (船员只做勾选的活动)**: crew do only the activities checked in their activity settings (off by default; turn it on in the config file).
@@ -767,7 +768,7 @@ Settings, under `[ContinuousExplore]`:
 
 ## Item hotkeys (道具快捷键)
 
-While a party is exploring a dungeon (with no window open), one key press uses one drug on the whole party, without opening the item menu and confirming. It uses the game's own "use" window and confirms it automatically, so the effect and cost are exactly the game's.
+While an exploring party (dungeon or sea exploring) is in a fight and no window is open, one key press uses one drug, without opening the item menu and confirming. By default it only works during a fight: outside one the key uses nothing (a "不在战斗中" note shows at the top right). Deck battles on the ship don't count. It uses the game's own "use" window and confirms it automatically, so the effect and cost are exactly the game's.
 
 Only the drugs that need no target crew work this way: 迷你回复药, 回复药剂, 回复秘药, SP回复水, SP回复药, SP能量饮料, 光环之药 and 速度之药 (才能提升药 and the knowledge books need a crew pick, so they're not supported).
 
@@ -781,6 +782,7 @@ Settings in `[ItemHotkey]` (Unity `KeyCode` names such as `Alpha3`, `Keypad1`, `
 | `SpSmall` / `SpMedium` / `SpLarge` | None | SP回复水 / SP回复药 / SP能量饮料 |
 | `Aura` / `Speed` | None | 光环之药 / 速度之药 |
 | `Enabled` | true | Turns the hotkeys on or off |
+| `BattleOnly` | true | Only use items during an exploring party's fight; false = any time while exploring |
 | `ShowToast` | true | Shows the item name and how many are left at the top right after each use |
 
 ## Money flow (资金流水)

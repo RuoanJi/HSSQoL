@@ -2,6 +2,7 @@ using System;
 using BepInEx.Configuration;
 using data;
 using form;
+using game;
 using HarmonyLib;
 using kairo.unity.form;
 using UnityEngine;
@@ -10,7 +11,9 @@ using Canvas = kairo.unity.ui.Canvas;
 namespace HSSQoL;
 
 /// <summary>
-/// 道具快捷键: one key press uses one party-wide drug while a party is exploring a dungeon.
+/// 道具快捷键: one key press uses one party-wide drug while a party is exploring (dungeon or sea).
+/// With BattleOnly (default) only during a fight: SearchCourse.battle_ / SurveyCourse.battle_ (a SearchBattle) is
+/// non-null only while one runs (Script() Disposes and nulls it when it ends); deck battles on the ship don't use them.
 ///
 /// Game flow (ISIL of SubForm.ProItemList): in the item list, a drug (ItemData.type_ 2) whose allType_ is 0 HP, 1 SP,
 /// 2 aura or 3 speed asks "use?" (MakeDialog) and on yes pushes CreateUseDrugItem(item) (SubForm type 64,
@@ -28,7 +31,7 @@ namespace HSSQoL;
 [HarmonyPatch]
 internal static class ItemHotkey
 {
-    internal static ConfigEntry<bool> Enabled, ShowToast;
+    internal static ConfigEntry<bool> Enabled, ShowToast, BattleOnly;
 
     private struct Slot { public int Id; public string Key, Name; public KeyCode Default; public ConfigEntry<KeyCode> Entry; }
 
@@ -54,7 +57,9 @@ internal static class ItemHotkey
     internal static void Bind(ConfigFile cfg)
     {
         Enabled = cfg.Bind("ItemHotkey", "Enabled", true,
-            "道具快捷键: while a party is exploring a dungeon and no window is open, a key uses one of that drug on the whole party.");
+            "道具快捷键: while a party is exploring (dungeon or sea) and no window is open, a key uses one of that drug.");
+        BattleOnly = cfg.Bind("ItemHotkey", "BattleOnly", true,
+            "Only use the item while the exploring party is in a fight (dungeon or sea exploring battle). Deck battles on the ship don't count. false = any time while exploring.");
         ShowToast = cfg.Bind("ItemHotkey", "ShowToast", true, "Show a short on-screen note after each hotkey use.");
         for (int i = 0; i < Slots.Length; i++)
             Slots[i].Entry = cfg.Bind("ItemHotkey", Slots[i].Key, Slots[i].Default,
@@ -82,14 +87,25 @@ internal static class ItemHotkey
     {
         var app = main.AppData.GetInstance();
         var p = app?.player_;
-        if (p?.searchCourse_ == null) return;                     // only while exploring a dungeon
+        if (p == null) return;
+        // Exploring: a dungeon (searchCourse_) or the sea (surveyCourse_). Deck battles are neither.
+        SearchBattle battle;
+        if (p.searchCourse_ != null) battle = p.searchCourse_.battle_;
+        else if (p.surveyCourse_ != null) battle = p.surveyCourse_.battle_;
+        else return;
         var fm = FormManagerBase.GetInstance();
         var cur = fm?.Current;
-        // Only from the plain dungeon view: no window, menu or dialog on top.
+        // Only from the plain exploring view: no window, menu or dialog on top.
         if (cur == null || fm.Top == null || fm.Top.Pointer != cur.Pointer || cur.TryCast<GameForm>() == null) return;
         if (_pending != IntPtr.Zero) return;
         var force = p.GetSearceForce(false);
-        if (force == null || force.Size() == 0) return;
+        if (force == null || force.Size() == 0) return;          // InitUseDrugItem reads its first entry
+        // Both courses null battle_ right after each fight; STATE_BATTLE_END is the win/loss wrap-up just before that.
+        if (BattleOnly.Value && (battle == null || battle.state_ == SearchBattle.STATE_BATTLE_END))
+        {
+            Toast("不在战斗中，未使用道具");
+            return;
+        }
 
         ItemData item = null;
         var items = app.itemList_;
