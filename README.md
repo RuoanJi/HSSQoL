@@ -16,6 +16,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - **跳过职业通关动画**：按 F4 开关，职业升到满级时弹出的职业通关窗口一闪而过，连续转职满级时不用一个个点。
 - **连续探索**：在迷宫出发页面一键反复打同一个迷宫，直到体力用完。
 - **资金流水**：按 F7 查看钱从哪里来、花到哪里去，按来源（商店、战斗、各个设施的使用费等）统计。
+- **迷宫战斗阵型显示**：每排 4 人时，每排最下面一人不再被画面截掉。
 - **鼠标滚轮**：在列表中用滚轮上下移动。
 
 ## 安装
@@ -276,6 +277,35 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `Enabled` | true | 是否记录 |
 | `PanelKey` | F7 | 显示或隐藏面板的按键 |
 
+## 迷宫战斗阵型显示
+
+战斗线数升到 4 后（阵型编辑里每排 4 个位置），迷宫战斗中每排最下面的那个人（敌人也一样）会被画到下方战斗栏外面，看起来像少了人。他们其实仍在战斗，只是看不到。
+
+本 Mod 在迷宫战斗里把每排的 4 个位置收紧，让最下面的位置也落在战斗栏内：
+
+- **战斗栏本身不变**：大小和位置都和原来一样，只调整栏内每个人站的位置。
+- **从下往上收紧**：最下面的位置上移最多，越往上移得越少，最上面的几乎不动。所以最上面一排略微压到血条，这在游戏原本的布局里就已经如此。
+- 左右位置不变，敌人一侧同样处理。
+- 只在每排 4 人的迷宫战斗中生效，其他战斗保持游戏原样。
+- **只影响显示**：谁站在第几排、能不能攻击，都和原来完全一样。
+
+| 位置（画面上） | 游戏原本 | 本 Mod | 上移 |
+|---|---|---|---|
+| 最下 | 83 | 67 | 16 |
+| 下数第 2 | 65 | 54 | 11 |
+| 下数第 3 | 47 | 41 | 6 |
+| 最上 | 29 | 28 | 1 |
+
+数值是游戏的战斗坐标，越小越靠上。最上面的位置 = `BottomY − 3 × SlotSpacing`。
+
+可在 `[FormationFit]` 中设置（重启游戏后生效）：
+
+| 设置 | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | true | 是否收紧阵型 |
+| `BottomY` | 67 | 每排最下面位置的高度，越小越靠上（游戏每排 4 人时用 83，每排 3 人时用 67） |
+| `SlotSpacing` | 13 | 同一排相邻位置的间距（游戏每排 4 人时用 18）。改成 12 可让最上面一排离血条远一点 |
+
 ## 其他
 
 - **鼠标滚轮**：在列表中用滚轮代替上下方向键（`[Input]`：`WheelScroll`、`WheelInvert`、`WheelStepsPerNotch`）。右键保持游戏原本的功能。
@@ -337,6 +367,7 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 - **Skip job-mastered animation (跳过职业通关动画)**: toggled with F4. The window shown when a job reaches max level goes by in a moment, so chaining 转职满级 needs no clicking through.
 - **Continuous explore (连续探索)**: one click on the dungeon depart page re-runs the same dungeon until stamina runs out.
 - **Money flow (资金流水)**: press F7 to see where your money comes from and goes, totalled by source (shops, battles, each facility's usage fee and so on).
+- **Dungeon formation fit**: with 4 crew per row, the bottom crew member of each row is no longer cut off in dungeon battles.
 - **Mouse wheel**: scrolls up and down in lists.
 
 ## Install
@@ -596,6 +627,35 @@ Settings, under `[MoneyLog]`:
 |---|---|---|
 | `Enabled` | true | Record money changes |
 | `PanelKey` | F7 | Key that shows or hides the panel |
+
+## Dungeon formation fit
+
+Once your fleet has 4 battle lines (4 slots per row in the formation editor), dungeon battles draw the bottom slot of each row below the battle strip at the bottom of the screen, for crew and enemies alike. It looks as if someone is missing. They are still fighting; you just can't see them.
+
+In dungeon battles the mod packs each row's 4 slots closer together so the bottom slot lands inside the strip:
+
+- **The battle strip itself is unchanged**: same size and place. Only where each fighter stands inside it moves.
+- **Tightened from the bottom up**: the bottom slot moves up the most, each slot above it less, and the top one barely moves. That's why the top row overlaps the health bar slightly; it already did in the game's own layout.
+- Left-right positions are unchanged, and the enemy side gets the same treatment.
+- Only dungeon battles with 4 per row are affected. Every other battle keeps the game's layout.
+- **Display only**: which row anyone is in, and whether they can attack, is exactly as before.
+
+| Slot (on screen) | Game | Mod | Moved up by |
+|---|---|---|---|
+| Bottom | 83 | 67 | 16 |
+| 2nd from bottom | 65 | 54 | 11 |
+| 3rd from bottom | 47 | 41 | 6 |
+| Top | 29 | 28 | 1 |
+
+Values are the game's battle coordinates; smaller is higher on screen. The top slot sits at `BottomY − 3 × SlotSpacing`.
+
+Settings, under `[FormationFit]` (take effect after restarting the game):
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `Enabled` | true | Tighten the formation |
+| `BottomY` | 67 | Height of each row's bottom slot; smaller is higher (the game uses 83 with 4 per row, 67 with 3 per row) |
+| `SlotSpacing` | 13 | Gap between neighbouring slots in a row (the game uses 18 with 4 per row). 12 moves the top row a bit further from the health bar |
 
 ## Other
 
