@@ -44,6 +44,8 @@ public class Plugin : BasePlugin
         MoneyLog.Bind(Config);
         KnowLog.Bind(Config);
         FormationFit.Bind(Config);
+        CrewWork.Bind(Config);
+        PartyNoHarvest.Bind(Config);
 
         // Registers the type with IL2CPP and attaches it to a persistent GameObject.
         AddComponent<QoLBehaviour>();
@@ -65,7 +67,7 @@ public class Plugin : BasePlugin
         if (main.AppData.GetInstance()?.player_ == null) return;
         _latePatched = true;
         // FeedButton first: the probe is optional and must never take the real feature down with it.
-        foreach (var t in new[] { typeof(FeedButton), typeof(AutoSell), typeof(SmithFeed), typeof(DungeonSkip), typeof(ContinuousExplore), typeof(FormationFit), typeof(JobSwitch.GameSwitchPatch), typeof(MenuProbe), typeof(MenuProbe.Results) })
+        foreach (var t in new[] { typeof(FeedButton), typeof(AutoSell), typeof(SmithFeed), typeof(DungeonSkip), typeof(ContinuousExplore), typeof(FormationFit), typeof(CrewWork), typeof(PartyNoHarvest), typeof(JobSwitch.GameSwitchPatch), typeof(MenuProbe), typeof(MenuProbe.Results) })
         {
             // The menu probe hooks hot Graphics calls every frame; only patch it when asked for.
             if ((t == typeof(MenuProbe) || t == typeof(MenuProbe.Results)) && !MenuProbeEnabled.Value) continue;

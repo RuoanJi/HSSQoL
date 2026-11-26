@@ -18,6 +18,8 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - **连续探索**：在迷宫出发页面一键反复打同一个迷宫，直到体力用完。
 - **资金流水**：按 F7 查看钱从哪里来、花到哪里去，按来源（商店、战斗、各个设施的使用费等）统计。
 - **迷宫战斗阵型显示**：每排 4 人时，每排最下面一人不再被画面截掉。
+- **船员只做勾选的活动**：船员只做活动设置里勾选的活动（默认关闭，在配置文件里打开）。
+- **战斗队伍成员不去收获设施**：编入战斗队伍的船员不去农田、植树厂和牧场（默认关闭，在配置文件里打开）。
 - **鼠标滚轮**：在列表中用滚轮上下移动。
 
 ## 安装
@@ -325,6 +327,37 @@ Mod 在**每次转职后**都把游戏记住的那个技能装回去：
 | `BottomY` | 67 | 每排最下面位置的高度，越小越靠上（游戏每排 4 人时用 83，每排 3 人时用 67） |
 | `SlotSpacing` | 13 | 同一排相邻位置的间距（游戏每排 4 人时用 18）。改成 12 可让最上面一排离血条远一点 |
 
+## 船员只做勾选的活动
+
+游戏里给船员勾选的活动（收集甲板道具、补给、解析、使用船内设施）原本只是“优先做”：勾了的先试，没勾的照样会做。打开 `[CrewWork] StrictCheckboxes` 后，船员**只做勾选的活动**：
+
+- **勾了一个或多个**：只在勾选的活动里挑，挑法和游戏原本一样（见下）。没勾的活动完全不做。
+- **一个都没勾**：和原版游戏一样，什么都可能做。
+- 全部勾选也和原版一样（所有活动都允许）。
+- 不勾“船内设施”就不会去用设施，既省下设施使用费，也不会从设施获得知识。
+- 判断勾选用的是游戏自己的方法，所以游戏里对全体船员统一设置的活动同样有效。只影响船员，不影响商人和访客。
+- 打开方法：在 `BepInEx\config\hssqol.cfg` 的 `[CrewWork]` 下把 `StrictCheckboxes` 改为 `true`，然后重启游戏。没有快捷键。
+
+游戏原本的挑法：按 收集 → 补给 → 解析 → 船内设施 的顺序，勾了的排在前面。勾 1 个时它每次都强制尝试；勾 2 个时各有 50%，勾 3 个时各有 25%；没被强制时要满足它自己的条件（随机或数量判断）才会做。船内设施不受强制影响。全部勾选和都不勾时没有强制，顺序不变。
+
+| 设置 | 默认 | 说明 |
+|---|---|---|
+| `StrictCheckboxes` | false | 船员只做勾选的活动 |
+
+## 战斗队伍成员不去收获设施
+
+打开 `[PartyNoHarvest] Enabled` 后，**编入战斗队伍的船员**不会自己去收获设施：农田、植树厂、牧场（鸡、猪、牛）。这五种是游戏里仅有的会产出收获物的设施。不在队伍里的船员照常去收获。
+
+- 队伍成员仍会去其他设施，也照常做其他活动。
+- 收获只能靠不在队伍里的船员，所以队伍外的船员很少时，收获会变慢。
+- 和“船员只做勾选的活动”可以同时打开：队伍成员仍按勾选挑活动，只是挑设施时跳过收获设施。
+- 打开方法：在 `BepInEx\config\hssqol.cfg` 的 `[PartyNoHarvest]` 下把 `Enabled` 改为 `true`，然后重启游戏。没有快捷键。
+- 日志里会记下每次有人选中收获设施（每次启动前 100 次），方便核对。
+
+| 设置 | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | false | 战斗队伍成员不去收获设施 |
+
 ## 其他
 
 - **鼠标滚轮**：在列表中用滚轮代替上下方向键（`[Input]`：`WheelScroll`、`WheelInvert`、`WheelStepsPerNotch`）。右键保持游戏原本的功能。
@@ -391,6 +424,8 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 - **Continuous explore (连续探索)**: one click on the dungeon depart page re-runs the same dungeon until stamina runs out.
 - **Money flow (资金流水)**: press F7 to see where your money comes from and goes, totalled by source (shops, battles, each facility's usage fee and so on).
 - **Dungeon formation fit**: with 4 crew per row, the bottom crew member of each row is no longer cut off in dungeon battles.
+- **Crew only do checked activities (船员只做勾选的活动)**: crew do only the activities checked in their activity settings (off by default; turn it on in the config file).
+- **Party crew skip harvest facilities (战斗队伍成员不去收获设施)**: crew in a combat party stay away from farms, tree farms and ranches (off by default; turn it on in the config file).
 - **Mouse wheel**: scrolls up and down in lists.
 
 ## Install
@@ -697,6 +732,37 @@ Settings, under `[FormationFit]` (take effect after restarting the game):
 | `Enabled` | true | Tighten the formation |
 | `BottomY` | 67 | Height of each row's bottom slot; smaller is higher (the game uses 83 with 4 per row, 67 with 3 per row) |
 | `SlotSpacing` | 13 | Gap between neighbouring slots in a row (the game uses 18 with 4 per row). 12 moves the top row a bit further from the health bar |
+
+## Crew only do checked activities (船员只做勾选的活动)
+
+The activities you check for a crew member (collect deck items, supply, analyze, use ship facilities) are normally only a priority: checked ones are tried first, but unchecked ones still happen. With `[CrewWork] StrictCheckboxes` on, crew **only do checked activities**:
+
+- **One or more checked:** they choose only among the checked ones, the same way the game does (see below). Unchecked activities never happen.
+- **None checked:** same as the original game; anything can happen.
+- All checked is also the original game (everything is allowed).
+- Leaving ship facilities unchecked stops facility visits: no usage fees, but no knowledge from facilities either.
+- It reads the boxes the way the game does, so an activity setting the game applies to all crew is respected too. Only crew are affected, not merchants or visitors.
+- To turn it on, set `StrictCheckboxes` to `true` under `[CrewWork]` in `BepInEx\config\hssqol.cfg`, then restart the game. There is no hotkey.
+
+How the game chooses: in the order collect → supply → analyze → ship facility, checked ones first. With 1 checked it is forced every time; with 2 each is forced 50% of the time, with 3 each 25%. When not forced, an activity needs its own condition (a random roll or a count check). Ship facilities ignore forcing. With all or none checked nothing is forced and the order stays the same.
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `StrictCheckboxes` | false | Crew only do checked activities |
+
+## Party crew skip harvest facilities (战斗队伍成员不去收获设施)
+
+With `[PartyNoHarvest] Enabled` on, **crew in a combat party** never pick a harvest facility on their own: farm (农田), tree farm (植树厂) and ranches (牧场: chicken, pig, cow). These five are the only facilities in the game that produce a harvest. Crew outside parties harvest as usual.
+
+- Party crew still visit every other facility and do their other activities.
+- Harvesting is left to crew outside parties, so with few of them harvests come in more slowly.
+- Works together with "Crew only do checked activities": party crew still choose activities by their boxes and just skip harvest facilities when choosing a facility.
+- To turn it on, set `Enabled` to `true` under `[PartyNoHarvest]` in `BepInEx\config\hssqol.cfg`, then restart the game. There is no hotkey.
+- The log records each harvest-facility pick (the first 100 per launch) so you can check it.
+
+| Setting | Default | Meaning |
+|---|---|---|
+| `Enabled` | false | Party crew skip harvest facilities |
 
 ## Other
 
