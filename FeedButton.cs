@@ -29,7 +29,7 @@ internal static class FeedButton
 {
     internal static ConfigEntry<bool> Enabled;
     internal static ConfigEntry<int> Gap, OffsetY, Line2Indent, PixelSize, RingWidth, DiameterInset, CenterDarkenPercent, JobChangeOffsetX;
-    internal static ConfigEntry<string> Line1, Line2, SwitchLine1, SwitchLine2, TextColor, OutlineColor;
+    internal static ConfigEntry<string> Line1, Line2, SwitchLine1, SwitchLine2, ChainLine1, ChainLine2, TextColor, OutlineColor;
     internal static ConfigEntry<int> OutlineWidth, FontScalePercent;
     internal static ConfigEntry<bool> NativeOutline;
 
@@ -74,6 +74,7 @@ internal static class FeedButton
     internal const int SwitchValue = OurValue + 1; // 转职满级 (job-change page only)
     internal const int SellValue = OurValue + 2;   // 批量出售 (port shop sell screen)
     internal const int SmithValue = OurValue + 3;  // 投入所有相性相符 (smith material page)
+    internal const int ChainValue = OurValue + 4;  // 连续转职 (job-change page only)
 
     private static Human _menuHuman;
     private static int _menuHumanFrame = -100;
@@ -95,6 +96,8 @@ internal static class FeedButton
             "Job-change page: moves the button pair left (negative) or right (positive) from the midpoint between 确定 and 道具.");
         SwitchLine1 = cfg.Bind("FeedButton", "SwitchLine1", "转职", "Job-change page, 转职满级 button: first line.");
         SwitchLine2 = cfg.Bind("FeedButton", "SwitchLine2", "满级", "Job-change page, 转职满级 button: second line.");
+        ChainLine1 = cfg.Bind("FeedButton", "ChainLine1", "连续", "Job-change page, 连续转职 button: first line.");
+        ChainLine2 = cfg.Bind("FeedButton", "ChainLine2", "转职", "Job-change page, 连续转职 button: second line.");
         Gap = cfg.Bind("FeedButton", "Gap", 4, "Space between the button and the moved team power-up icon.");
         PixelSize = cfg.Bind("FeedButton", "PixelSize", 1, "Size of one circle 'pixel' in game units (1 ≈ the game's own pixel art).");
         RingWidth = cfg.Bind("FeedButton", "RingWidth", 3, "Width of the brighter outer ring, in circle pixels.");
@@ -185,6 +188,10 @@ internal static class FeedButton
         // simulated key press derived from the value, and ours mapped to key bit 1 = the page's 道具 key
         // (ProJobChange: CheckKeyPulse(1) → CreateDirectUseJobChangeItem). ID 4 only raises touch events.
         // Two buttons side by side, centred between 确定 and 道具: 强化满级 left, 转职满级 right.
+        // 连续转职 sits right of 道具, one icon width plus the gap away.
+        if (JobSwitch.ChainEnabled.Value)
+            DrawOurs(__instance, g, x + _iconWidth + Gap.Value, y, ChainValue, ChainLine1.Value, ChainLine2.Value);
+
         int centre = (JobChangeDecideX + x) / 2 + JobChangeOffsetX.Value;
         if (!JobSwitch.Enabled.Value)
         {
@@ -273,7 +280,7 @@ internal static class FeedButton
     {
         // Each tap arrives as ENTER(2), ON(13), DOWN(0), CLICK(5), UP(1), LEAVE(3), LOST(6); act on CLICK only.
         int value = e?.component?.value ?? int.MinValue;
-        if (value != OurValue && value != SwitchValue && value != SellValue && value != SmithValue) return true;
+        if (value != OurValue && value != SwitchValue && value != SellValue && value != SmithValue && value != ChainValue) return true;
 
         if (e.type == TouchEvent.TYPE_CLICK && value == SmithValue)
         {
@@ -284,6 +291,15 @@ internal static class FeedButton
         {
             Log("批量出售 button clicked");
             AutoSell.ButtonPressed(__instance);
+        }
+        else if (e.type == TouchEvent.TYPE_CLICK && value == ChainValue)
+        {
+            if (__instance.type_ == JobChangePage)
+            {
+                var jc = __instance.jobChangeChar_;
+                Log($"连续转职 button clicked for {jc?.GetName() ?? "null"}");
+                JobChain.ButtonPressed(__instance, jc, FindHuman(jc));
+            }
         }
         else if (e.type == TouchEvent.TYPE_CLICK && value == SwitchValue)
         {

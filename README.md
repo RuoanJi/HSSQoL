@@ -8,6 +8,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 
 - **强化满级**：自动挑选食物，一键将角色的当前职业升到满级。
 - **转职满级**：在转职页面一键转到下一个未通关的职业，并升到满级。
+- **连续转职**：在转职页面反复执行转职满级，直到没有可转的职业或全部职业通关。
 - **转职后装回技能**：修正游戏的一个问题：装备的其他职业技能（比如忍者的技能）在转职后不再丢失。游戏自己的转职和转职满级都有效。
 - **批量出售**：在港口商店一键卖出多余的装备、食物和药。
 - **投入所有相性相符**：在锻造页面一键用所有契合（同种类、同重量，经验 150%）的装备把装备锻造到满级。
@@ -115,8 +116,22 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | 设置（`[JobSwitch]`） | 默认 | 说明 |
 |---|---|---|
 | `Enabled` | true | 是否显示转职满级按钮 |
+| `ChainButton` | true | 是否显示连续转职按钮（见下文） |
 | `AllowMedalJobs` | false | 是否也选择需要勋章的职业（会消耗勋章） |
 | `RestoreSkill` | true | 每次转职后装回游戏卸下的那个职业技能 |
+
+## 连续转职
+
+转职页面底部「道具」右边的 **连续转职** 按钮会一次又一次地执行「转职满级」，直到出现以下情况之一才停下：
+
+- 没有**现在就能转**的未通关职业了（通常是知识等级不够）；
+- 这个角色把全部职业都通关了（本轮结束，游戏会清空通关列表）；
+- 食物不够，新职业没能升到满级；
+- 离开了转职页面，或者再按一次连续转职。
+
+每一步之间会等游戏的窗口（职业通关窗口、Method = Game 时的强化窗口）关闭后再继续。打开「跳过职业通关动画」（F4）后这些窗口会自动关闭，整个过程无需操作；没打开时每个窗口点掉后会自动继续。结束时会弹出游戏自己的对话框，显示停止原因、这次一共通关了几个职业，以及通关了哪些职业。
+
+全部通关后如果角色还有剩余的知识，可以再按一次开始新一轮。
 
 ## 转职后装回技能
 
@@ -414,6 +429,7 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 
 - **Power up to max (强化满级)**: picks the food automatically and levels a character's current job to max in one click.
 - **Switch job and max (转职满级)**: on the job-change page, one click switches to the next unmastered job and levels it to max.
+- **Chain job switches (连续转职)**: on the job-change page, repeats 转职满级 until no job can be switched to or every job is mastered.
 - **Re-equip job skill after switching (转职后装回技能)**: fixes a game issue where an equipped job skill (e.g. 忍者's) is lost after changing jobs. Works for the game's own job change and for 转职满级.
 - **Bulk sell (批量出售)**: in port shops, one click sells surplus equipment, food and potions.
 - **Add all compatible (投入所有相性相符)**: at the smith, one click reforges the item to max level with every compatible piece (same type and weight, 150% EXP).
@@ -521,8 +537,22 @@ Notes:
 | Setting (`[JobSwitch]`) | Default | What it does |
 |---|---|---|
 | `Enabled` | true | Show the 转职满级 button |
+| `ChainButton` | true | Show the 连续转职 button (see below) |
 | `AllowMedalJobs` | false | Also pick jobs that cost medals (the medals are spent) |
 | `RestoreSkill` | true | After every job change, re-equip the job skill the game took off |
+
+## Chain job switches (连续转职)
+
+The **连续转职** ("chain job switches") button, right of 道具 (Items) on the job-change page, runs 转职满级 again and again. It stops when:
+
+- no unmastered job can be switched to right now (usually not enough knowledge levels);
+- the character has mastered every job (the round is over; the game clears the mastered list);
+- there isn't enough food to bring the new job to max level;
+- you leave the job-change page, or press 连续转职 again.
+
+Between steps it waits for the game's windows (the Job Master window, and the power-up windows with Method = Game) to close. With "Skip job-mastered animation" (F4) on they close by themselves and the whole run needs no input; with it off, the chain carries on after you click each one away. When it ends, the game's own dialog shows why it stopped, how many jobs were mastered in this run, and which ones.
+
+If the character still has knowledge left after mastering every job, press it again to start the next round.
 
 ## Re-equip job skill after switching (转职后装回技能)
 

@@ -106,6 +106,7 @@ public class QoLBehaviour : MonoBehaviour
             catch (Exception e) { Plugin.L.LogError($"ContinuousExplore: {e}"); }
         }
         if (Plugin.LateReady) GameFeed.Tick();
+        if (Plugin.LateReady) JobChain.Tick();
         if (Plugin.LateReady)
         {
             try { SmithFeed.Tick(); }

@@ -30,7 +30,7 @@ namespace HSSQoL;
 /// </summary>
 internal static class JobSwitch
 {
-    internal static ConfigEntry<bool> Enabled, AllowMedalJobs, RestoreSkill;
+    internal static ConfigEntry<bool> Enabled, ChainEnabled, AllowMedalJobs, RestoreSkill;
     private const int SkillTypeShield = 28;   // a skill of this type lets the character keep a shield
     private const int EquipShield = 1;        // Character.GetEquip / Equip slot 1
 
@@ -38,6 +38,8 @@ internal static class JobSwitch
     {
         Enabled = cfg.Bind("JobSwitch", "Enabled", true,
             "Show the 转职满级 button on the job-change page (next to 强化满级).");
+        ChainEnabled = cfg.Bind("JobSwitch", "ChainButton", true,
+            "Show the 连续转职 button on the job-change page (right of 道具): repeats 转职满级 until no job can be switched to or every job has been mastered this round. Press it again to stop.");
         AllowMedalJobs = cfg.Bind("JobSwitch", "AllowMedalJobs", false,
             "Also pick jobs that cost medals to switch to (the medals are spent, like the game's own switch). Off: those jobs are skipped.");
         RestoreSkill = cfg.Bind("JobSwitch", "RestoreSkill", true,
@@ -46,11 +48,29 @@ internal static class JobSwitch
 
     private static void Log(string s) => Plugin.L.LogInfo($"[jobswitch] {s}");
 
+    /// <summary>What one 转职满级 press did (used by 连续转职 to decide whether to go on).</summary>
+    internal enum StepResult { Error, NoCharacter, NotMax, OpenedClearWindow, NoTarget, Switched }
+
     internal static void ButtonPressed(SubForm page, Character c, Human h)
     {
+        if (JobChain.Active) { AutoFeed.Show("JobSwitch: 连续转职 is running; press 连续转职 to stop it first."); return; }
+        Step(page, c, h);
+    }
+
+    internal static StepResult Step(SubForm page, Character c, Human h)
+    {
+        var result = StepResult.Error;
         AutoFeed.Safe(() =>
         {
-            if (c == null) { AutoFeed.Show("JobSwitch: couldn't tell which character this page is for."); return; }
+            result = StepCore(page, c, h);
+        });
+        return result;
+    }
+
+    private static StepResult StepCore(SubForm page, Character c, Human h)
+    {
+        {
+            if (c == null) { AutoFeed.Show("JobSwitch: couldn't tell which character this page is for."); return StepResult.NoCharacter; }
             var cur = c.GetJob();
             string curName = cur?.name_ ?? $"#{c.jobID_}";
 
@@ -58,7 +78,7 @@ internal static class JobSwitch
             if (!c.IsJobLvMax())
             {
                 AutoFeed.Show($"JobSwitch: {c.GetName()} {curName} is Lv {c.GetLv()}/{c.GetLvMax()}, not max; nothing done.");
-                return;
+                return StepResult.NotMax;
             }
             // At max but the job-clear bonus not granted yet: grant it first through the game's window,
             // otherwise switching away would skip it.
@@ -66,7 +86,7 @@ internal static class JobSwitch
             {
                 AutoFeed.OpenJobClearWindow(c, page);
                 AutoFeed.Show($"JobSwitch: {curName} is at max but not mastered yet; opened the Job Master window. Press again after closing it.");
-                return;
+                return StepResult.OpenedClearWindow;
             }
 
             // 2. First job, by index, that isn't mastered and that the game would let us switch to.
@@ -96,7 +116,7 @@ internal static class JobSwitch
             if (target == null)
             {
                 AutoFeed.Show($"JobSwitch: no unmastered job that {c.GetName()} can switch to right now.");
-                return;
+                return StepResult.NoTarget;
             }
 
             int oldId = c.jobID_;
@@ -108,7 +128,8 @@ internal static class JobSwitch
 
             // 3. 强化满级 on the new job.
             AutoFeed.ButtonPressed(h, c, page);
-        });
+            return StepResult.Switched;
+        }
     }
 
     /// <summary>ProJobChange's pre-switch shield check: true when the game would refuse the switch.</summary>
