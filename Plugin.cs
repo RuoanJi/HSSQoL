@@ -48,6 +48,7 @@ public class Plugin : BasePlugin
         CrewWork.Bind(Config);
         PartyNoHarvest.Bind(Config);
         ItemHotkey.Bind(Config);
+        ConfigZh.Apply(Config); // after every Bind
 
         // Registers the type with IL2CPP and attaches it to a persistent GameObject.
         AddComponent<QoLBehaviour>();
