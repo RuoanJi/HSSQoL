@@ -11,6 +11,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - **连续转职**：在转职页面反复执行转职满级，直到没有可转的职业或全部职业通关。
 - **转职后装回技能**：修正游戏的一个问题：装备的其他职业技能（比如忍者的技能）在转职后不再丢失。游戏自己的转职和转职满级都有效。
 - **批量出售**：在港口商店一键卖出多余的装备、食物和药。
+- **全部出售（蛋）**：在怪物牧场一键卖掉仓库里的所有蛋。
 - **投入所有相性相符**：在锻造页面一键用所有契合（同种类、同重量，经验 150%）的装备把装备锻造到满级。
 - **[船舱布局设计器](https://ruoanji.github.io/HSSQoL/designer/designer.html)**：按 F9 导出船舱数据和布局供网页版的规划工具加载。
 - **游戏加速**：按 F2 开关，倍率可自由设置。
@@ -168,6 +169,19 @@ Mod 在**每次转职后**都把游戏记住的那个技能装回去：
 | `MinCap` | 100 | 持有上限低于这个值时不卖 |
 | `ExcludeIds` | （空） | 永远不卖的东西，逗号分隔：游戏里显示的名字，或 `e:<id>`（装备）/ `i:<id>`（道具） |
 | `ButtonX` / `ButtonY` | 260 / 199 | 按钮位置 |
+
+## 全部出售（蛋）
+
+在港口的怪物牧场选菜单第一项，打开「选择想要出售的蛋」列表后，左下角「切换」上方会多出一个 **全部出售** 按钮。点一下就会卖掉列表里的所有蛋（没有确认框），然后弹窗显示卖了几个蛋、得到多少钱。
+
+每个蛋的卖法和游戏自己一个个卖完全一样：按蛋的价格加钱，并把蛋从它所在的仓库里移除。
+
+| 设置（`[EggSell]`） | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | true | 是否显示全部出售按钮 |
+| `Line1` / `Line2` | 全部 / 出售 | 按钮上的文字 |
+| `ButtonX3` / `ButtonY3` | -36 / 157 | 按钮位置 |
+
 ## 投入所有相性相符
 
 在锻造页面选好要强化的装备后，素材选择页面右下角「返回」上方会多出一个 **投入所有相性相符** 按钮。点一下会弹出确认框，显示要投入的装备总数、总花费和预计等级；选「是」后直接完成锻造，不用一次次放素材、点「合成」：
@@ -432,6 +446,7 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 - **Chain job switches (连续转职)**: on the job-change page, repeats 转职满级 until no job can be switched to or every job is mastered.
 - **Re-equip job skill after switching (转职后装回技能)**: fixes a game issue where an equipped job skill (e.g. 忍者's) is lost after changing jobs. Works for the game's own job change and for 转职满级.
 - **Bulk sell (批量出售)**: in port shops, one click sells surplus equipment, food and potions.
+- **Sell all eggs (全部出售)**: at the monster ranch, one click sells every egg in your warehouses.
 - **Add all compatible (投入所有相性相符)**: at the smith, one click reforges the item to max level with every compatible piece (same type and weight, 150% EXP).
 - **[Ship layout designer](https://ruoanji.github.io/HSSQoL/designer/designer.html)**: press F9 to export your ship's data and layout for the web-based planner to load.
 - **Speed-up**: toggled with F2, at a multiplier you choose.
@@ -589,6 +604,19 @@ Prices and stock changes are exactly what the game's own selling does.
 | `MinCap` | 100 | Don't sell while the holding cap is below this |
 | `ExcludeIds` | (empty) | Never sell these. Comma-separated: names as shown in game, or `e:<id>` (equipment) / `i:<id>` (items) |
 | `ButtonX` / `ButtonY` | 260 / 199 | Button position |
+
+## Sell all eggs (全部出售)
+
+At a port's monster ranch, choose the first menu option. The 选择想要出售的蛋 (choose eggs to sell) list then gets a **全部出售** button on the bottom left, above 切换 (Switch). One click sells every egg in the list, with no confirmation, then a pop-up shows how many eggs were sold and for how much.
+
+Each egg is sold exactly as the game sells one: its price is added to your money and it's removed from the warehouse it was in.
+
+| Setting (`[EggSell]`) | Default | What it does |
+|---|---|---|
+| `Enabled` | true | Show the sell-all button |
+| `Line1` / `Line2` | 全部 / 出售 | Button text |
+| `ButtonX3` / `ButtonY3` | -36 / 157 | Button position |
+
 ## Add all compatible (投入所有相性相符)
 
 At the smith, after you pick the item to reforge, the material page gets a **投入所有相性相符** button on the bottom right, above 返回 (Back). One click opens a confirmation showing how many pieces will be used, the total gold and the expected level. Choose yes and the reforging is done in one go, with no placing materials and pressing 合成 (Combine) over and over:

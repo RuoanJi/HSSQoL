@@ -75,6 +75,7 @@ internal static class FeedButton
     internal const int SellValue = OurValue + 2;   // 批量出售 (port shop sell screen)
     internal const int SmithValue = OurValue + 3;  // 投入所有相性相符 (smith material page)
     internal const int ChainValue = OurValue + 4;  // 连续转职 (job-change page only)
+    internal const int EggSellValue = OurValue + 5; // 全部出售 (monster ranch egg sale list)
 
     private static Human _menuHuman;
     private static int _menuHumanFrame = -100;
@@ -280,9 +281,14 @@ internal static class FeedButton
     {
         // Each tap arrives as ENTER(2), ON(13), DOWN(0), CLICK(5), UP(1), LEAVE(3), LOST(6); act on CLICK only.
         int value = e?.component?.value ?? int.MinValue;
-        if (value != OurValue && value != SwitchValue && value != SellValue && value != SmithValue && value != ChainValue) return true;
+        if (value != OurValue && value != SwitchValue && value != SellValue && value != SmithValue && value != ChainValue && value != EggSellValue) return true;
 
-        if (e.type == TouchEvent.TYPE_CLICK && value == SmithValue)
+        if (e.type == TouchEvent.TYPE_CLICK && value == EggSellValue)
+        {
+            Log("全部出售 (eggs) button clicked");
+            EggSell.ButtonPressed(__instance);
+        }
+        else if (e.type == TouchEvent.TYPE_CLICK && value == SmithValue)
         {
             Log("投入所有相性相符 button clicked");
             SmithFeed.ButtonPressed(__instance);
