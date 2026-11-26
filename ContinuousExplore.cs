@@ -50,8 +50,8 @@ internal static class ContinuousExplore
     internal static void Bind(ConfigFile cfg)
     {
         Enabled = cfg.Bind("ContinuousExplore", "Enabled", true, "Show the 连续探索 button on the dungeon party picker.");
-        ButtonX = cfg.Bind("ContinuousExplore", "ButtonX2", 0.067f, "Button centre, fraction of the window width (default: the empty slot bottom-left, opposite 返回).");
-        ButtonY = cfg.Bind("ContinuousExplore", "ButtonY2", 0.921f, "Button centre, fraction of the window height.");
+        ButtonX = cfg.Bind("ContinuousExplore", "ButtonX3", 0.0644f, "Button centre, fraction of the window width (default: the empty slot bottom-left, opposite 返回).");
+        ButtonY = cfg.Bind("ContinuousExplore", "ButtonY3", 0.9504f, "Button centre, fraction of the window height.");
         IdleFrames = cfg.Bind("ContinuousExplore", "IdleFrames", 30,
             "Frames with no window open after a run before the next one starts (lets the game's own end-of-run events show first).");
         MaxRuns = cfg.Bind("ContinuousExplore", "MaxRuns", 0, "Stop after this many runs (0 = until stamina runs out).");
@@ -204,7 +204,8 @@ internal static class ContinuousExplore
     /// <summary>Brown, gold-rimmed box like the game's 返回 button, in the empty slot bottom-left. True when clicked.</summary>
     private static bool SlotButton(string label, bool can)
     {
-        float w = Screen.width * 0.108f, h = Screen.height * 0.058f;
+        // Same size as the game's corner plates (地图 / 返回): 193×96 px in a 1653×1150 window.
+        float w = Screen.width * 0.1168f, h = Screen.height * 0.0835f;
         var rect = new Rect(Screen.width * ButtonX.Value - w / 2, Screen.height * ButtonY.Value - h / 2, w, h);
         Fill(rect, new Color(0.35f, 0.17f, 0.05f));
         Fill(new Rect(rect.x + 3, rect.y + 3, rect.width - 6, rect.height - 6), new Color(0.93f, 0.62f, 0.18f));
@@ -213,7 +214,7 @@ internal static class ContinuousExplore
         Fill(inner, can ? (hover ? new Color(0.78f, 0.36f, 0.08f) : new Color(0.66f, 0.29f, 0.06f)) : new Color(0.35f, 0.25f, 0.2f));
         var ts = new GUIStyle(GUI.skin.label)
         {
-            fontSize = Mathf.RoundToInt(h * 0.30f), fontStyle = FontStyle.Bold,
+            fontSize = Mathf.RoundToInt(h * 0.26f), fontStyle = FontStyle.Bold,
             alignment = TextAnchor.MiddleCenter, wordWrap = false,
         };
         ts.normal.textColor = can ? Color.white : new Color(0.75f, 0.7f, 0.65f);
