@@ -107,7 +107,9 @@ internal static class MoneyLog
         var pop = new HarmonyMethod(typeof(MoneyLog), nameof(CallerPostfix));
         foreach (var (typeName, method, label) in Callers)
         {
-            var t = AccessTools.TypeByName(typeName);
+            // Look in the game assembly directly: AccessTools.TypeByName scans every loaded assembly and logs a
+            // ReflectionTypeLoadException warning for UnityEngine.CoreModule's malformed interop types on each call.
+            var t = typeof(game.Player).Assembly.GetType(typeName) ?? AccessTools.TypeByName(typeName);
             var ms = t == null ? new List<MethodInfo>() : AccessTools.GetDeclaredMethods(t).Where(m => m.Name == method).ToList();
             if (ms.Count == 0) { Plugin.L.LogWarning($"[money] caller {typeName}.{method} not found; its changes will show as \"其他\""); continue; }
             foreach (var m in ms)
