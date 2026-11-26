@@ -79,6 +79,7 @@ mark { padding: 0 2px; border-radius: 3px; }
     <select id="elem" aria-label="解析道具"></select>
     <input id="q" type="search" placeholder="搜索：地区、迷宫、敌人、奖励…">
     <label class="fish" title="击败敌人的是当前职业为渔师的船员时，掉落表每行概率 +30"><input type="checkbox" id="fish"> 渔师最后一击</label>
+    <select id="mode" aria-label="游戏模式" title="敌人等级：普通 ×1、困难 ×2、噩梦 ×5"><option value="0">普通模式</option><option value="1">困难模式</option><option value="2">噩梦模式</option></select>
     <span class="count" id="count"></span>
   </div>
 </div></header>
@@ -89,8 +90,9 @@ const E = D.elements;
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pct = p => p >= 0.001 ? (p * 100).toFixed(p >= 0.1 ? 0 : 1) + '%' : '<0.1%';
-let tab = 'farm', dsort = 'id', drep = 'all';
-try { tab = localStorage.getItem('hssLootTab') || 'farm'; } catch (e) {}
+let tab = 'farm', dsort = 'id', drep = 'all', mode = 0;
+try { tab = localStorage.getItem('hssLootTab') || 'farm'; mode = +(localStorage.getItem('hssLootMode') || 0) || 0; } catch (e) {}
+const M = p => p.modes[mode] || p.modes[0];
 
 const sel = $('#elem');
 sel.innerHTML = '<option value="-1">全部解析道具</option>' + E.map((n, i) => `<option value="${i}">${esc(n)}</option>`).join('');
@@ -108,24 +110,31 @@ function dropChips(drops, el) {
 }
 const FISH = () => $('#fish').checked;
 const dr = en => FISH() ? en.f : en.d;
-function perFight(place, el) { // expected analyze drops of element el per fight (approx: one of each enemy present; stamina rank < 40)
-  return place.enemies.filter(en => !en.r40).reduce((s, en) => s + en.s * dr(en).filter(d => d[0] === el).reduce((a, d) => a + d[1], 0), 0);
+// Expected analyze drops of element el: per fight for dungeons (groups per fight × per drawn group), per drawn group
+// for sea areas (their group count per fight was not decoded). Stamina rank < 40 (campaign groups left out).
+function perFight(place, el) {
+  const perGroup = place.enemies.filter(en => !en.r40).reduce((s, en) => s + en.e * dr(en).filter(d => d[0] === el).reduce((a, d) => a + d[1], 0), 0);
+  return perGroup * (M(place).n || 1);
 }
 function bossHas(place, el) {
   return place.boss.m.reduce((m, b) => Math.max(m, ...dr(b).filter(d => d[0] === el).map(d => d[1]), 0), 0);
 }
 const R40 = '<span class="m" title="该组敌人与活动相关，体力等级达到 40 后才会出现"> (体力等级 ≥ 40)</span>';
-function enemyTable(list, el) {
+function enemyTable(list, el, n) {
   if (!list.length) return '';
-  return `<table><tr><th>敌人</th><th class="n">出现率</th><th>掉落（每次击败）</th></tr>` +
-    list.map(en => `<tr><td>${esc(en.n)}${en.r40 ? R40 : ''}</td><td class="n">${pct(en.s)}</td><td>${dropChips(dr(en), el)}</td></tr>`).join('') + '</table>';
+  return `<table><tr><th>敌人</th><th class="n">每组出现率</th>${n ? `<th class="n">每场平均（${n} 组）</th>` : ''}<th>掉落（每次击败）</th></tr>` +
+    list.map(en => `<tr><td>${esc(en.n)}${en.r40 ? R40 : ''}</td><td class="n">${pct(en.p)}</td>${n ? `<td class="n">${(en.e * n).toFixed(2)}</td>` : ''}<td>${dropChips(dr(en), el)}</td></tr>`).join('') + '</table>';
 }
-function bossTable(boss, el) {
+function bossTable(boss, el, dungeon) {
   if (!boss.m.length) return '';
-  const fights = boss.w.map(w => w.length > 1 ? w.map((names, i) => `第 ${i + 1} 波：${names.map(esc).join('、')}`).join('；') : (w[0] || []).map(esc).join('、'));
-  return `<h3>BOSS</h3><p class="note">固定战斗（不是随机抽一个）：以下敌人全部都要打。<br>${fights.join('<br>')}</p><table>` +
+  const fights = boss.w.map((rows, i) => {
+    const when = !dungeon ? '' : boss.once[i] ? '<b>只在第一次通关时出现</b>，之后再挑战没有 BOSS。' : '每次都会出现。';
+    return when + rows.map(names => names.map(esc).join('、')).join(' ／ ');
+  });
+  return `<h3>BOSS</h3><p class="note">固定的一组敌人（不是随机抽一个），全部同时出场。${fights.join('<br>')}</p><table>` +
     boss.m.map(b => `<tr><td>${esc(b.n)}</td><td>${dropChips(dr(b), el)}</td></tr>`).join('') + '</table>';
 }
+const lvText = p => `敌人 Lv ${M(p).lv} · 解析道具 Lv.${M(p).dl[0]}–${M(p).dl[1]}`;
 function placeText(p) {
   return [p.land, p.name, p.port, ...p.enemies.map(e => e.n), ...p.boss.m.map(b => b.n),
     ...p.enemies.flatMap(e => e.d.map(d => E[d[0]])), ...(p.chests || []).map(c => c[0])].filter(Boolean).join(' ').toLowerCase();
@@ -134,10 +143,10 @@ function placeText(p) {
 function renderSeas(q, el) {
   const rows = D.seas.filter(s => (el < 0 || perFight(s, el) > 0 || bossHas(s, el) > 0) && (!q || placeText(s).includes(q)));
   $('#count').textContent = `${rows.length} / ${D.seas.length} 个海域`;
-  return `<p class="note">战斗时按敌人列表编号随机抽取一组敌人（权重为该组的比率）；海域和迷宫共用同一套编号，所以迷宫也会出现同编号的海域敌人，反之亦然。“出现率”为包含该敌人的战斗比例（体力等级低于 40 时）；标有“体力等级 ≥ 40”的敌人来自活动相关的组，体力等级达到 40 后才会出现。解析道具等级由敌人等级决定（±1 随机）。</p>` +
+  return `<p class="note">按敌人列表编号随机抽取敌人组（权重为该组的比率）；海域和迷宫共用同一套编号，所以迷宫也会出现同编号的海域敌人，反之亦然。一场海战会抽好几组（具体组数尚未解析），“每组出现率”为抽到的一组中包含该敌人的概率（体力等级低于 40 时）；标有“体力等级 ≥ 40”的敌人来自活动相关的组，体力等级达到 40 后才会出现。敌人等级 = 海域等级 × 模式（普通 ×1、困难 ×2、噩梦 ×5），解析道具等级由敌人等级决定（±1 随机）。</p>` +
     (rows.map(s => `<details${q || el >= 0 ? ' open' : ''}><summary><span class="t">${hl(s.land, q)} · Lv.${s.lv} 海域</span>
-      <span class="m">等级 ${s.rank} · 解析道具 Lv.${s.dl[0]}–${s.dl[1]} · #${s.id}</span></summary>
-      <div class="body">${enemyTable(s.enemies, el)}${bossTable(s.boss, el)}</div></details>`).join('') || '<p class="empty">没有匹配的海域。</p>');
+      <span class="m">${lvText(s)} · #${s.id}</span></summary>
+      <div class="body">${enemyTable(s.enemies, el, 0)}${bossTable(s.boss, el, false)}</div></details>`).join('') || '<p class="empty">没有匹配的海域。</p>');
 }
 function layoutText(L) {
   const g = {};
@@ -158,14 +167,15 @@ function renderDungeons(q, el) {
   $('#count').textContent = `${rows.length} / ${D.dungeons.length} 个迷宫`;
   return `<p class="note">“体力”为进入迷宫消耗的体力：队伍中每名冒险家 −1（最多 −2），每周奖励“探险体力减半”期间减半，最低 1。可按体力排序：<select id="dsort"><option value="id">默认顺序</option><option value="cost">体力 低→高</option><option value="lv">等级 低→高</option></select>
     显示：<select id="drep"><option value="all">全部迷宫</option><option value="yes">只看可重复</option><option value="no">只看一次性</option></select><br>
-    <span class="badge rep">可重复</span> 通关后可以再次挑战；<span class="badge once">一次性</span> 通关后无法再进入（所有 BOSS迷宫 都是一次性）。<br>每个迷宫的事件数是固定的：固定事件（通常是 99% 处的宝箱和终点 BOSS 战）一定出现，其余位置按“随机事件 → 保底战斗 → 随机事件 → …”交替排列，只有随机位会变化（“无事件”在画面上什么都不显示）。每个宝箱从宝箱表中抽一行。</p>` +
+    <span class="badge rep">可重复</span> 通关后可以再次挑战；<span class="badge once">一次性</span> 通关后无法再进入（所有 BOSS迷宫 都是一次性）。<br>每个迷宫的事件数是固定的：固定事件（通常是 99% 处的宝箱和终点 BOSS 战）排在前面，其余位置按“随机事件 → 保底战斗 → 随机事件 → …”交替排列，只有随机位会变化（“无事件”在画面上什么都不显示）。很多 BOSS 只在第一次通关时出现，之后再挑战时那个位置会换成普通事件。每个宝箱从宝箱表中抽一行。<br>
+    迷宫里的一场随机战斗由好几组敌人组成：先抽一组，再从同一个敌人池继续抽，直到达到 max(敌人等级 ÷ 50 + 1, 2 × 等级阶)（F = 0、E = 1、D = 2…；困难模式至少 4 组，最多 25 组；普通模式 F 级只有 1 组）。敌人等级 = 迷宫等级 × 模式（普通 ×1、困难 ×2、噩梦 ×5），可在右上角切换。同一组的敌人同时出场，部分敌人一次出现 1–3 只。</p>` +
     (rows.map(c => `<details${q || el >= 0 ? ' open' : ''}><summary><span class="t">${hl(c.name, q)}</span>${repBadge(c)}
-      <span class="m">港口 ${hl(c.port + (c.land ? '（' + c.land + '）' : ''), q)} · <b class="cost" title="带 1 名冒险家 ${c.cost[1]}，2 名以上 ${c.cost[2]}；每周奖励“探险体力减半”期间减半（最低 1）">体力 ${c.cost[0]}</b>${c.needRank ? ' · 需船团等级 ≥ ' + c.needRank : ''} · Lv ${c.lv} · 等级 ${c.rank} · 解析道具 Lv.${c.dl[0]}–${c.dl[1]} · #${c.id}</span>
-      <span class="m">${layoutText(c.layout)}</span></summary>
+      <span class="m">港口 ${hl(c.port + (c.land ? '（' + c.land + '）' : ''), q)} · <b class="cost" title="带 1 名冒险家 ${c.cost[1]}，2 名以上 ${c.cost[2]}；每周奖励“探险体力减半”期间减半（最低 1）">体力 ${c.cost[0]}</b>${c.needRank ? ' · 需船团等级 ≥ ' + c.needRank : ''} · Lv ${c.lv} · 等级 ${c.rank} · ${lvText(c)} · 每场 ${M(c).n} 组 · #${c.id}</span>
+      <span class="m">${c.layoutRepeat ? '第一次：' : ''}${layoutText(c.layout)}</span>${c.layoutRepeat ? `<span class="m">再次挑战：${layoutText(c.layoutRepeat)}</span>` : ''}</summary>
       <div class="body">
       ${c.chests.length ? `<h3>宝箱内容</h3><table><tr><th>奖励</th><th class="n">概率</th></tr>` +
         c.chests.map(([n, p]) => `<tr><td>${hl(n, q)}</td><td class="n"><span class="bar" style="width:${Math.round(p * 80)}px"></span>${pct(p)}</td></tr>`).join('') + '</table>' : ''}
-      ${c.enemies.length ? '<h3>随机战斗</h3>' + enemyTable(c.enemies, el) : ''}${bossTable(c.boss, el)}</div></details>`).join('') || '<p class="empty">没有匹配的迷宫。</p>');
+      ${c.enemies.length ? '<h3>随机战斗</h3>' + enemyTable(c.enemies, el, M(c).n) : ''}${bossTable(c.boss, el, true)}</div></details>`).join('') || '<p class="empty">没有匹配的迷宫。</p>');
 }
 function renderFarm(q, el) {
   if (el < 0) {
@@ -174,7 +184,8 @@ function renderFarm(q, el) {
       <ul><li>敌人按掉落表从上往下判定，第一个命中的掉落。</li>
       <li>勾选“渔师最后一击”：击败敌人的是当前职业为渔师的船员时，每行概率 +30（例如 7% → 37%）。只看当前职业，已精通不算。</li>
       <li>没有掉落解析道具时，有 50% 几率掉落甲板小物品。</li>
-      <li>“每场战斗”为估算值：每种出现的敌人按一只计算。</li></ul></div>`;
+      <li>“每场战斗”：迷宫按当前模式的每场组数计算；海域的组数尚未解析，按抽到的一组计算（会偏低）。</li>
+      <li>敌人等级 = 地点等级 × 模式（普通 ×1、困难 ×2、噩梦 ×5），解析道具等级随之变化，可在右上角切换模式。</li></ul></div>`;
   }
   const all = [
     ...D.seas.map(s => ({k: '海域', name: `${s.land} · Lv.${s.lv} 海域`, p: s})),
@@ -184,9 +195,9 @@ function renderFarm(q, el) {
    .sort((a, b) => b.f - a.f || b.b - a.b);
   $('#count').textContent = `${all.length} 个地点掉落 ${E[el]}`;
   const max = Math.max(...all.map(r => r.f), 0.0001);
-  return `<table><tr><th>地点</th><th>类型</th><th class="n">解析道具等级</th><th class="n">每场战斗</th><th class="n">BOSS</th><th class="n">体力</th><th>掉落的敌人</th></tr>` +
-    all.map(r => `<tr><td>${hl(r.name, q)} ${repBadge(r.p)}</td><td>${r.k}</td><td class="n">Lv.${r.p.dl[0]}–${r.p.dl[1]}</td>
-      <td class="n"><span class="bar" style="width:${Math.round(r.f / max * 60)}px"></span>${r.f ? pct(r.f) : '—'}</td>
+  return `<table><tr><th>地点</th><th>类型</th><th class="n">解析道具等级</th><th class="n" title="平均掉落个数">每场战斗（个）<br><span class="m">海域：每组</span></th><th class="n">BOSS</th><th class="n">体力</th><th>掉落的敌人</th></tr>` +
+    all.map(r => `<tr><td>${hl(r.name, q)} ${repBadge(r.p)}</td><td>${r.k}</td><td class="n">Lv.${M(r.p).dl[0]}–${M(r.p).dl[1]}</td>
+      <td class="n"><span class="bar" style="width:${Math.round(r.f / max * 60)}px"></span>${r.f ? r.f.toFixed(r.f >= 0.1 ? 2 : 3) : '—'}</td>
       <td class="n">${r.b ? pct(r.b) : '—'}</td>
       <td class="n">${r.p.cost ? r.p.cost[0] : '—'}</td>
       <td>${r.p.enemies.filter(e => dr(e).some(d => d[0] === el)).map(e => `<span class="chip">${esc(e.n)}</span>`).join('')}</td></tr>`).join('') + '</table>';
@@ -217,6 +228,8 @@ sel.addEventListener('change', render);
 $('#out').addEventListener('change', e => { if (e.target.id === 'dsort') { dsort = e.target.value; render(); }
   if (e.target.id === 'drep') { drep = e.target.value; render(); } });
 $('#fish').addEventListener('change', render);
+$('#mode').value = String(mode);
+$('#mode').addEventListener('change', e => { mode = +e.target.value; try { localStorage.setItem('hssLootMode', mode); } catch (x) {} render(); });
 render();
 </script>
 </body>
