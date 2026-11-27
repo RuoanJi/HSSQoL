@@ -63,7 +63,7 @@ internal static class MoneyLog
     private static readonly List<Frame> _stack = new();
 
     /// <summary>Facility model id → name (from docs/data/facilities.json); the game's own name_ is the fallback.</summary>
-    private static readonly Dictionary<int, string> FacilityNames = new()
+    internal static readonly Dictionary<int, string> FacilityNames = new()
     {
         [0] = "地板", [1] = "楼梯", [2] = "柱子", [3] = "拼块地板", [4] = "寝室", [5] = "寝室", [6] = "医务室", [7] = "寝室", [8] = "寝室", [9] = "寝室", [10] = "寝室", [11] = "寝室", [12] = "仓库", [13] = "巨大仓库", [14] = "船员食堂", [15] = "解析室", [16] = "未使用", [17] = "格斗场", [18] = "游泳池", [19] = "舞厅", [20] = "厨房", [21] = "射击训练场", [22] = "特训场", [23] = "祈祷处", [24] = "宝物资料馆", [25] = "情报信息馆", [26] = "澡堂", [27] = "图书馆", [28] = "探测室", [29] = "职务室", [30] = "画室", [31] = "通信室", [32] = "弹药库", [33] = "饮料吧", [34] = "钓鱼竿保存处", [35] = "谈话室", [36] = "厕所", [37] = "训练设施", [38] = "宠物小屋", [39] = "农田", [40] = "植树厂", [41] = "牧场(鸡)", [42] = "牧场(猪)", [43] = "牧场(牛)", [44] = "电灯", [45] = "椅子", [46] = "观叶植物", [47] = "观叶树木", [48] = "传说之剑", [49] = "守护之铠", [50] = "女神像", [51] = "伟大的椅子", [52] = "绘画角", [53] = "水瓮", [54] = "指南针", [55] = "水槽", [56] = "幸运之鸟", [57] = "牢房", [58] = "红色绒毯", [77] = "桌游室", [78] = "投标盘", [79] = "花",
     };
@@ -151,6 +151,10 @@ internal static class MoneyLog
         try { who = h.crew_?.GetName() ?? ""; } catch { }
         return ($"设施使用·{fac}", who, cost);
     }
+
+    /// <summary>For our own code that spends money the way a game screen does: tags AddMoney calls until EndSource.</summary>
+    internal static void BeginSource(string label, string method, int screen) => _stack.Add(new Frame(label, method, screen, "", long.MinValue));
+    internal static void EndSource() => CallerPostfix();
 
     private static void CallerPostfix()
     {

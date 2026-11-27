@@ -35,12 +35,14 @@ public class Plugin : BasePlugin
         SpeedHack.Bind(Config);
         JobSwitch.Bind(Config);
         AutoSell.Bind(Config);
+        SmithFeed.Bind(Config);
         ShipExport.Bind(Config);
         DataDump.Bind(Config);
         DungeonSkip.Bind(Config);
         JobMasterSkip.Bind(Config);
         ContinuousExplore.Bind(Config);
         MoneyLog.Bind(Config);
+        KnowLog.Bind(Config);
 
         // Registers the type with IL2CPP and attaches it to a persistent GameObject.
         AddComponent<QoLBehaviour>();
@@ -62,7 +64,7 @@ public class Plugin : BasePlugin
         if (main.AppData.GetInstance()?.player_ == null) return;
         _latePatched = true;
         // FeedButton first: the probe is optional and must never take the real feature down with it.
-        foreach (var t in new[] { typeof(FeedButton), typeof(AutoSell), typeof(DungeonSkip), typeof(ContinuousExplore), typeof(MenuProbe), typeof(MenuProbe.Results) })
+        foreach (var t in new[] { typeof(FeedButton), typeof(AutoSell), typeof(SmithFeed), typeof(DungeonSkip), typeof(ContinuousExplore), typeof(MenuProbe), typeof(MenuProbe.Results) })
         {
             // The menu probe hooks hot Graphics calls every frame; only patch it when asked for.
             if ((t == typeof(MenuProbe) || t == typeof(MenuProbe.Results)) && !MenuProbeEnabled.Value) continue;
@@ -71,6 +73,8 @@ public class Plugin : BasePlugin
         }
         try { MoneyLog.Patch(Harmony); }
         catch (Exception e) { L.LogError($"Late patching MoneyLog failed: {e}"); }
+        try { KnowLog.Patch(Harmony); }
+        catch (Exception e) { L.LogError($"Late patching KnowLog failed: {e}"); }
         // Listing patched methods makes it easy to spot a target that vanished after a game update.
         foreach (var m in Harmony.GetPatchedMethods())
             L.LogInfo($"Patched {m.DeclaringType?.FullName}.{m.Name}({m.GetParameters().Length} args)");
@@ -99,10 +103,17 @@ public class QoLBehaviour : MonoBehaviour
             catch (Exception e) { Plugin.L.LogError($"ContinuousExplore: {e}"); }
         }
         if (Plugin.LateReady) GameFeed.Tick();
+        if (Plugin.LateReady)
+        {
+            try { SmithFeed.Tick(); }
+            catch (Exception e) { Plugin.L.LogError($"SmithFeed: {e}"); }
+        }
         if (Plugin.LateReady) ShipExport.Tick();
         DataDump.Tick();
         try { MoneyLog.Tick(); }
         catch (Exception e) { Plugin.L.LogError($"MoneyLog: {e}"); }
+        try { KnowLog.Tick(); }
+        catch (Exception e) { Plugin.L.LogError($"KnowLog: {e}"); }
         try { InputRemap.Tick(); }
         catch (Exception e) { Plugin.L.LogError($"InputRemap: {e}"); InputRemap.WheelScroll.Value = false; }
     }
@@ -114,6 +125,7 @@ public class QoLBehaviour : MonoBehaviour
         JobMasterSkip.Draw();
         ContinuousExplore.Draw();
         MoneyLog.Draw();
+        KnowLog.Draw();
         if (!Plugin.DebugOverlay) return;
         GUI.Label(new Rect(10, 10, 600, 24), $"HSSQoL {Plugin.Version} debug ({Plugin.DebugOverlayKey.Value} to hide)");
         AutoFeed.Draw();

@@ -73,11 +73,14 @@ internal static class FeedButton
     internal const int OurValue = 0x48535100; // arbitrary, far from the game's VALUE_* ranges
     internal const int SwitchValue = OurValue + 1; // 转职满级 (job-change page only)
     internal const int SellValue = OurValue + 2;   // 批量出售 (port shop sell screen)
+    internal const int SmithValue = OurValue + 3;  // 投入所有相性相符 (smith material page)
 
     private static Human _menuHuman;
     private static int _menuHumanFrame = -100;
     private static bool _drawingOurs;
     private static string _label1 = "", _label2 = "";   // text for the button being drawn
+    private static float _discScale = 1f;               // size of the button being drawn, relative to the icon
+    private static int _fontPercent, _indent;           // 0 / -1 = use the [FeedButton] settings
     private static int _iconWidth = 32;   // learned from DrawShortcutIcon's returned area
     private static bool _warnedArea;
 
@@ -155,10 +158,14 @@ internal static class FeedButton
     }
 
     /// <summary>Registers and draws one of our round buttons through the game's own AddTouchShortcut.</summary>
-    internal static void DrawOurs(MyFormBase form, Graphics g, int x, int y, int value, string line1, string line2)
+    internal static void DrawOurs(MyFormBase form, Graphics g, int x, int y, int value, string line1, string line2,
+        float discScale = 1f, int fontPercent = 0, int line2Indent = -1)
     {
         _label1 = line1;
         _label2 = line2;
+        _discScale = discScale;
+        _fontPercent = fontPercent;
+        _indent = line2Indent;
         _drawingOurs = true;
         try { form.AddTouchShortcut(g, ShortcutTeamPowerUp, x, y, value); }
         finally { _drawingOurs = false; }
@@ -206,14 +213,15 @@ internal static class FeedButton
         // Snap the centre to the pixel grid so the blocks line up with the game's pixel art.
         int px = Mathf.Max(1, PixelSize.Value);
         float cx = Mathf.Round((ax + aw / 2f) / px) * px, cy = Mathf.Round((ay + ah / 2f) / px) * px;
-        int radiusPx = Mathf.Max(2, (Mathf.Min(aw, ah) - DiameterInset.Value) / (2 * px));
+        int radiusPx = Mathf.Max(2, Mathf.RoundToInt((Mathf.Min(aw, ah) * _discScale - DiameterInset.Value) / (2 * px)));
 
         int ring = main.AppData.COLOR_SELECT_BG;
         FillPixelDisc(g, cx, cy, radiusPx, px, ring);
         FillPixelDisc(g, cx, cy, Mathf.Max(1, radiusPx - RingWidth.Value), px, Darken(ring, CenterDarkenPercent.Value));
 
         // GetSize() is a preset index here (0), so scale from the font's pixel height instead.
-        int size = Mathf.Max(6, Mathf.RoundToInt(g.GetFont().GetHeight() * FontScalePercent.Value / 100f));
+        int pct = _fontPercent > 0 ? _fontPercent : FontScalePercent.Value;
+        int size = Mathf.Max(6, Mathf.RoundToInt(g.GetFont().GetHeight() * pct / 100f));
 
         g.PushFont(size);
         int savedColor = g.GetColor();
@@ -222,7 +230,7 @@ internal static class FeedButton
             float lh = g.GetFont().GetHeight();
             float y1 = cy - lh / 2f + OffsetY.Value, y2 = cy + lh / 2f + OffsetY.Value;
             DrawOutlined(g, _label1, cx, y1);
-            DrawOutlined(g, _label2, cx + Line2Indent.Value, y2);
+            DrawOutlined(g, _label2, cx + (_indent >= 0 ? _indent : Line2Indent.Value), y2);
         }
         finally
         {
@@ -265,9 +273,14 @@ internal static class FeedButton
     {
         // Each tap arrives as ENTER(2), ON(13), DOWN(0), CLICK(5), UP(1), LEAVE(3), LOST(6); act on CLICK only.
         int value = e?.component?.value ?? int.MinValue;
-        if (value != OurValue && value != SwitchValue && value != SellValue) return true;
+        if (value != OurValue && value != SwitchValue && value != SellValue && value != SmithValue) return true;
 
-        if (e.type == TouchEvent.TYPE_CLICK && value == SellValue)
+        if (e.type == TouchEvent.TYPE_CLICK && value == SmithValue)
+        {
+            Log("投入所有相性相符 button clicked");
+            SmithFeed.ButtonPressed(__instance);
+        }
+        else if (e.type == TouchEvent.TYPE_CLICK && value == SellValue)
         {
             Log("批量出售 button clicked");
             AutoSell.ButtonPressed(__instance);

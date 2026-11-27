@@ -9,6 +9,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 - **强化满级**：自动挑选食物，一键将角色的当前职业升到满级。
 - **转职满级**：在转职页面一键转到下一个未通关的职业，并升到满级。
 - **批量出售**：在港口商店一键卖出多余的装备、食物和药。
+- **投入所有相性相符**：在锻造页面一键用所有契合（同种类、同重量，经验 150%）的装备把装备锻造到满级。
 - **[船舱布局设计器](https://ruoanji.github.io/HSSQoL/designer/designer.html)**：按 F9 导出船舱数据和布局供网页版的规划工具加载。
 - **游戏加速**：按 F2 开关，倍率可自由设置。
 - **跳过迷宫结算**：按 F3 开关，迷宫通关后的横幅、宝箱展示、经验结算、俘虏选择和迷宫内对话一闪而过。
@@ -130,6 +131,24 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | `MinCap` | 100 | 持有上限低于这个值时不卖 |
 | `ExcludeIds` | （空） | 永远不卖的东西，逗号分隔：游戏里显示的名字，或 `e:<id>`（装备）/ `i:<id>`（道具） |
 | `ButtonX` / `ButtonY` | 260 / 199 | 按钮位置 |
+## 投入所有相性相符
+
+在锻造页面选好要强化的装备后，素材选择页面右下角「返回」上方会多出一个 **投入所有相性相符** 按钮。点一下会弹出确认框，显示要投入的装备总数、总花费和预计等级；选「是」后直接完成锻造，不用一次次放素材、点「合成」：
+
+1. 只投入和要强化的装备**契合**（同种类、同重量，经验 150%，列表上显示 ○）的装备。头部、身体和饰品在游戏里属于同一种类，盾和拳也属于同一种类，所以重量相同就算契合。
+2. 每样装备至少保留 10 个（不算正在强化的那一件）。
+3. 每金币经验最高的先投入。
+4. 升到满级就停下；最后一次只放刚好够满级的数量，不会浪费。钱不够下一次锻造时也会停下。
+5. 内部按游戏的方式一次次锻造（每次最多放素材格子数那么多），每次的价格、扣钱、消耗素材和经验都和手动「合成」完全一样。完成后回到选择装备的列表。
+
+| 设置（`[SmithFeed]`） | 默认 | 说明 |
+|---|---|---|
+| `Enabled` | true | 是否显示按钮 |
+| `Keep` | 10 | 每样装备保留多少个 |
+| `StopAtMaxLevel` | true | 最后一次只放刚好够满级的素材 |
+| `Confirm` | true | 锻造前弹出确认框 |
+| `ButtonX` / `ButtonY` | 272 / 172 | 按钮位置 |
+
 ## 船舱布局设计器
 
 **[在线打开设计器](https://ruoanji.github.io/HSSQoL/designer/designer.html)**
@@ -311,6 +330,7 @@ HSSQoL is a quality-of-life mod for Kairosoft's *High Sea Saga DX* (大海贼探
 - **Power up to max (强化满级)**: picks the food automatically and levels a character's current job to max in one click.
 - **Switch job and max (转职满级)**: on the job-change page, one click switches to the next unmastered job and levels it to max.
 - **Bulk sell (批量出售)**: in port shops, one click sells surplus equipment, food and potions.
+- **Add all compatible (投入所有相性相符)**: at the smith, one click reforges the item to max level with every compatible piece (same type and weight, 150% EXP).
 - **[Ship layout designer](https://ruoanji.github.io/HSSQoL/designer/designer.html)**: press F9 to export your ship's data and layout for the web-based planner to load.
 - **Speed-up**: toggled with F2, at a multiplier you choose.
 - **Skip dungeon clear (跳过迷宫结算)**: toggled with F3. The clear banner, chest showcase, party EXP screen, prisoner list and in-dungeon dialogue go by in a moment.
@@ -432,6 +452,24 @@ Prices and stock changes are exactly what the game's own selling does.
 | `MinCap` | 100 | Don't sell while the holding cap is below this |
 | `ExcludeIds` | (empty) | Never sell these. Comma-separated: names as shown in game, or `e:<id>` (equipment) / `i:<id>` (items) |
 | `ButtonX` / `ButtonY` | 260 / 199 | Button position |
+## Add all compatible (投入所有相性相符)
+
+At the smith, after you pick the item to reforge, the material page gets a **投入所有相性相符** button on the bottom right, above 返回 (Back). One click opens a confirmation showing how many pieces will be used, the total gold and the expected level. Choose yes and the reforging is done in one go, with no placing materials and pressing 合成 (Combine) over and over:
+
+1. Only pieces **compatible** with the base are used (same type and weight, 150% EXP, shown with ○ in the list). In the game's data, head, body and accessories are one type, and shields share the fist type, so those match each other when the weight is the same.
+2. At least 10 of each piece are kept (the item being reforged doesn't count).
+3. The most EXP per gold goes first.
+4. It stops at max level; the last reforge takes only as much as max level needs, so nothing is wasted. It also stops when you can't pay for the next reforge.
+5. Behind the scenes it repeats the game's own reforge (up to the material-slot limit each time). Each one's price, money taken, materials used and EXP are exactly what a manual 合成 does. Afterwards you're back on the item list.
+
+| Setting (`[SmithFeed]`) | Default | What it does |
+|---|---|---|
+| `Enabled` | true | Show the button |
+| `Keep` | 10 | How many of each piece to keep |
+| `StopAtMaxLevel` | true | In the last reforge, add only what max level needs |
+| `Confirm` | true | Ask before reforging |
+| `ButtonX` / `ButtonY` | 272 / 172 | Button position |
+
 ## Ship layout designer
 
 **[Open the designer online](https://ruoanji.github.io/HSSQoL/designer/designer.html)**
