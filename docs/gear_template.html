@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HSS DX Gear</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --ink: #1f2328; --muted: #6a6f76; --line: #e3e1da;
+  --accent: #1f6f8b; --accent-soft: #e3f0f4; --hit: #fff2c2; --hit-ink: #6b4b00; --bar: #8fc1d1;
+  --ok: #2e7d4f; --ok-soft: #e1f2e7; --no: #a8432f; --no-soft: #f8e4df; --gold: #9a6b00;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+    --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+    --ok: #7fd1a0; --ok-soft: #1c3627; --no: #f09a86; --no-soft: #3d2420; --gold: #e3b54a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181c; --panel: #1d2126; --ink: #e6e6e3; --muted: #9aa0a6; --line: #30353c;
+  --accent: #6fb7d0; --accent-soft: #1f3540; --hit: #4a3d12; --hit-ink: #ffe08a; --bar: #2f6b80;
+  --ok: #7fd1a0; --ok-soft: #1c3627; --no: #f09a86; --no-soft: #3d2420; --gold: #e3b54a;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 14px/1.5 system-ui, "Microsoft YaHei", "PingFang SC", sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.top nav { display: flex; gap: 14px; font-size: 13px; }
+.top a { color: var(--accent); }
+h1 { font-size: 18px; margin: 14px 0 10px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 8px; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; }
+.tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+input, select { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); min-width: 0; }
+input[type=search] { flex: 1 1 200px; }
+label.ctl { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; white-space: nowrap; cursor: pointer; }
+.count { color: var(--muted); font-size: 12px; }
+.mine { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; padding-bottom: 10px; font-size: 12px; color: var(--muted); }
+.mine label { display: inline-flex; align-items: center; gap: 4px; }
+.mine input[type=number] { width: 52px; padding: 3px 6px; }
+.mine button { font: inherit; font-size: 12px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink); cursor: pointer; }
+main { padding: 14px 0 40px; }
+.note { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12px; white-space: nowrap; position: sticky; top: 0; background: var(--panel); }
+th[data-k] { cursor: pointer; user-select: none; }
+th[data-k]:hover { color: var(--ink); }
+th .arr { font-size: 10px; margin-left: 3px; }
+td.n, th.n { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+td.name { white-space: nowrap; font-weight: 600; }
+.chip { display: inline-block; padding: 0 6px; margin: 1px 4px 1px 0; border-radius: 4px; background: var(--accent-soft); font-size: 12px; white-space: nowrap; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.no { background: var(--no-soft); color: var(--no); }
+.chip.bad { background: var(--no-soft); }
+.medal { color: var(--gold); font-size: 12px; margin-left: 4px; font-weight: 500; }
+.sub { color: var(--muted); font-size: 11px; display: block; }
+.desc { color: var(--muted); font-size: 12px; min-width: 200px; }
+tr.locked td { opacity: .55; }
+mark { background: var(--hit); color: var(--hit-ink); padding: 0 2px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><h1>High Sea Saga DX · 装备与道具</h1><nav><a href="jobs.html">职业</a><a href="facilities.html">设施</a><a href="ports.html">港口</a><a href="loot.html">掉落表</a><a href="analyze.html">解析结果</a></nav></div>
+  <div class="controls">
+    <div class="tabs" id="tabs">
+      <button data-t="eq" class="on">装备</button><button data-t="pu">强化道具</button><button data-t="it">其他道具</button><button data-t="rules">规则</button>
+    </div>
+    <input id="q" type="search" placeholder="搜索：名称、种类、说明…">
+    <select id="diff" aria-label="难度"><option value="0">普通</option><option value="1">困难</option><option value="2">噩梦</option></select>
+    <select id="cls" aria-label="部位"><option value="-1">全部部位</option></select>
+    <select id="mode" aria-label="属性显示">
+      <option value="r">Lv1 → 满级</option><option value="max">满级</option><option value="min">Lv1</option><option value="base">基础满级 (L)</option>
+    </select>
+    <span class="count" id="count"></span>
+  </div>
+</div></header>
+<main class="wrap"><div id="out"></div></main>
+<script>
+const D = /*GEAR_DATA*/null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => n.toLocaleString('en-US');
+const rng = (a, b) => a === b ? String(a) : `${a}–${b}`;
+const st = { tab: 'eq', key: 'id', dir: 1, diff: 0, cls: -1, mode: 'r' };
+try { Object.assign(st, JSON.parse(localStorage.getItem('hssGear') || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem('hssGear', JSON.stringify(st)); } catch (e) {} };
+$('#cls').innerHTML += D.cls.map((c, i) => `<option value="${i}">${c}</option>`).join('');
+$('#diff').value = st.diff; $('#cls').value = st.cls; $('#mode').value = st.mode;
+
+function hl(text, q) {
+  const t = esc(text); if (!q) return t;
+  const i = text.toLowerCase().indexOf(q); if (i < 0) return t;
+  return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+}
+function th(k, label, cls = '', title = '') {
+  const a = st.key === k ? `<span class="arr">${st.dir > 0 ? '▲' : '▼'}</span>` : '';
+  return `<th data-k="${k}" class="${cls}"${title ? ` title="${esc(title)}"` : ''}>${label}${a}</th>`;
+}
+const sortBy = (r, val) => r.sort((a, b) => { const x = val(a, st.key), y = val(b, st.key);
+  return (typeof x === 'string' ? x.localeCompare(y, 'zh') : x - y) * st.dir || a.id - b.id; });
+const kind = r => D.cls[r.cls] + ([1, 2, 3, 4].includes(r.cls) ? '' : '·' + D.type[r.type]);
+const used = (r, i) => r.min[i] !== 0 || r.base[i] !== 0;
+const sv = (r, i) => { const x = r.diff[st.diff]; return st.mode === 'min' ? r.min[i] : st.mode === 'base' ? r.base[i] : x.max[i]; };
+
+function renderEq(q) {
+  const val = (r, k) => { const x = r.diff[st.diff];
+    if (k[0] === 's') return used(r, +k[1]) ? sv(r, +k[1]) : -1e9;
+    return { id: r.id, name: r.name, kind: kind(r), weight: r.weight, maxLv: x.maxLv, exp: x.exp, value: x.value, sale: x.sale,
+      cost: x.cost, rate: r.rate, price: r.price, w1: x.wmax, mul: x.mul, shopLv: r.shopLv }[k]; };
+  let r = D.eq.filter(e => (st.cls < 0 || e.cls === st.cls) &&
+    (!q || [e.name, kind(e), D.weight[e.weight], e.desc, e.shield ? e.shield.eff : ''].join(' ').toLowerCase().includes(q)));
+  sortBy(r, val);
+  $('#count').textContent = `${r.length} / ${D.eq.length} 件`;
+  const cell = (e, i) => { if (!used(e, i)) return '<td class="n"></td>';
+    const x = e.diff[st.diff];
+    return `<td class="n">${st.mode === 'r' ? `${e.min[i]}<span class="sub">→ ${x.max[i]}</span>` : sv(e, i)}</td>`; };
+  return `<p class="note">难度：<b>${D.diff[st.diff]}</b>。满级 = 基础满级 L × 倍率。价值、卖价、锻造费按满级计算；素材值为 Lv1 → 满级。武器数值不含职业适性（擅长 ×125%，不擅长 ×20%）。点表头排序。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '装备')}${th('kind', '种类')}${th('weight', '重量')}${th('maxLv', '满级', 'n')}${th('mul', '倍率', 'n')}` +
+  D.stat.map((s, i) => th('s' + i, s, 'n')).join('') +
+  `${th('exp', '满级EXP', 'n', '从 Lv1 到满级的累计锻造 EXP')}${th('rate', 'EXP率', 'n', 'smithExpRate_：既决定升级所需 EXP，也决定吃素材时得到的 EXP')}${th('price', '价格', 'n')}${th('shopLv', '商店', 'n', '商店等级；空 = 商店不卖')}${th('value', '满级价值', 'n')}${th('sale', '满级卖价', 'n')}${th('cost', '满级锻造费', 'n', '作为素材时收取的金币')}${th('w1', '素材值', 'n', '当素材时的属性和 w：Lv1 → 满级')}<th>盾</th><th>说明</th></tr>` +
+  r.map(e => { const x = e.diff[st.diff]; const s = e.shield;
+    return `<tr><td class="n">${e.id}</td><td class="name">${hl(e.name, q)}</td><td class="name" style="font-weight:400">${hl(kind(e), q)}</td><td class="name" style="font-weight:400">${D.weight[e.weight]}</td>
+    <td class="n">${x.maxLv}<span class="sub">L ${e.L}</span></td><td class="n">×${x.mul}</td>${D.stat.map((_, i) => cell(e, i)).join('')}
+    <td class="n">${fmt(x.exp)}</td><td class="n">${e.rate}</td><td class="n">${fmt(e.price)}</td><td class="n">${e.shopLv >= 0 ? e.shopLv : ''}</td>
+    <td class="n">${fmt(x.value)}</td><td class="n">${fmt(x.sale)}</td><td class="n">${fmt(x.cost)}</td><td class="n">${e.w1}<span class="sub">→ ${x.wmax}</span></td>
+    <td>${s ? `<span class="chip">格挡 ${rng(...s.cut)}</span><span class="chip">${esc(s.eff)} ${rng(...s.effv)}</span>` : ''}</td>
+    <td class="desc">${hl(e.desc, q)}</td></tr>`; }).join('') + '</table></div>';
+}
+function renderPu(q) {
+  const avg = r => (r.exp[0] + r.exp[1]) / 2;
+  const val = (r, k) => k[0] === 's' && k.length === 2 ? (r.param[+k[1]][0] + r.param[+k[1]][1]) :
+    ({ id: r.id, name: r.name, exp: avg(r), cap: r.cap, price: r.price, sale: r.sale, shopLv: r.shopLv, eps: avg(r) / r.sale })[k];
+  let r = D.it.filter(i => i.type === 1 && (!q || [i.name, i.desc].join(' ').toLowerCase().includes(q)));
+  sortBy(r, val);
+  $('#count').textContent = `${r.length} 种强化道具`;
+  return `<p class="note">EXP 在范围内均匀随机（含两端）；每周加成 8 ×1.5，月卡 ×2，两者 ×2.5。属性在范围内随机；属性上限 = (上限档+1)×10，按该船员一生从食物获得的该属性总量计算。卖价 = ⌊价格/20⌋。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '道具')}${th('exp', 'EXP', 'n')}` + D.stat.map((s, i) => th('s' + i, s, 'n')).join('') +
+  `${th('cap', '属性上限', 'n')}${th('price', '价格', 'n')}${th('sale', '卖价', 'n')}${th('shopLv', '商店', 'n')}${th('eps', 'EXP/卖价', 'n', '平均 EXP ÷ 卖价：卖掉还是吃掉')}<th>说明</th></tr>` +
+  r.map(i => `<tr><td class="n">${i.id}</td><td class="name">${hl(i.name, q)}</td><td class="n">${rng(...i.exp)}<span class="sub">平均 ${avg(i)}</span></td>
+    ${i.param.map(p => `<td class="n">${p[0] || p[1] ? rng(...p) : ''}</td>`).join('')}<td class="n">${i.cap}<span class="sub">档 ${i.tier}</span></td>
+    <td class="n">${fmt(i.price)}</td><td class="n">${fmt(i.sale)}</td><td class="n">${i.shopLv >= 0 ? i.shopLv : ''}</td><td class="n">${(avg(i) / i.sale).toFixed(2)}</td>
+    <td class="desc">${hl(i.desc, q)}</td></tr>`).join('') + '</table></div>';
+}
+function renderIt(q) {
+  const val = (r, k) => ({ id: r.id, name: r.name, type: r.type, price: r.price, sale: r.sale, shopLv: r.shopLv })[k];
+  let r = D.it.filter(i => i.type !== 1 && (!q || [i.name, i.desc, D.itype[i.type], i.job].join(' ').toLowerCase().includes(q)));
+  sortBy(r, val);
+  $('#count').textContent = `${r.length} 种道具`;
+  return `<p class="note">卖价 = ⌊价格/20⌋（至少 1）；买价 = 价格（至少 5，每周加成 10 时减半）。商店栏为空 = 商店不卖。</p>
+  <div class="card"><table><tr>${th('id', '#', 'n')}${th('name', '道具')}${th('type', '类别')}${th('price', '价格', 'n')}${th('sale', '卖价', 'n')}${th('shopLv', '商店', 'n')}<th>说明</th></tr>` +
+  r.map(i => `<tr><td class="n">${i.id}</td><td class="name">${hl(i.name, q)}</td><td>${esc(D.itype[i.type] || i.type)}${i.job ? `<span class="sub">${hl(i.job, q)}</span>` : ''}</td>
+    <td class="n">${fmt(i.price)}</td><td class="n">${fmt(i.sale)}</td><td class="n">${i.shopLv >= 0 ? i.shopLv : ''}</td><td class="desc">${hl(i.desc, q)}</td></tr>`).join('') + '</table></div>';
+}
+function renderRules() {
+  $('#count').textContent = '';
+  return `<div class="card" style="padding:4px 16px"><ul>
+  <li><b>属性随等级</b>：每项属性有 [Lv1 值, 基础满级值]，L = 基础满级。Lv ≤ L：值 = Lv1 + ⌊(满级 − Lv1)(Lv − 1)/(L − 1)⌋。Lv &gt; L（困难/噩梦）：改用 2L 和 2×满级这条线继续外推。</li>
+  <li><b>锻造满级倍率</b>：普通 ×1，困难 ×2。噩梦：剑 轻4/普通3/重8，杖 8，斧 6，枪 3，拳与盾 8，火枪 5，弓 6，头部·身体 轻12/普通12/重4，饰品 10。</li>
+  <li><b>锻造 EXP</b>：到达 Lv n 的累计 EXP = ⌊n²/2⌋ × EXP率 × n × 4 / 100。</li>
+  <li><b>素材给的 EXP</b> = max(5, 目标EXP率 × w / 100 × 相性 × 3/4)。w = 素材当前等级各属性之和（只算正值）；相性：同种类同重量 150%，一项不同 100%，都不同 50%；月卡或每周加成 9 ×2，两者 ×3。</li>
+  <li><b>装备价值</b>：普通 价格 × (1 + min(1, (Lv−1)/L))；困难/噩梦 价格 × (1 + 3 × (Lv−1)/(L×倍率))。卖价 = 价值/30，锻造费 = 每个素材 价值/2（至少 5）之和。</li>
+  <li><b>盾</b>：格挡与效果只在 Lv1 → L 之间增长。</li>
+  <li><b>锻造券</b>（道具 62–73）让对应部位的装备直接 +1/+2/+3 级。</li>
+  <li><b>武器职业适性</b>：擅长 ×125%（或对应“契合度提升”额外技能），普通 ×100%，不擅长 ×20%。</li></ul></div>`;
+}
+function render() {
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === st.tab));
+  const eq = st.tab === 'eq';
+  ['#diff', '#cls', '#mode'].forEach(s => $(s).style.display = eq ? '' : 'none');
+  $('#q').style.display = st.tab === 'rules' ? 'none' : '';
+  const q = $('#q').value.trim().toLowerCase();
+  $('#out').innerHTML = { eq: renderEq, pu: renderPu, it: renderIt, rules: renderRules }[st.tab](q);
+  save();
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { st.tab = b.dataset.t; st.key = 'id'; st.dir = 1; render(); } });
+$('#out').addEventListener('click', e => {
+  const h = e.target.closest('th[data-k]'); if (!h) return;
+  const k = h.dataset.k;
+  if (st.key === k) st.dir = -st.dir; else { st.key = k; st.dir = ['id', 'name', 'kind', 'type', 'weight'].includes(k) ? 1 : -1; }
+  render();
+});
+let timer; $('#q').addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+$('#diff').addEventListener('change', e => { st.diff = +e.target.value; render(); });
+$('#cls').addEventListener('change', e => { st.cls = +e.target.value; render(); });
+$('#mode').addEventListener('change', e => { st.mode = e.target.value; render(); });
+render();
+</script>
+</body>
+</html>

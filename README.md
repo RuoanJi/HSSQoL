@@ -273,6 +273,7 @@ HSSQoL 是 Kairosoft《大海贼探险物语DX》（High Sea Saga DX，Steam / W
 | [解析](https://ruoanji.github.io/HSSQoL/docs/analyze.html) | 每种解析道具在各等级能变成什么，以及实际概率 |
 | [掉落](https://ruoanji.github.io/HSSQoL/docs/loot.html) | 每片海域和每个迷宫的敌人掉落与宝箱 |
 | [港口](https://ruoanji.github.io/HSSQoL/docs/ports.html) | 各港口的空地、固定建筑和迷宫入口，以及迷宫体力消耗 |
+| [装备与道具](https://ruoanji.github.io/HSSQoL/docs/gear.html) | 全部 138 件装备：各难度的锻造满级、满级属性、锻造 EXP、价格和素材 EXP 规则；全部 125 种道具：强化道具的 EXP 范围、属性提升、上限和买卖价（另有 `equipment.md`、`items.md`） |
 | [布局设计器数据](docs/layout-data.md) | 船舱布局设计器用到的数据和规则；原始数据在 [`docs/data/`](docs/data/) |
 
 重新生成：在游戏里按 **F10**（`DataDump`）导出 `BepInEx\hssqol-data.json`，然后在 `docs` 文件夹运行 `python make_loot.py`、`python make_ports.py`、`python make_jobs_html.py` 或 `python make_facilities_html.py`。脚本按 `HSS_GAME_DIR` 环境变量找游戏目录，也可以把 JSON 路径作为第一个参数传入。
@@ -574,6 +575,7 @@ Settings, under `[MoneyLog]`:
 | [Analyze](https://ruoanji.github.io/HSSQoL/docs/analyze.html) | What each analyze item turns into at each level, with real odds |
 | [Loot](https://ruoanji.github.io/HSSQoL/docs/loot.html) | Enemy drops and chests for every sea area and dungeon |
 | [Ports](https://ruoanji.github.io/HSSQoL/docs/ports.html) | Each port's empty lots, fixed buildings and dungeon entrances, plus dungeon stamina cost |
+| [Gear & items](https://ruoanji.github.io/HSSQoL/docs/gear.html) | All 138 equipment pieces: max reforge level, max stats, reforge EXP and prices for each difficulty, plus the material EXP rules; all 125 items: power-up EXP ranges, stat gains, caps, buy and sell prices (also as `equipment.md`, `items.md`) |
 | [Layout designer data](docs/layout-data.md) | The data and rules the ship layout designer uses; raw data in [`docs/data/`](docs/data/) |
 
 To regenerate: press **F10** in game (`DataDump`) to write `BepInEx\hssqol-data.json`, then run `python make_loot.py`, `python make_ports.py`, `python make_jobs_html.py` or `python make_facilities_html.py` from the `docs` folder. The scripts find the game folder through the `HSS_GAME_DIR` environment variable, or take the JSON path as their first argument.
